@@ -1,0 +1,56 @@
+{
+  "name": "adonis-fullstack-app",
+  "version": "4.1.0",
+  "adonis-version": "4.1.0",
+  "description": "The fullstack application boilerplate for Adonisjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node ace test",
+    "dev": "adonis serve --dev",
+    "db:refresh": "adonis migration:refresh --seed",
+    "task:add": "node ace make:task"
+  },
+  "keywords": [
+    "adonisjs",
+    "adonis-app"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@adonisjs/ace": "^5.0.8",
+    "@adonisjs/auth": "^3.0.7",
+    "@adonisjs/bodyparser": "^2.0.5",
+    "@adonisjs/cors": "^1.0.7",
+    "@adonisjs/fold": "^4.0.9",
+    "@adonisjs/framework": "^5.0.9",
+    "@adonisjs/ignitor": "^2.0.8",
+    "@adonisjs/lucid": "^6.1.3",
+    "@adonisjs/session": "^1.0.28",
+    "@adonisjs/shield": "^1.0.8",
+    "@adonisjs/validator": "^5.0.6",
+    "adonis-scheduler": "^3.0.2",
+    "async-request": "^1.2.0",
+    "cheerio": "^1.0.0-rc.2",
+    "curl-request": "^1.1.1",
+    "lodash": "^4.17.11",
+    "mkdirp": "^0.5.1",
+    "moment": "^2.22.2",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.4",
+    "shelljs": "^0.8.3"
+  },
+  "devDependencies": {},
+  "autoload": {
+    "App": "./app",
+    "Service": "./app/Service",
+    "Constants": "./app/Constants",
+    "Repositories": "./app/Repositories",
+    "Providers": "./app/Providers",
+    "Models": "./app/Models",
+    "Factories": "./app/Factories",
+    "ApiCodes": "./app/Constants/ApiCodes",
+    "Validators": "./app/Validators"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "betDetail": {
+    "uri": "report/bet",
+    "method": "get"
+  },
+  "betTotal": {
+    "uri": "report/bet/total",
+    "method": "get"
+  },
+  "transferDetail": {
+    "uri": "report/transfer",
+    "method": "get"
+  },
+  "transferTotal": {
+    "uri": "report/transfer/total",
+    "method": "get"
+  },
+  "storeDetail": {
+    "uri": "report/store",
+    "method": "get"
+  },
+  "storeTotal": {
+    "uri": "report/store/total",
+    "method": "get"
+  },
+  "historyLottery": {
+    "uri": "report/history/lottery",
+    "method": "get"
+  },
+  "historyLotteryTotal": {
+    "uri": "report/history/lottery/total",
+    "method": "get"
+  },
+  "fetchNumbers": {
+    "uri": "report/fetch",
+    "method": "post"
+  }
+}

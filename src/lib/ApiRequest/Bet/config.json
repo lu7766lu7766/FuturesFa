@@ -1,0 +1,10 @@
+{
+  "gameTypeOptions": {
+    "uri": "options/gameType",
+    "method": "get"
+  },
+  "bet": {
+    "uri": "bet",
+    "method": "post"
+  }
+}
