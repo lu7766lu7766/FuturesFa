@@ -42,7 +42,8 @@ const namedMiddleware = {
   guest: 'Adonis/Middleware/AllowGuestOnly',
   local: 'App/Middleware/Local',
   admin: 'App/Middleware/Admin',
-  manager: 'App/Middleware/Manager'
+  manager: 'App/Middleware/Manager',
+  throttle: 'Adonis/Middleware/Throttle'
 }
 
 /*

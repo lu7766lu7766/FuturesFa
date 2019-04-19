@@ -24,6 +24,7 @@ const providers = [
   '@adonisjs/validator/providers/ValidatorProvider',
   'adonis-scheduler/providers/SchedulerProvider',
   '@adonisjs/session/providers/SessionProvider',
+  'adonis-throttle/providers/ThrottleProvider',
   path.join(__dirname, '..', 'providers', 'AppProvider'),
   path.join(__dirname, '..', 'providers', 'ValidationProvider')
 ]
@@ -55,7 +56,8 @@ const aceProviders = [
  |
  */
 const aliases = {
-  Scheduler: 'Adonis/Addons/Scheduler'
+  Scheduler: 'Adonis/Addons/Scheduler',
+  Throttle: 'Adonis/Addons/Throttle'
 }
 
 /*
