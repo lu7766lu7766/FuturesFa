@@ -9,6 +9,8 @@ class Common
   static get CREATE_FAIL() { return -3 }
 
   static get UPDATE_FAIL() { return -4 }
+
+  static get TOO_MANY_ATTEMPTS() { return -5 }
 }
 
 module.exports = Common

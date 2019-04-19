@@ -57,6 +57,12 @@ class ExceptionHandler extends BaseExceptionHandler
           data: error.message
         })
         break
+      case 'TooManyRequests':
+        res.send({
+          code: [CommonCodes.TOO_MANY_ATTEMPTS],
+          data: error.message
+        })
+        break
       default:
         Log.error(error)
         dd('exception!!', 'status:', error.status, 'name:', error.name, 'message:', error.message, 'messages:', error.messages)
