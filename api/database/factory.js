@@ -13,9 +13,16 @@
 
 /** @type {import('@adonisjs/lucid/src/Factory')} */
 // const Factory = use('Factory')
-
-// Factory.blueprint('App/Models/User', (faker) => {
+// const RoleConstant = use('Constants/Role')
+//
+// Factory.blueprint('user', (faker) =>
+// {
+//   const user_name = faker.username()
 //   return {
-//     username: faker.username()
+//     user_name,
+//     password: faker.passowrd(),
+//     nick_name: user_name,
+//     role_id: RoleConstant.TESTER_CODE,
+//     expire_time: moment().add(7, 'days').getDateTime()
 //   }
 // })

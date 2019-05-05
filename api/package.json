@@ -51,7 +51,6 @@
     "Repositories": "./app/Repositories",
     "Providers": "./app/Providers",
     "Models": "./app/Models",
-    "Factories": "./app/Factories",
     "ApiCodes": "./app/Constants/ApiCodes",
     "Validators": "./app/Validators"
   }

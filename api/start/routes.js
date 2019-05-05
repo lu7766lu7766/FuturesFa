@@ -20,9 +20,9 @@ Route.post('api/login', 'UserController.login').validator('Login')
 
 Route.group(() =>
 {
-  Route.post('create', 'UserController.login')
-  Route.post('create/test', 'UserController.login')
-}).prefix('api/user').middleware(['auth'])
+  Route.post('create', 'UserController.createUser').validator('User/Create')
+  Route.post('create/tester', 'UserController.createTester')
+}).prefix('api/user').middleware(['admin'])
 
 // Route.group(() => {
 //   Route.post('message', 'TransferController.message')

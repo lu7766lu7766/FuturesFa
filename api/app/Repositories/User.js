@@ -1,20 +1,44 @@
 'use strict'
 const UserModel = use('Models/User')
-const RoleConstants = use('Constants/Role')
+const RoleConstant = use('Constants/Role')
 
 class UserRepo {
   async findUserByUserName(userName) {
-    return UserModel.findByOrFail('user_name', userName)
+    return await UserModel.findByOrFail('user_name', userName)
   }
 
-  async clearExpiredTester() {
-    await DB.table('users').where(function ()
-      {
-        this.whereNotNull('expire_time')
-        this.where('role_id', RoleConstants.TESTER_CODE)
-        this.where('expire_time', '<', moment().getDatetime())
-      }
-    ).delete()
+  /**
+   * create user
+   */
+  async createUser({userName, password, nickName, roleID, expireTime}) {
+    const user = new UserModel()
+    user.user_name = userName
+    user.password = password
+    user.nick_name = nickName
+    user.role_id = roleID
+    user.expire_time = expireTime
+    await user.save()
+    return true
+  }
+
+  /**
+   * get expired tester
+   */
+  async getExpiredTester() {
+    return await DB.table('users').select('id').where(function ()
+    {
+      this.whereNotNull('expire_time')
+      this.where('role_id', RoleConstant.TESTER_CODE)
+      this.where('expire_time', '<', moment().getDatetime())
+    })
+  }
+
+  /**
+   * delete expired tester
+   */
+  async clearExpiredTester(ids) {
+    await DB.debug().table('tokens').whereIn('user_id', ids).delete()
+    await DB.debug().table('users').whereIn('id', ids).delete()
     return true
   }
   /**
