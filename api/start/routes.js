@@ -19,3 +19,7 @@ const Route = use('Route')
 Route.group(() => {
   Route.post('message', 'TransferController.message')
 }).prefix('transfer')
+
+Route.get('', ctx => {
+  return ctx.view.render('websocket')
+})
