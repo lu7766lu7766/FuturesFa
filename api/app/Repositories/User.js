@@ -1,9 +1,21 @@
 'use strict'
 const UserModel = use('Models/User')
+const RoleConstants = use('Constants/Role')
 
 class UserRepo {
   async findUserByUserName(userName) {
     return UserModel.findByOrFail('user_name', userName)
+  }
+
+  async clearExpiredTester() {
+    await DB.table('users').where(function ()
+      {
+        this.whereNotNull('expire_time')
+        this.where('role_id', RoleConstants.TESTER_CODE)
+        this.where('expire_time', '<', moment().getDatetime())
+      }
+    ).delete()
+    return true
   }
   /**
    * delete older access token

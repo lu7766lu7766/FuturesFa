@@ -9,6 +9,7 @@
     "test": "node ace test",
     "dev": "adonis serve --dev",
     "db:refresh": "adonis migration:refresh --seed",
+    "task:run": "node ace run:scheduler",
     "task:add": "node ace make:task"
   },
   "keywords": [

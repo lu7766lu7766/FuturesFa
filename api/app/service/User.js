@@ -21,6 +21,10 @@ class UserService
 
     return tokenData
   }
+
+  async clearExpiredTester() {
+    return await userRepo.clearExpiredTester()
+  }
 }
 
 module.exports = UserService
