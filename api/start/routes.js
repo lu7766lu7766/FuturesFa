@@ -16,6 +16,13 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.group(() => {
-  Route.post('message', 'TransferController.message')
-}).prefix('transfer')
+Route.post('api/login', 'UserController.login')
+
+Route.group(() =>
+{
+
+}).middleware(['auth'])
+
+// Route.group(() => {
+//   Route.post('message', 'TransferController.message')
+// }).prefix('transfer')
