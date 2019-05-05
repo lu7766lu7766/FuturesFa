@@ -40,10 +40,9 @@ const globalMiddleware = [
 const namedMiddleware = {
   auth: 'Adonis/Middleware/Auth',
   guest: 'Adonis/Middleware/AllowGuestOnly',
+  throttle: 'Adonis/Middleware/Throttle',
   local: 'App/Middleware/Local',
-  admin: 'App/Middleware/Admin',
-  manager: 'App/Middleware/Manager',
-  throttle: 'Adonis/Middleware/Throttle'
+  admin: 'App/Middleware/Admin'
 }
 
 /*

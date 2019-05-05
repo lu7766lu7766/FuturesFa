@@ -14,8 +14,8 @@ class UserSchema extends Schema
       table.string('user_name', 40).notNullable().unique()
       table.string('password', 150).notNullable()
       table.string('nick_name', 20)
+      table.integer('role_id', 1).notNullable()
       table.datetime('expire_time')
-      table.boolean('is_test').default(false)
       table.timestamps()
     }).raw('ALTER TABLE `users` AUTO_INCREMENT=' + rand)
   }

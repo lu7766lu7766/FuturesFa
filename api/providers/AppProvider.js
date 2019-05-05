@@ -1,5 +1,4 @@
-const {ServiceProvider, ioc} = require('@adonisjs/fold')
-
+const {ServiceProvider} = require('@adonisjs/fold')
 
 var crypto = require('crypto')
 
@@ -19,6 +18,15 @@ class AppProvider extends ServiceProvider
 
     global._ = require('lodash')
     global.moment = require('moment')
+    moment.fn.getDatetime = function ()
+    {
+      return this.format('YYYY-MM-DD hh:mm:ss')
+    }
+    moment.fn.getDate = function ()
+    {
+      return this.format('YYYY-MM-DD')
+    }
+
     global.DB = use('Database')
     global.md5 = text => crypto.createHash('md5').update(text).digest('hex')
 
