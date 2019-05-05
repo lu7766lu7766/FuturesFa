@@ -11,7 +11,7 @@ class OptionSchema extends Schema {
       table.string('item', 20).comment('商品編號')
       table.integer('chip_valume', 10).default(0).comment('籌碼量')
       table.decimal('price', 10, 2).default(0).comment('現價')
-      table.datetime('create_at').comment('傳送時間')
+      table.datetime('created_at').comment('傳送時間')
     })
   }
 

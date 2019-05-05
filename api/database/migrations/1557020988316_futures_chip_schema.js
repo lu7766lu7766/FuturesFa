@@ -10,7 +10,7 @@ class FuturesChipSchema extends Schema {
       table.integer('major_chip_valume', 10).default(0).comment('大戶籌碼量')
       table.integer('retail_chip_valume', 10).default(0).comment('散戶籌碼量')
       table.decimal('differ', 10, 2).default(0).comment('筆差')
-      table.datetime('create_at').comment('傳送時間')
+      table.datetime('created_at').comment('傳送時間')
     })
   }
 
