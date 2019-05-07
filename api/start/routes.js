@@ -16,7 +16,7 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.post('api/login', 'UserController.login').validator('Login')
+Route.post('api/login', 'UserController.login').validator('Login').middleware(['throttle:3,120'])
 
 Route.group(() =>
 {
