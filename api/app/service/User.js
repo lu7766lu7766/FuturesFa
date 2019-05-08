@@ -2,6 +2,8 @@
 const userRepo = App.make('Repositories/User')
 const UserCodes = use('ApiCodes/User1000')
 const RoleConstant = use('Constants/Role')
+const RootConstant = use('Constants/Root')
+const UserModel = use('Models/User')
 
 class UserService
 {
@@ -70,6 +72,60 @@ class UserService
     })
 
     return _.map(users, user => _.pick(user, ['userName', 'password', 'expireTime']))
+  }
+
+  /**
+   * 更新使用者(會員)
+   */
+  async updateUser({request, auth}) {
+    const id = request.input('id')
+    const source = await auth.getUser()
+    const target = await UserModel.find(id)
+
+    if (!target)
+    {
+      throw new ApiErrorException(UserCodes.USER_NOT_FOUND)
+    }
+    else if (RootConstant.enum().indexOf(source.user_name) > -1)
+    {
+      if (target.user_name === RootConstant.ANTHOR &&
+        source.user_name !== RootConstant.ANTHOR)
+      {
+        throw new ApiErrorException(UserCodes.NO_PERMISSION)
+      }
+      else if (target.user_name === RootConstant.ROOT &&
+        RootConstant.enum().indexOf(source.user_name) === -1)
+      {
+        throw new ApiErrorException(UserCodes.NO_PERMISSION)
+      }
+    }
+    return userRepo.updateUser({
+      target,
+      id,
+      password: request.input('password'),
+      nickName: request.input('nickName'),
+      roleID: request.input('roleID'),
+      expireTime: request.input('expireTime')
+    })
+  }
+
+  /**
+   * 刪除使用者(會員)
+   */
+  async deleteUser({request}) {
+    const id = request.input('id')
+    const target = await UserModel.find(id)
+    if (!target)
+    {
+      throw new ApiErrorException(UserCodes.USER_NOT_FOUND)
+    }
+    else if (RootConstant.enum().indexOf(target.user_name) > -1)
+    {
+      throw new ApiErrorException(UserCodes.NO_PERMISSION)
+    }
+    return userRepo.deleteUser({
+      target
+    })
   }
 
   /**

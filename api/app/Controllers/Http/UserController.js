@@ -35,6 +35,14 @@ class UserController {
     return await userService.updateUser(ctx)
   }
 
+
+  /**
+   * 刪除使用者(會員)
+   */
+  async daleteUser(ctx) {
+    return await userService.deleteUser(ctx)
+  }
+
   /**
    * 更新使用者(會員)
    */

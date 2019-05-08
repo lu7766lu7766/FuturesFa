@@ -29,6 +29,26 @@ class UserRepo {
   }
 
   /**
+   * update user
+   */
+  async updateUser({target: user, id, password, nickName, roleID, expireTime}) {
+    // const user = await UserModel.find(id)
+    password && (user.password = password)
+    user.nick_name = nickName
+    user.role_id = roleID
+    user.expire_time = expireTime
+    return await user.save()
+  }
+
+  /**
+   * create user
+   */
+  async deleteUser({target: user}) {
+    // const user = await UserModel.find(id)
+    return await user.delete()
+  }
+
+  /**
    * get expired tester
    */
   async getExpiredTester() {
