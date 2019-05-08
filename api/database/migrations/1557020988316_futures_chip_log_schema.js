@@ -3,9 +3,11 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class FuturesChipSchema extends Schema {
-  up () {
-    this.create('futures_chip', (table) => {
+class FuturesChipSchema extends Schema
+{
+  up() {
+    this.create('futures_chip_log', (table) =>
+    {
       table.date('date').comment('開盤日期').notNullable().index()
       table.integer('major_chip_valume', 10).default(0).comment('大戶籌碼量')
       table.integer('retail_chip_valume', 10).default(0).comment('散戶籌碼量')
@@ -14,7 +16,7 @@ class FuturesChipSchema extends Schema {
     })
   }
 
-  down () {
+  down() {
     this.drop('futures_chip')
   }
 }
