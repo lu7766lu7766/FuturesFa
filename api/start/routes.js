@@ -20,8 +20,11 @@ Route.post('api/login', 'UserController.login').validator('Login').middleware(['
 
 Route.group(() =>
 {
-  Route.post('create', 'UserController.createUser').validator('User/Create')
-  Route.post('create/tester', 'UserController.createTester')
+  Route.get('/', 'UserController.getUsers')
+  Route.post('/', 'UserController.createUser').validator('User/Create')
+  Route.post('/tester', 'UserController.createTester')
+  Route.put('/', 'UserController.updateUser').validator('User/Update')
+  Route.delete('/', 'UserController.deleteUser').validator('User/Delete')
 }).prefix('api/user').middleware(['admin'])
 
 // Route.group(() => {

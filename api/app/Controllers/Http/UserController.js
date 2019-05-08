@@ -8,6 +8,13 @@ class UserController {
   }
 
   /**
+   * 取得使用者列表
+   */
+  async getUsers(ctx) {
+    return await userService.getUsers(ctx)
+  }
+
+  /**
    * 新增使用者(會員)
    */
   async createUser(ctx) {
@@ -19,6 +26,20 @@ class UserController {
    */
   async createTester(ctx) {
     return await userService.createTester(ctx)
+  }
+
+  /**
+   * 更新使用者(會員)
+   */
+  async updateUser(ctx) {
+    return await userService.updateUser(ctx)
+  }
+
+  /**
+   * 更新使用者(會員)
+   */
+  async deleteUser(ctx) {
+    return await userService.deleteUser(ctx)
   }
 }
 

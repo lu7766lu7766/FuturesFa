@@ -31,7 +31,7 @@ class UserService
       userName: request.input('userName'),
       password: request.input('password'),
       nickName: request.input('nickName', request.input('userName')),
-      roleID: request.input('roleID', RoleConstant.TESTER_CODE),
+      roleID: request.input('roleID'),
       expireTime: request.input('expireTime', moment().add(30, 'days').getDatetime())
     })
   }
