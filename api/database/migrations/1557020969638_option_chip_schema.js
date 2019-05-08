@@ -3,7 +3,8 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class OptionChipSchema extends Schema {
+class OptionChipSchema extends Schema
+{
   up () {
     this.create('option_chip', (table) => {
       table.decimal('total_c', 10, 2).default(0).comment('總C')

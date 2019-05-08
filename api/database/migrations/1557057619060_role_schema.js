@@ -3,7 +3,8 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class RoleSchema extends Schema {
+class RoleSchema extends Schema
+{
   up () {
     this.create('role', (table) => {
       table.integer('id')
