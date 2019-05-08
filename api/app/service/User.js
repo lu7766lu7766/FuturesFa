@@ -24,6 +24,16 @@ class UserService
   }
 
   /**
+   * 取得使用者列表
+   */
+  async getUsers({request}) {
+    return await userRepo.getUsers({
+      page: request.input('page', 1),
+      perPage: request.input('perPage', 2)
+    })
+  }
+
+  /**
    * 新增使用者(會員)
    */
   async createUser({request}) {

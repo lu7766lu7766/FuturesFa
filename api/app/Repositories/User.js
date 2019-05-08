@@ -8,6 +8,13 @@ class UserRepo {
   }
 
   /**
+   * get user list
+   */
+  async getUsers({page, perPage}) {
+    return await UserModel.query().offset((page - 1) * perPage).limit(perPage).fetch()
+  }
+
+  /**
    * create user
    */
   async createUser({userName, password, nickName, roleID, expireTime}) {
