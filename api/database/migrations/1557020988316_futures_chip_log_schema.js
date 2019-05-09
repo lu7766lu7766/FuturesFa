@@ -6,6 +6,7 @@ const Schema = use('Schema')
 class FuturesChipSchema extends Schema
 {
   up() {
+    this.dropTableIfExists('futures_chip_log')
     this.create('futures_chip_log', (table) =>
     {
       table.date('date').comment('開盤日期').notNullable().index()

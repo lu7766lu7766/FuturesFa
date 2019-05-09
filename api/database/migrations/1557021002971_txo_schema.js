@@ -6,6 +6,7 @@ const Schema = use('Schema')
 class TxoSchema extends Schema
 {
   up () {
+    this.dropTableIfExists('txo')
     this.create('txo', (table) => {
       table.integer('taiex_updown', 6).default(0).comment('加權漲跌')
       table.decimal('taiex_updown_range', 6, 2).default(0).comment('加權漲跌幅')
