@@ -1,0 +1,34 @@
+{
+  "login": {
+    "uri": "login",
+    "method": "post"
+  },
+  "info": {
+    "uri": "",
+    "method": "get"
+  },
+  "create": {
+    "uri": "",
+    "method": "post"
+  },
+  "createTester": {
+    "uri": "tester",
+    "method": "post"
+  },
+  "update": {
+    "uri": "",
+    "method": "put"
+  },
+  "list": {
+    "uri": "list",
+    "method": "get"
+  },
+  "listTotal": {
+    "uri": "list/total",
+    "method": "get"
+  },
+  "delete": {
+    "uri": "",
+    "method": "delete"
+  }
+}

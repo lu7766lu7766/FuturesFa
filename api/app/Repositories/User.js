@@ -10,8 +10,17 @@ class UserRepo {
   /**
    * get user list
    */
-  async getUsers({page, perPage}) {
+  async getUserList({page, perPage})
+  {
     return await UserModel.query().offset((page - 1) * perPage).limit(perPage).fetch()
+  }
+
+  /**
+   * get user list total
+   */
+  async getUserListTotal()
+  {
+    return await UserModel.query().count('count(*) as total')
   }
 
   /**

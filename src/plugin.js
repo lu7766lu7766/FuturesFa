@@ -1,6 +1,6 @@
-import ApiRequest from 'lib/Request'
+import API from 'lib/API'
 
-import User from 'lib/User'
+import User from 'Model/User'
 
 global.User = new User()
 
@@ -22,7 +22,7 @@ export default {
   {
     Vue.prototype._ = _
     Vue.prototype.moment = moment
-    Vue.prototype.$api = new ApiRequest()
+    Vue.prototype.$api = new API()
     Vue.prototype.User = global.User
 
     Vue.filter('dateTime', function (value)

@@ -1,6 +1,0 @@
-{
-  "send": {
-    "uri": "sms",
-    "method": "post"
-  }
-}

@@ -16,11 +16,13 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.post('api/login', 'UserController.login').validator('Login').middleware(['throttle:3,120'])
+Route.post('api/user/login', 'UserController.login').validator('Login').middleware(['throttle:3,120'])
 
 Route.group(() =>
 {
-  Route.get('/', 'UserController.getUsers')
+  Route.get('/', 'UserController.getUserInfo')
+  Route.get('/list', 'UserController.getUserList')
+  Route.get('/list/total', 'UserController.getUserListTotal')
   Route.post('/', 'UserController.createUser').validator('User/Create')
   Route.post('/tester', 'UserController.createTester')
   Route.put('/', 'UserController.updateUser').validator('User/Update')

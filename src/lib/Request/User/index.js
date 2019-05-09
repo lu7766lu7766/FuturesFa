@@ -3,6 +3,8 @@ import _config from './config'
 
 export default class User extends BaseRequest
 {
+  get baseUrls() { return super.baseUrls.concat('user') }
+
   constructor() {
     super()
     this.config = _config
@@ -12,24 +14,9 @@ export default class User extends BaseRequest
     return await this.request('login', data)
   }
 
-  async register(data) {
-    return await this.request('register', data)
-  }
-
-  async getUserInfo() {
+  async getInfo()
+  {
     return await this.request('info')
-  }
-
-  async updateMyself(data, options) {
-    return await this.request('updateMyself', data, options)
-  }
-
-  async transferPoint(data, options) {
-    return await this.request('transferPoint', data, options)
-  }
-
-  async addPoint(data, options) {
-    return await this.request('addPoint', data, options)
   }
 
   async getList(data, options) {
@@ -40,15 +27,13 @@ export default class User extends BaseRequest
     return await this.request('listTotal', data, options)
   }
 
-  /**
-   * for supplier
-   */
   async create(data, options) {
     return await this.request('create', data, options)
   }
 
-  async add(data, options) {
-    return await this.request('add', data, options)
+  async createTester(data, options)
+  {
+    return await this.request('createTester', data, options)
   }
 
   async update(data, options) {

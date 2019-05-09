@@ -1,10 +1,11 @@
 import { createApiBody, roopParse } from 'lib/myLib'
-import { SuccessCodes, UnLoginCode } from 'src/config/api'
-import store from 'src/store'
+import { apiHosts, SuccessCodes, UnLoginCode } from 'src/config/api'
 import { LoginType } from 'module/login'
+import store from 'src/store'
 import errorCode from 'src/config/error'
-import { apiHosts } from 'src/config/api'
 import env from 'src/../env'
+
+var path = require('path')
 
 axios.defaults.baseURL = `http://${apiHosts[env.target]}`
 axios.interceptors.response.use((response) =>
@@ -17,8 +18,9 @@ axios.interceptors.response.use((response) =>
 
 export default class BaseRequest
 {
-  constructor() {
-  }
+  get baseUrls() { return ['api'] }
+
+  constructor() { }
 
   async request(key, data = {}, options = {}) {
     if (typeof this.config !== 'object') throw 'please init this apiFetch'
@@ -29,10 +31,11 @@ export default class BaseRequest
     const failF = options.fail || options.f
 
     // console.log(createApiBody(conf.method, conf.uri, _.merge(_.pickBy(data), conf.data), conf.header))
+
     let res
     try
     {
-      res = await axios(createApiBody(conf.method, conf.uri, _.merge(_.pickBy(data), conf.data), conf.header))
+      res = await axios(createApiBody(conf.method, path.join(...this.baseUrls, conf.uri), _.merge(_.pickBy(data), conf.data), conf.header))
     } catch (e)
     {
       alert('system error!! please try again later')

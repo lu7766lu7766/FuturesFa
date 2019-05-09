@@ -10,8 +10,25 @@ class UserController {
   /**
    * 取得使用者列表
    */
-  async getUsers(ctx) {
-    return await userService.getUsers(ctx)
+  async getUserInfo(ctx)
+  {
+    return await userService.getUserInfo(ctx)
+  }
+
+  /**
+   * 取得使用者列表
+   */
+  async getUserList(ctx)
+  {
+    return await userService.getUserList(ctx)
+  }
+
+  /**
+   * 取得使用者列表總數
+   */
+  async getUserListTotal(ctx)
+  {
+    return await userService.getUserListTotal(ctx)
   }
 
   /**

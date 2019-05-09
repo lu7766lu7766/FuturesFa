@@ -26,13 +26,27 @@ class UserService
   }
 
   /**
+   * 取得使用者資訊
+   */
+  async getUserInfo({auth}) {
+    return await auth.getUser()
+  }
+
+  /**
    * 取得使用者列表
    */
-  async getUsers({request}) {
-    return await userRepo.getUsers({
+  async getUserList({request}) {
+    return await userRepo.getUserList({
       page: request.input('page', 1),
       perPage: request.input('perPage', 2)
     })
+  }
+
+  /**
+   * 取得使用者列表總數
+   */
+  async getUserListTotal() {
+    return await userRepo.getUserListTotal()
   }
 
   /**

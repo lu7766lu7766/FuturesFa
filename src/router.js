@@ -8,6 +8,17 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/',
+      component: () => import('pages/Main'),
+      children: [
+        {
+          path: '/',
+          name: 'main',
+          component: () => import('pages/Main/index')
+        }
+      ]
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('pages/Login')
