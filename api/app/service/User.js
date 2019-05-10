@@ -85,7 +85,7 @@ class UserService
       await userRepo.createUser(user)
     })
 
-    return _.map(users, user => _.pick(user, ['user_name', 'password', 'expireT_time']))
+    return _.map(users, user => _.pick(user, ['userName', 'password', 'expireTime']))
   }
 
   /**

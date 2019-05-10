@@ -90,6 +90,7 @@
     overflow: hidden;
     background: #fff;
     border-radius: 4px;
+    padding: 10px;
   }
 
   .layout-copy {

@@ -9,4 +9,7 @@
     display flex
     justify-content center
     align-items left
+
+  .ivu-btn
+    margin 0 5px
 </style>

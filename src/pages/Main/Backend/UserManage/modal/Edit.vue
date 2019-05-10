@@ -27,6 +27,9 @@
                      v-model="data.expire_time"></Date-picker>
       </Form-item>
     </Form>
+    <div slot="footer">
+      <Button type="primary" @click="doSubmit">確定</Button>
+    </div>
   </Modal>
 </template>
 
@@ -40,7 +43,7 @@
       {
         this.callApi(async () =>
         {
-          this.$api.user.update(_.pick(this.data, ['id', 'password', 'nick_name', 'expire_time']), {
+          this.$api.user.update(_.pick(this.data, ['id', 'password', 'nick_name', 'role_id', 'expire_time']), {
             s: this.updateSuccess
           })
         })
@@ -57,7 +60,3 @@
     }
   }
 </script>
-
-<style scoped>
-
-</style>

@@ -2,8 +2,7 @@
   <Modal
       v-model="show"
       title="新增"
-      width="60%"
-      @on-ok="doSubmit">
+      width="60%">
     <Form :model="data" :label-width="80">
       <Form-item label="帳號">
         <Input v-model="data.user_name"></Input>
@@ -27,7 +26,11 @@
                      v-model="data.expire_time"></Date-picker>
       </Form-item>
     </Form>
+    <div slot="footer">
+      <Button type="primary" @click="doSubmit">確定</Button>
+    </div>
   </Modal>
+
 </template>
 
 <script>
@@ -40,7 +43,7 @@
       {
         this.callApi(async () =>
         {
-          this.$api.user.create(_.pick(this.data, ['user_name', 'password', 'nick_name', 'expire_time']), {
+          this.$api.user.create(_.pick(this.data, ['user_name', 'password', 'nick_name', 'role_id', 'expire_time']), {
             s: this.createSuccess
           })
         })

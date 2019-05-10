@@ -1,6 +1,7 @@
 <template>
   <section>
     <Button type="info" @click="$bus.emit('UserManageAdd.show')">新增</Button>
+    <Button type="info" @click="$bus.emit('UserManageAddTester.show')">新增測試帳號</Button>
     <br><br>
     <table class="table table-striped">
       <thead>
@@ -21,8 +22,9 @@
                   v-if="canEdit(data)"
                   @click="$bus.emit('UserManageEdit.show', data)">編輯
           </Button>
-          <Button type="error" style="margin-left:5px"
-                  v-if="canDelete(data)">刪除
+          <Button type="error"
+                  v-if="canDelete(data)"
+                  @click="deleteConfirm(data)">刪除
           </Button>
         </td>
       </tr>
@@ -32,6 +34,7 @@
 
     <Add />
     <Edit />
+    <AddTester />
   </section>
 </template>
 
@@ -45,7 +48,8 @@
     mixins: [reqMixins],
     components: {
       Add: require('./modal/Add').default,
-      Edit: require('./modal/Edit').default
+      Edit: require('./modal/Edit').default,
+      AddTester: require('./modal/AddTester').default
     },
     data: () => ({
       option: {
@@ -78,6 +82,21 @@
       {
         const user = new UserModel(data)
         return RootConstant.enum().indexOf(user.userName) === -1
+      },
+      deleteConfirm(data)
+      {
+        this.$Modal.confirm({
+          title: '警告',
+          content: '刪除後無法恢復，確定是否刪除',
+          onOk: async () =>
+          {
+            await this.$api.user.delete({
+              id: data.id
+            })
+            this.sMsg()
+            this.doSearch()
+          }
+        })
       }
     },
     created()

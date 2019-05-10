@@ -22,6 +22,18 @@ export default class BaseRequest
 
   constructor() { }
 
+  convertMoment2String(res)
+  {
+    _.forEach(res, (val, key) =>
+    {
+      if (typeof val === 'object' && (moment.isMoment(val) || typeof val.getMonth === 'function'))
+      {
+        res[key] = moment(val).format('YYYY-MM-DD HH:mm:ss')
+      }
+    })
+    return res
+  }
+
   async request(key, data = {}, options = {}) {
     if (typeof this.config !== 'object') throw 'please init this apiFetch'
     const conf = this.config[key]
@@ -35,7 +47,12 @@ export default class BaseRequest
     let res
     try
     {
-      res = await axios(createApiBody(conf.method, path.join(...this.baseUrls, conf.uri), _.merge(_.pickBy(data), conf.data), conf.header))
+      res = await axios(createApiBody(
+        conf.method,
+        path.join(...this.baseUrls, conf.uri),
+        _.merge(
+          _.pickBy(this.convertMoment2String(data), x => x !== '' && !_.isNull(x) && !_.isUndefined(x)), conf.data),
+        conf.header))
     } catch (e)
     {
       alert('system error!! please try again later')

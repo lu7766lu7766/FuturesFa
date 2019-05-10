@@ -16,16 +16,10 @@ export default {
       this.$loading.close()
     },
     sMsg() {
-      this.$message.info({
-        type: 'success',
-        message: `success`
-      })
+      this.$Message.success('success')
     },
     fMsg() {
-      this.$message.info({
-        type: 'error',
-        message: `error`
-      })
+      this.$Message.error('error')
     },
     doSearch() {
       this.callApi(async () =>
