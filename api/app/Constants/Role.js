@@ -24,6 +24,24 @@ class RoleConstant
   static validateString() {
     return [this.ADMIN_CODE, this.USER_CODE, this.TESTER_CODE].join(',')
   }
+
+  static option()
+  {
+    return [
+      {
+        id: this.ADMIN_CODE,
+        name: this.ADMIN
+      },
+      {
+        id: this.USER_CODE,
+        name: this.USER
+      },
+      {
+        id: this.TESTER_CODE,
+        name: this.TESTER
+      }
+    ]
+  }
 }
 
 module.exports = RoleConstant

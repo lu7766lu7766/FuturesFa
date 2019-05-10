@@ -7,6 +7,7 @@ class UserSchema extends Schema
 {
   async up() {
     const rand = Math.round(Math.random() * 100000)
+    this.dropTableIfExists('users')
     this.create('users', (table) =>
     {
       table.increments()
@@ -21,7 +22,7 @@ class UserSchema extends Schema
   }
 
   down() {
-    this.drop('users')
+    this.dropTableIfExists('users')
   }
 }
 

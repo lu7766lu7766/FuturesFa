@@ -12,9 +12,19 @@ export default new Router({
       component: () => import('pages/Main'),
       children: [
         {
+          path: '/user-manage',
+          name: 'user-manage',
+          component: () => import('pages/Main/Backend/UserManage')
+        },
+        {
           path: '/',
-          name: 'main',
+          name: 'index',
           component: () => import('pages/Main/index')
+        },
+        {
+          path: '/history',
+          name: 'history',
+          component: () => import('pages/Main/History')
         }
       ]
     },

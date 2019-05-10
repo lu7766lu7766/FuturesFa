@@ -16,13 +16,13 @@ export default {
       this.$loading.close()
     },
     sMsg() {
-      this.$message({
+      this.$message.info({
         type: 'success',
         message: `success`
       })
     },
     fMsg() {
-      this.$message({
+      this.$message.info({
         type: 'error',
         message: `error`
       })

@@ -22,7 +22,7 @@ class TxoSchema extends Schema
   }
 
   down () {
-    this.drop('txo')
+    this.dropTableIfExists('txo')
   }
 }
 

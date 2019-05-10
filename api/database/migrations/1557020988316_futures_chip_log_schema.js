@@ -18,7 +18,7 @@ class FuturesChipSchema extends Schema
   }
 
   down() {
-    this.drop('futures_chip')
+    this.dropTableIfExists('futures_chip')
   }
 }
 

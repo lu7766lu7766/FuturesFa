@@ -5,14 +5,14 @@ class LoginValidator
 {
   get rules() {
     return {
-      userName: 'required',
+      user_name: 'required',
       password: 'required'
     }
   }
 
   get messages() {
     return {
-      'userName.required': UserCodes.USER_NAME_IS_REQUIRED,
+      'user_name.required': UserCodes.USER_NAME_IS_REQUIRED,
       'password.required': UserCodes.PASSWORD_IS_REQUIRED
     }
   }

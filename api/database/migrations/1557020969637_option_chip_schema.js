@@ -17,7 +17,7 @@ class OptionChipSchema extends Schema
   }
 
   down () {
-    this.drop('option_chip')
+    this.dropTableIfExists('option_chip')
   }
 }
 

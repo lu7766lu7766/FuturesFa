@@ -3,7 +3,8 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class OptionSchema extends Schema {
+class OptionSchema extends Schema
+{
   up () {
     this.dropTableIfExists('option')
     this.create('option', (table) => {
@@ -17,7 +18,7 @@ class OptionSchema extends Schema {
   }
 
   down () {
-    this.drop('option')
+    this.dropTableIfExists('option')
   }
 }
 

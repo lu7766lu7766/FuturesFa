@@ -1,4 +1,7 @@
 export default {
+  components: {
+    Paginate: () => import('@/paginate')
+  },
   data: () => ({
     paginate: {
       total: 0,

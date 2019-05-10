@@ -54,11 +54,11 @@ class UserService
    */
   async createUser({request}) {
     return userRepo.createUser({
-      userName: request.input('userName'),
+      userName: request.input('user_name'),
       password: request.input('password'),
-      nickName: request.input('nickName', request.input('userName')),
-      roleID: request.input('roleID'),
-      expireTime: request.input('expireTime', moment().add(30, 'days').getDatetime())
+      nickName: request.input('nick_name', request.input('user_name')),
+      roleID: request.input('role_id'),
+      expireTime: request.input('expire_time', moment().add(30, 'days').getDatetime())
     })
   }
 
@@ -85,7 +85,7 @@ class UserService
       await userRepo.createUser(user)
     })
 
-    return _.map(users, user => _.pick(user, ['userName', 'password', 'expireTime']))
+    return _.map(users, user => _.pick(user, ['user_name', 'password', 'expireT_time']))
   }
 
   /**
@@ -117,9 +117,9 @@ class UserService
       target,
       id,
       password: request.input('password'),
-      nickName: request.input('nickName'),
-      roleID: request.input('roleID'),
-      expireTime: request.input('expireTime')
+      nickName: request.input('nick_name'),
+      roleID: request.input('role_id'),
+      expireTime: request.input('expire_time')
     })
   }
 

@@ -19,7 +19,7 @@ class OptionLogSchema extends Schema
   }
 
   down () {
-    this.drop('option_log')
+    this.dropTableIfExists('option_log')
   }
 }
 

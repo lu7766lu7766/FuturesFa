@@ -2,6 +2,10 @@ import ReqMixins from 'mixins/request'
 
 export default {
   mixins: [ReqMixins],
+  data: () => ({
+    show: false,
+    data: {}
+  }),
   methods: {
     createSuccess() {
       this.reqSuccess()
@@ -13,7 +17,7 @@ export default {
     },
     reqSuccess() {
       this.sMsg()
-      this.visible = false
+      this.show = false
     },
     reqFail() {
       this.fMsg()

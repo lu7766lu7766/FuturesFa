@@ -6,6 +6,7 @@ const Schema = use('Schema')
 class TokensSchema extends Schema
 {
   up() {
+    this.dropTableIfExists('tokens')
     this.create('tokens', (table) =>
     {
       table.increments()
@@ -18,7 +19,7 @@ class TokensSchema extends Schema
   }
 
   down() {
-    this.drop('tokens')
+    this.dropTableIfExists('tokens')
   }
 }
 

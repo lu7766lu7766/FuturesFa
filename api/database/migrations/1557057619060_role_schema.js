@@ -6,15 +6,16 @@ const Schema = use('Schema')
 class RoleSchema extends Schema
 {
   up () {
-    this.dropTableIfExists('role')
-    this.create('role', (table) => {
+    this.dropTableIfExists('roles')
+    this.create('roles', (table) =>
+    {
       table.integer('id')
       table.string('name', 10)
     })
   }
 
   down () {
-    this.drop('role')
+    this.dropTableIfExists('roles')
   }
 }
 

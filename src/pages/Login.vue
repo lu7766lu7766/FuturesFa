@@ -1,12 +1,14 @@
 <template>
-  <section id="login">
-    <form>
-      <h2>系統登入</h2>
-      <input type="text" v-model="data.userName" placeholder="帳號" />
-      <input type="password" v-model="data.password" placeholder="密碼" />
-      <button type="button" @click="doLogin">Log in</button>
-    </form>
-  </section>
+  <div class="layout">
+    <section id="login" class="center-box">
+      <form>
+        <h2>系統登入</h2>
+        <input type="text" v-model="data.user_name" placeholder="帳號" />
+        <input type="password" v-model="data.password" placeholder="密碼" />
+        <button type="button" @click="doLogin">Log in</button>
+      </form>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -17,7 +19,7 @@
     mixins: [reqMixins],
     data: () => ({
       data: {
-        userName: '',
+        user_name: '',
         password: ''
       }
     }),
@@ -28,21 +30,15 @@
         {
           const res = await this.$api.user.login(this.data)
           this.$store.commit(LoginType.setAccessToken, res.data)
-          this.$router.push({name: 'main'})
+          this.$router.push({name: 'index'})
         })
       }
     }
   }
 </script>
 <style lang="stylus" scoped>
-  html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    font-family: 'Work Sans', sans-serif;
-  }
 
-  body {
+  .layout {
     background: #888;
     background-size: cover;
     display: flex;
@@ -50,6 +46,11 @@
     justify-content: center;
     align-items: center;
     color: #fff;
+    min-height 100vh;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    font-family: 'Work Sans', sans-serif;
   }
 
   section {

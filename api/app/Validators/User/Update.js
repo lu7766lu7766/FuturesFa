@@ -9,9 +9,9 @@ class UserCreateValidator
     return {
       id: 'required',
       password: 'min:6',
-      nickName: 'max:20',
-      roleID: 'in:' + RoleConstant.validateString(),
-      expireTime: [
+      nick_name: 'max:20',
+      role_id: 'in:' + RoleConstant.validateString(),
+      expire_time: [
         rule('dateFormat', 'YYYY-MM-DD HH:mm:ss')
       ]
     }
@@ -21,9 +21,9 @@ class UserCreateValidator
     return {
       'id.required': UserCodes.USER_ID_IS_REQUIRED,
       'password.min': UserCodes.PASSWORD_IS_TOO_SHORT,
-      'nickName.max': UserCodes.NICK_NAME_TOO_LONG,
-      'roleID.in': UserCodes.ROLE_NOT_FOUND,
-      'expireTime.dateFormat': UserCodes.EXPIRE_TIME_FORMAT_ERROR
+      'nick_name.max': UserCodes.NICK_NAME_TOO_LONG,
+      'role_id.in': UserCodes.ROLE_NOT_FOUND,
+      'expire_time.dateFormat': UserCodes.EXPIRE_TIME_FORMAT_ERROR
     }
   }
 }

@@ -1,26 +1,35 @@
 <template>
-  <el-container style="min-height: 100vh; border: 1px solid #eee">
+  <div class="layout">
+    <Menu mode="horizontal" theme="dark" active-name="1" @on-select="routeTo">
+      <div class="layout-logo" style="color:#eee">
+        <h5>{{ User.nickName }}</h5>
+      </div>
+      <div class="layout-nav">
+        <Submenu name="1" v-if="User.isAdmin">
+          <template slot="title">
+            <Icon type="ios-keypad"></Icon>
+            後台管理
+          </template>
+          <Menu-item name="1-1">使用者管理</Menu-item>
+        </Submenu>
+        <Menu-item name="2">
+          <Icon type="ios-home-outline"></Icon>
+          首頁
+        </Menu-item>
+        <Menu-item name="3">
+          <Icon type="ios-book-outline"></Icon>
+          歷史查詢
+        </Menu-item>
+      </div>
+    </Menu>
 
-    <el-container>
-      <el-header style="text-align: left; font-size: 12px">
-
-        <nav class="navbar navbar-expand-lg navbar-dark primary-color">
-          <a class="navbar-brand" href="#">{{ User.nickName }}</a>
-
-          <el-menu default-active="2" class="el-menu-demo" mode="horizontal">
-            <el-menu-item index="1" v-if="User.isAdmin" @click="$router.push({ name: 'manager' })">管理後台</el-menu-item>
-            <el-menu-item index="2" @click="$router.push({ name: 'main' })">首頁</el-menu-item>
-            <el-menu-item index="3" @click="$router.push({ name: 'history' })">歷史查詢</el-menu-item>
-          </el-menu>
-        </nav>
-
-      </el-header>
-
-      <el-main>
-        <router-view />
-      </el-main>
-    </el-container>
-  </el-container>
+    <div class="layout-content">
+      <router-view />
+    </div>
+    <div class="layout-copy">
+      2011-2019 &copy; JacWang
+    </div>
+  </div>
 
 </template>
 
@@ -29,13 +38,18 @@
 
   export default {
     data: () => ({
-      isShowMenu: false,
-      myClass: 'toggled'
+      routeMap: {
+        '1-1': 'user-manage',
+        '2': 'index',
+        '3': 'history'
+      }
     }),
     methods: {
-      test()
+      routeTo(routeName)
       {
-        console.log('aa')
+        this.$router.push({
+          name: this.routeMap[routeName]
+        })
       }
     },
     async created()
@@ -49,17 +63,41 @@
 
 <style scoped>
 
-  .myAside {
-
+  .layout {
+    border: 1px solid #d7dde4;
+    background: #dee0e2;
+    min-height: 100vh;
   }
 
-  .el-header {
-    background-color: #B3C0D1;
-    color: #333;
-    line-height: 60px;
+  .layout-logo {
+    width: 110px;
+    height: 30px;
+    background: #5b6270;
+    border-radius: 3px;
+    float: left;
+    position: relative;
+    top: 15px;
+    left: 20px;
   }
 
-  .el-aside {
-    color: #333;
+  .layout-nav {
+    width: 700px;
+  }
+
+  .layout-content {
+    min-height: calc(100vh - 118px);
+    margin: 15px 15px 0px 15px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 4px;
+  }
+
+  .layout-copy {
+    /*position: absolute;*/
+    text-align: center;
+    padding: 10px 0;
+    color: #8d96a3;
+    width: 100%;
+    /*bottom: 0px;*/
   }
 </style>

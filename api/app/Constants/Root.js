@@ -1,4 +1,4 @@
-class AdminConstant
+class RootConstant
 {
   static get ANTHOR() { return 'lu7766' }
 
@@ -9,4 +9,4 @@ class AdminConstant
   }
 }
 
-module.exports = AdminConstant
+module.exports = RootConstant
