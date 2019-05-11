@@ -12,4 +12,7 @@
 
   .ivu-btn
     margin 0 5px
+
+  .action-field
+    width 300px
 </style>

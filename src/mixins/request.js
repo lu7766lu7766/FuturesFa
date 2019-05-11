@@ -37,10 +37,5 @@ export default {
       this.paginate.page = page
       this.callApi(f)
     }
-  },
-  computed: {
-    requestBody() {
-      return _.assign({}, this.search, this.paginate)
-    }
   }
 }
