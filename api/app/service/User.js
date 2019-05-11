@@ -8,9 +8,9 @@ const UserModel = use('Models/User')
 class UserService
 {
   async login({request, auth}) {
-    const {userName, password} = request.all()
-    const tokenData = await auth.attempt(userName, password)
-    const user = await userRepo.findUserByUserName(userName)
+    const {user_name, password} = request.all()
+    const tokenData = await auth.attempt(user_name, password)
+    const user = await userRepo.findUserByUserName(user_name)
 
     if (user.expire_time && moment(user.expire_time).diff(moment(), 'secs') < 0)
     {
