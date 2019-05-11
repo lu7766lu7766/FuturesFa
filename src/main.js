@@ -14,17 +14,17 @@ import 'iview/dist/styles/iview.css'
 Vue.use(iView)
 
 import VeeValidate from 'vee-validate'
-import en from 'vee-validate/dist/locale/en'
+import zh_TW from 'vee-validate/dist/locale/zh_TW'
 
 const config = {
-  locale: 'en',
+  locale: 'zh_TW',
   events: 'input|blur',
-  dictionary: {en},
+  dictionary: {zh_TW},
   errorBagName: 'errorBags', // change if property conflicts.
   fieldsBagName: 'fieldBags'
 }
-en.messages.required = () => 'this field is required'
-en.messages.length = () => 'length is valid'
+zh_TW.messages.required = () => '這個欄位是必填'
+zh_TW.messages.length = () => '長度錯誤'
 
 Vue.use(VeeValidate, config)
 

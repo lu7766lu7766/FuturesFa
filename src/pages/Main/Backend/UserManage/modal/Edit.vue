@@ -8,11 +8,19 @@
       <Form-item label="帳號">
         {{ data.user_name }}
       </Form-item>
-      <Form-item label="密碼" placeholder="不異動請空白">
-        <Input type="password" v-model="data.password"></Input>
+      <Form-item label="密碼">
+        <Input type="password"
+               name="password"
+               placeholder="不異動請空白"
+               v-model="data.password"
+               v-validate="'required|min:6'"></Input>
+        <span class="text-danger">{{ errorBags.first('password') }}</span>
       </Form-item>
       <Form-item label="暱稱">
-        <Input v-model="data.nick_name"></Input>
+        <Input name="nick_name"
+               v-model="data.nick_name"
+               v-validate="'max:20'"></Input>
+        <span class="text-danger">{{ errorBags.first('nick_name') }}</span>
       </Form-item>
       <Form-item label="角色">
         <Select v-model="data.role_id" placeholder="空白則為測試帳號">

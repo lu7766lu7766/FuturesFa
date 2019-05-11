@@ -3,5 +3,6 @@ export default {
   '-3': 'create error',
   '-4': 'update error',
   '-5': 'too many attempts',
-  '1001': '帳號密碼錯誤！'
+  '1001': '帳號密碼錯誤！',
+  '1002': '該使用者帳號已存在'
 }
