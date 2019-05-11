@@ -38,7 +38,8 @@ class UserService
   async getUserList({request}) {
     return await userRepo.getUserList({
       page: request.input('page', 1),
-      perPage: request.input('perPage', 2)
+      perPage: request.input('perPage', 20),
+      roleID: request.input('role_id')
     })
   }
 
@@ -46,7 +47,9 @@ class UserService
    * 取得使用者列表總數
    */
   async getUserListTotal() {
-    return await userRepo.getUserListTotal()
+    return await userRepo.getUserListTotal({
+      roleID: request.input('role_id')
+    })
   }
 
   /**
