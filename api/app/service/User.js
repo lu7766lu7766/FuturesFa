@@ -46,7 +46,8 @@ class UserService
   /**
    * 取得使用者列表總數
    */
-  async getUserListTotal() {
+  async getUserListTotal({request})
+  {
     return await userRepo.getUserListTotal({
       roleID: request.input('role_id')
     })

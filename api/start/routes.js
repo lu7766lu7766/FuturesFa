@@ -21,7 +21,7 @@ Route.post('api/user/login', 'UserController.login').validator('Login').middlewa
 Route.group(() =>
 {
   Route.get('/', 'UserController.getUserInfo')
-  Route.get('/list', 'UserController.getUserList')
+  Route.get('/list', 'UserController.getUserList').validator('User/Get')
   Route.get('/list/total', 'UserController.getUserListTotal').validator('User/Get')
   Route.post('/', 'UserController.createUser').validator('User/Create')
   Route.post('/tester', 'UserController.createTester')
