@@ -21,13 +21,16 @@ Route.post('api/user/login', 'UserController.login').validator('Login').middlewa
 Route.group(() =>
 {
   Route.get('/', 'UserController.getUserInfo')
+}).prefix('api/user').middleware(['auth'])
+Route.group(() =>
+{
   Route.get('/list', 'UserController.getUserList').validator('User/Get')
   Route.get('/list/total', 'UserController.getUserListTotal').validator('User/Get')
   Route.post('/', 'UserController.createUser').validator('User/Create')
   Route.post('/tester', 'UserController.createTester')
   Route.put('/', 'UserController.updateUser').validator('User/Update')
   Route.delete('/', 'UserController.deleteUser').validator('User/Delete')
-}).prefix('api/user').middleware(['admin'])
+}).prefix('api/user').middleware(['auth', 'admin'])
 
 // Route.group(() => {
 //   Route.post('message', 'TransferController.message')
