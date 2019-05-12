@@ -8,8 +8,8 @@ class ClearExpiredTester extends Task {
    * a hour again
    */
   static get schedule () {
-    // return '* * */1 * * *'
-    return '*/1 * * * * *'
+    return '* * */1 * * *'
+    // return '*/1 * * * * *'
   }
 
   async handle () {
