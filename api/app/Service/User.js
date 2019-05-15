@@ -7,6 +7,9 @@ const UserModel = use('Models/User')
 
 class UserService
 {
+  /**
+   * 登入
+   */
   async login({request, auth}) {
     const {user_name, password} = request.all()
     const tokenData = await auth.attempt(user_name, password)
