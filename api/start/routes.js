@@ -32,3 +32,5 @@ Route.group(() =>
   Route.put('/', 'UserController.updateUser').validator('User/Update')
   Route.delete('/', 'UserController.deleteUser').validator('User/Delete')
 }).prefix('api/user').middleware(['api', 'auth', 'admin'])
+
+// Route.get('test', 'DataController.test').middleware(['api'])

@@ -7,7 +7,7 @@ class DataService
   async generalizeDatas()
   {
     await dataRepo.setDate('option')
-    await dataRepo.transferOptionData('option', 'option_log')
+    await dataRepo.transferOptionData()
     await dataRepo.setDate('futures_chip')
     await dataRepo.transferAllData('futures_chip', 'futures_chip_log')
     await dataRepo.setDate('option_chip')

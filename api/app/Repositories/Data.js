@@ -9,14 +9,21 @@ class DataRepo
     })
   }
 
-  async transferOptionData(source, target)
+  async transferOptionData()
   {
-    return await this.transferData(
-      `insert into ${target}
-        select b.* from
-          (select name, max(created_at) as last_time from ${source} group by name) as a
-          left join ${source} as b on a.name = b.name and a.last_time = b.created_at`
-      , source)
+    const trx = await DB.beginTransaction()
+    try
+    {
+      await trx.raw(`insert into option_log select * from option_last_time`)
+      await trx.table('option').delete()
+      return trx.commit()
+    } catch (e)
+    {
+      console.log(e)
+      trx.rollback()
+      Log.error(e)
+      return false
+    }
   }
 
   async transferAllData(source, target)
@@ -30,13 +37,14 @@ class DataRepo
     try
     {
       await trx.raw(sql)
-      // await trx.table(source).delete()
-      trx.commit()
+      await trx.table(source).delete()
+      return trx.commit()
     } catch (e)
     {
       console.log(e)
       trx.rollback()
       Log.error(e)
+      return false
     }
   }
 }
