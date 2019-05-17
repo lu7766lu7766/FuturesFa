@@ -20,9 +20,24 @@ class DataService
     return await dataRepo.getOptionLastTime()
   }
 
-  async getOptionHostory(name)
+  async getOptionHostory()
   {
+    return await dataRepo.getOptionHostory()
+  }
 
+  async getTXO()
+  {
+    return await dataRepo.getTXO()
+  }
+
+  async getOptionChip()
+  {
+    return await dataRepo.getTXO()
+  }
+
+  async getFuturesChip()
+  {
+    return await dataRepo.getTXO()
   }
 }
 

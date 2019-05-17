@@ -52,6 +52,30 @@ class DataRepo
   {
     return await DB.table('option_last_time')
   }
+
+  async getOptionHostory()
+  {
+    return await DB.raw(`
+      select name, sum(chip_valume) 
+      from option_log 
+      where name in (select name from option_last_time) 
+      group by name`)
+  }
+
+  async getTXO()
+  {
+    return await DB.table('txo').first()
+  }
+
+  async getOptionChip()
+  {
+    return await DB.table('option_chip')
+  }
+
+  async getFuturesChip()
+  {
+    return await DB.table('futures_chip')
+  }
 }
 
 module.exports = DataRepo
