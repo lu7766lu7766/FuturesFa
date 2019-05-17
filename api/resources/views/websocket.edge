@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Websocket test</title>
+
+</head>
+<body>
+@set('username', request.input('username'))
+
+<div class="chat-container">
+  <div class="chat-wrapper">
+    @if(username)
+    <div class="header">
+      <h2>
+        <span>Hello {{ username }}!</span>
+        <span class="connected-users"></span>
+        <span class="connection-status"></span>
+      </h2>
+    </div>
+    <div class="messages">
+    </div>
+    <div class="input-wrapper">
+      <input type="text" id="message" placeholder="Enter message" autofocus=1>
+    </div>
+    @else
+    <div class="onboard">
+      <form action="/" method="GET">
+        <input type="text" id="name" name="username" placeholder="Enter your name" autofocus=1>
+      </form>
+    </div>
+    @endif
+    <input type="button" onclick="send" value="send">
+  </div>
+</div>
+
+<script>
+  window.username = '{{ username }}'
+</script>
+{{ script('https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js') }}
+{{ script('https://unpkg.com/@adonisjs/websocket-client@1.0.9/dist/Ws.browser.js') }}
+{{ script('https://unpkg.com/jquery@3.3.1/dist/jquery.js') }}
+<script type="module">
+  let ws = null
+
+  $(function () {
+    // Only connect when username is available
+    if (window.username) {
+      startChat()
+    }
+  })
+
+  function startChat () {
+    ws = adonis.Ws().connect()
+
+    ws.on('open', () => {
+      $('.connection-status').addClass('connected')
+      // subscribeToChannel()
+      const dataTransfer = ws.subscribe('DataTransfer')
+
+      dataTransfer.on('ready', () => {
+        dataTransfer.emit('message', 'hello')
+      })
+    })
+
+    ws.on('error', () => {
+      $('.connection-status').removeClass('connected')
+    })
+  }
+</script>
+<script type="module">
+let ws = new WebSocket('ws://127.0.0.1:3333/adonis-ws');
+const channel = 'DataTransfer'
+ws.onopen = function(){
+  //Subscribe to the channel
+  ws.send(
+    JSON.stringify({
+      t: 1,
+      d: { topic: channel }
+    })
+  )
+}
+
+ws.onmessage = function(msg) {
+  console.log('original', msg.data);
+  const res = JSON.parse(msg.data)
+  if (res.t === 3 && res.d.topic === channel) {
+    console.log('join success')
+    ws.send(
+      JSON.stringify({
+        t: 7,
+        d: {
+          topic: channel,
+          event: 'message',
+          data: 'data'
+        }
+      })
+    )
+  }
+}
+
+var send = e => {
+  ws.send(
+    JSON.stringify({
+      t: 7,
+      d: {
+        topic: channel,
+        event: 'message',
+        data: 'send'
+      }
+    })
+  )
+}
+
+ws.onclose = function (e) {
+  console.log('close', e)
+};
+ws.onerror = function (e) {
+  console.log('error', e)
+};
+</script>
+</body>
+</html>

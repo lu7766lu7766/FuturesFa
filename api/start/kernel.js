@@ -17,7 +17,7 @@ const globalMiddleware = [
   'Adonis/Middleware/Session',
   'Adonis/Middleware/Shield',
   'Adonis/Middleware/AuthInit',
-  'App/Middleware/Output'
+  // 'App/Middleware/Output'
 ]
 
 /*
@@ -42,7 +42,8 @@ const namedMiddleware = {
   guest: 'Adonis/Middleware/AllowGuestOnly',
   throttle: 'Adonis/Middleware/Throttle',
   local: 'App/Middleware/Local',
-  admin: 'App/Middleware/Admin'
+  admin: 'App/Middleware/Admin',
+  api: 'App/Middleware/API'
 }
 
 /*

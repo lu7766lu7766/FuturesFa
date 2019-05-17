@@ -16,12 +16,13 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.post('api/user/login', 'UserController.login').validator('Login').middleware(['throttle:3,120'])
+
 
 Route.group(() =>
 {
-  Route.get('/', 'UserController.getUserInfo')
-}).prefix('api/user').middleware(['auth'])
+  Route.post('login', 'UserController.login').validator('Login').middleware(['throttle:3,120'])
+  Route.get('/', 'UserController.getUserInfo').middleware(['auth'])
+}).prefix('api/user').middleware(['api'])
 Route.group(() =>
 {
   Route.get('/list', 'UserController.getUserList').validator('User/Get')
@@ -30,8 +31,4 @@ Route.group(() =>
   Route.post('/tester', 'UserController.createTester')
   Route.put('/', 'UserController.updateUser').validator('User/Update')
   Route.delete('/', 'UserController.deleteUser').validator('User/Delete')
-}).prefix('api/user').middleware(['auth', 'admin'])
-
-// Route.group(() => {
-//   Route.post('message', 'TransferController.message')
-// }).prefix('transfer')
+}).prefix('api/user').middleware(['api', 'auth', 'admin'])
