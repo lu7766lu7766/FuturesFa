@@ -14,6 +14,16 @@ class DataService
     await dataRepo.transferAllData('option_chip', 'option_chip_log')
     return true
   }
+
+  async getOptionLastTime()
+  {
+    return await dataRepo.getOptionLastTime()
+  }
+
+  async getOptionHostory(name)
+  {
+
+  }
 }
 
 module.exports = DataService

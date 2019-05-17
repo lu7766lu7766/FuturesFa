@@ -47,6 +47,11 @@ class DataRepo
       return false
     }
   }
+
+  async getOptionLastTime()
+  {
+    return await DB.table('option_last_time')
+  }
 }
 
 module.exports = DataRepo
