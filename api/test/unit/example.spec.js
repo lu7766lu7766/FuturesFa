@@ -11,7 +11,7 @@ test('data transfer', async ({assert}) =>
   assert.isTrue(await dataService.generalizeDatas())
 })
 
-test('has option_last_time', async ({assert}) =>
+test('has option_item_informed', async ({assert}) =>
 {
   // assert.equal(2 + 2, 4)
   assert.isTrue((await dataService.getOptionLastTime()).length)
