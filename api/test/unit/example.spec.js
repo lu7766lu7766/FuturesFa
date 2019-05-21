@@ -6,14 +6,14 @@ const dataService = App.make('Service/Data')
 //   assert.equal(2 + 2, 4)
 // })
 
-test('data transfer', async ({assert}) =>
-{
-  assert.isTrue(await dataService.generalizeDatas())
-})
-
-test('has option_last_time', async ({assert}) =>
-{
-  // assert.equal(2 + 2, 4)
-  assert.isTrue((await dataService.getOptionLastTime()).length)
-  // console.log()
-})
+// test('data transfer', async ({assert}) =>
+// {
+//   assert.isTrue(await dataService.generalizeDatas())
+// })
+//
+// test('has option_last_time', async ({assert}) =>
+// {
+//   // assert.equal(2 + 2, 4)
+//   assert.isTrue((await dataService.getOptionLastTime()).length)
+//   // console.log()
+// })

@@ -20,7 +20,7 @@ class AppProvider extends ServiceProvider
     global.moment = require('moment')
     moment.fn.getDatetime = function ()
     {
-      return this.format('YYYY-MM-DD hh:mm:ss')
+      return this.format('YYYY-MM-DD HH:mm:ss')
     }
     moment.fn.getDate = function ()
     {

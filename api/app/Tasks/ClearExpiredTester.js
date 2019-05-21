@@ -4,17 +4,14 @@ const Task = use('Task')
 const userService = App.make('Service/User')
 
 class ClearExpiredTester extends Task {
-  /**
-   * a hour again
-   */
+  // 每小時0分0秒執行
   static get schedule () {
-    return '* * */1 * * *'
-    // return '*/1 * * * * *'
+    return '0 0 * * * *'
   }
 
   async handle () {
-    // this.info('Task ClearTester handle')
-    return await userService.clearExpiredTester()
+    // this.info('Task ClearExpiredTester handle')
+    await userService.clearExpiredTester()
   }
 }
 
