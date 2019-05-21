@@ -13,7 +13,7 @@
 |
 */
 
-const Ws = use('Ws')
-
-Ws.channel('DataTransfer', 'SocketDataController')
+// const Ws = use('Ws')
+//
+// Ws.channel('OptionItemInformed', 'OptionItemInformedController')//.middleware(['auth'])
 
