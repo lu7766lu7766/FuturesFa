@@ -50,7 +50,7 @@ class DataService
     return await dataRepo.getFuturesChip()
   }
 
-  async getFuturesChip(date)
+  async getFuturesChipHistory(date)
   {
     return await dataRepo.getFuturesChipHistory(date)
   }

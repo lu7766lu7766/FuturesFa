@@ -90,7 +90,7 @@ class DataRepo
     return await DB.table('futures_chip')
   }
 
-  async getFuturesChip(date)
+  async getFuturesChipHistory(date)
   {
     return await DB.table('futures_chip_log').where('date', date)
   }
