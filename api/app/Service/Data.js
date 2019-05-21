@@ -15,14 +15,19 @@ class DataService
     return true
   }
 
-  async getOptionLastTime()
+  async getOptionItemInformed()
   {
-    return await dataRepo.getOptionLastTime()
+    return await dataRepo.getOptionItemInformed()
   }
 
-  async getOptionHostory()
+  async getOptionChipAccumulation()
   {
-    return await dataRepo.getOptionHostory()
+    return await dataRepo.getOptionChipAccumulation()
+  }
+
+  async getOptionHostory(date)
+  {
+    return await dataRepo.getOptionHostory(date)
   }
 
   async getTXO()
@@ -32,12 +37,22 @@ class DataService
 
   async getOptionChip()
   {
-    return await dataRepo.getTXO()
+    return await dataRepo.getOptionChip()
+  }
+
+  async getOptionChipHistory(date)
+  {
+    return await dataRepo.getOptionChipHistory(date)
   }
 
   async getFuturesChip()
   {
-    return await dataRepo.getTXO()
+    return await dataRepo.getFuturesChip()
+  }
+
+  async getFuturesChip(date)
+  {
+    return await dataRepo.getFuturesChipHistory(date)
   }
 }
 

@@ -1,4 +1,6 @@
 'use strict'
+const startTime = moment().subtract(40, 'days').getDateTime()
+const endTime = moment().getDateTime()
 
 class DataRepo
 {
@@ -48,18 +50,24 @@ class DataRepo
     }
   }
 
-  async getOptionLastTime()
+  async getOptionItemInformed()
   {
     return await DB.table('option_item_informed')
   }
 
-  async getOptionHostory()
+  async getOptionChipAccumulation()
   {
     return await DB.raw(`
-      select name, sum(chip_valume) 
+      select name, sum(chip_valume) as total_chip
       from option_log 
-      where name in (select name from option_item_informed) 
+      where name in (select name from option_today_item) 
+        and date = '${startTime}' and '${endTime}'
       group by name`)
+  }
+
+  async getOptionHostory(date)
+  {
+    return await DB.table('option_log').where('date', date)
   }
 
   async getTXO()
@@ -72,9 +80,19 @@ class DataRepo
     return await DB.table('option_chip')
   }
 
+  async getOptionChipHistory(date)
+  {
+    return await DB.table('option_chip_log').where('date', date)
+  }
+
   async getFuturesChip()
   {
     return await DB.table('futures_chip')
+  }
+
+  async getFuturesChip(date)
+  {
+    return await DB.table('futures_chip_log').where('date', date)
   }
 }
 
