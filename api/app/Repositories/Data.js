@@ -14,7 +14,7 @@ class DataRepo
     const trx = await DB.beginTransaction()
     try
     {
-      await trx.raw(`insert into option_log select * from option_last_time`)
+      await trx.raw(`insert into option_log select * from option_item_informed`)
       await trx.table('option').delete()
       return trx.commit()
     } catch (e)
@@ -50,7 +50,7 @@ class DataRepo
 
   async getOptionLastTime()
   {
-    return await DB.table('option_last_time')
+    return await DB.table('option_item_informed')
   }
 
   async getOptionHostory()
@@ -58,7 +58,7 @@ class DataRepo
     return await DB.raw(`
       select name, sum(chip_valume) 
       from option_log 
-      where name in (select name from option_last_time) 
+      where name in (select name from option_item_informed) 
       group by name`)
   }
 
