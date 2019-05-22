@@ -50,6 +50,11 @@ class DataRepo
     }
   }
 
+  async getOptionTodayItem()
+  {
+    return await DB.table('option_today_item').select('name')
+  }
+
   async getOptionItemInformed()
   {
     return await DB.table('option_item_informed')
@@ -57,12 +62,11 @@ class DataRepo
 
   async getOptionChipAccumulation()
   {
-    return await DB.raw(`
-      select name, sum(chip_valume) as total_chip
-      from option_log 
-      where name in (select name from option_today_item) 
-        and date = '${startTime}' and '${endTime}'
-      group by name`)
+    const todayItem = DB.table('option_today_item').select('name')
+    return await DB.table('option_log').select('name').sum('chip_valume as total_chip')
+      .whereIn('name', todayItem)
+      .whereBetween('date', [startTime, endTime])
+      .groupBy('name')
   }
 
   async getOptionHostory(date)

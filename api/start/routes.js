@@ -23,6 +23,7 @@ Route.group(() =>
   Route.post('login', 'UserController.login').validator('Login').middleware(['throttle:3,120'])
   Route.get('/', 'UserController.getUserInfo').middleware(['auth'])
 }).prefix('api/user').middleware(['api'])
+
 Route.group(() =>
 {
   Route.get('/list', 'UserController.getUserList').validator('User/Get')
@@ -32,5 +33,13 @@ Route.group(() =>
   Route.put('/', 'UserController.updateUser').validator('User/Update')
   Route.delete('/', 'UserController.deleteUser').validator('User/Delete')
 }).prefix('api/user').middleware(['api', 'auth', 'admin'])
+
+Route.group(() =>
+{
+  Route.get('option-today-item', 'DataController.getOptionTodayItem')
+  Route.get('option-item-informed', 'DataController.getOptionItemInformed')
+  Route.get('option-chip-accumulation', 'DataController.getOptionChipAccumulation')
+  Route.get('txo', 'DataController.getTXO')
+}).prefix('api/data').middleware(['auth', 'api'])
 
 // Route.get('test', 'DataController.test').middleware(['api'])

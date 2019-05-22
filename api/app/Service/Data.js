@@ -15,6 +15,11 @@ class DataService
     return true
   }
 
+  async getOptionTodayItem()
+  {
+    return await dataRepo.getOptionTodayItem()
+  }
+
   async getOptionItemInformed()
   {
     return await dataRepo.getOptionItemInformed()
