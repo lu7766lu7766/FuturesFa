@@ -18,7 +18,7 @@ class AppProvider extends ServiceProvider
 
     global._ = require('lodash')
     global.moment = require('moment')
-    moment.fn.getDatetime = function ()
+    moment.fn.getDateTime = function ()
     {
       return this.format('YYYY-MM-DD HH:mm:ss')
     }

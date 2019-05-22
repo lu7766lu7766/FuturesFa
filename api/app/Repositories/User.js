@@ -70,7 +70,7 @@ class UserRepo {
     {
       this.whereNotNull('expire_time')
       this.where('role_id', RoleConstant.TESTER_CODE)
-      this.where('expire_time', '<', moment().getDatetime())
+      this.where('expire_time', '<', moment().getDateTime())
     })
   }
 

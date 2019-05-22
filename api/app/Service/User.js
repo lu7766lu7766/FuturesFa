@@ -65,7 +65,7 @@ class UserService
       password: request.input('password'),
       nickName: request.input('nick_name', request.input('user_name')),
       roleID: request.input('role_id'),
-      expireTime: request.input('expire_time', moment().add(30, 'days').getDatetime())
+      expireTime: request.input('expire_time', moment().add(30, 'days').getDateTime())
     })
   }
 
@@ -83,7 +83,7 @@ class UserService
         password: crypto.randomBytes(32).toString('base64').substr(0, 8),
         nickName: 'Tester' + moment().unix() + '_' + index,
         roleID: RoleConstant.TESTER_CODE,
-        expireTime: moment().add(7, 'days').getDatetime()
+        expireTime: moment().add(7, 'days').getDateTime()
       }
       users.push(user)
     })
