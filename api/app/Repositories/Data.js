@@ -63,7 +63,7 @@ class DataRepo
   async getOptionChipAccumulation()
   {
     const todayItem = DB.table('option_today_item').select('name')
-    return await DB.table('option_log').select('name').sum('chip_valume as total_chip')
+    return await DB.table('option_log').select('name', 'item').sum('chip_valume as total_chip')
       .whereIn('name', todayItem)
       .whereBetween('date', [startTime, endTime])
       .groupBy('name')

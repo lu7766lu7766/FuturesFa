@@ -30,7 +30,7 @@
         {
           const res = await this.$api.user.login(this.data)
           this.$store.commit(LoginType.setAccessToken, res.data)
-          this.$router.push({name: 'index'})
+          this.$router.push({name: 'week-item'})
         })
       }
     }

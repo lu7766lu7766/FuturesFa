@@ -12,14 +12,31 @@ export default new Router({
       component: () => import('pages/Main'),
       children: [
         {
-          path: '/user-manage',
-          name: 'user-manage',
-          component: () => import('pages/Main/Backend/UserManage')
+          path: 'backend',
+          component: () => import('pages/Main/Backend'),
+          children: [
+            {
+              path: '/user-manage',
+              name: 'user-manage',
+              component: () => import('pages/Main/Backend/UserManage')
+            }
+          ]
         },
         {
-          path: '/',
-          name: 'index',
-          component: () => import('pages/Main/index')
+          path: 'option',
+          component: () => import('pages/Main/Option'),
+          children: [
+            {
+              path: 'week-item',
+              name: 'week-item',
+              component: () => import('pages/Main/Option/WeekItem')
+            },
+            {
+              path: 'month-item',
+              name: 'month-item',
+              component: () => import('pages/Main/Option/MonthItem')
+            }
+          ]
         },
         {
           path: '/history',
