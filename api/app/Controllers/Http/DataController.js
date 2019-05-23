@@ -28,10 +28,10 @@ class DataController
 
   // -------------
 
-  // async test(ctx)
-  // {
-  //   return await dataService.generalizeDatas()
-  // }
+  async generalizeDatas()
+  {
+    return await dataService.generalizeDatas()
+  }
 }
 
 module.exports = DataController

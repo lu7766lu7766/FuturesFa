@@ -10,7 +10,8 @@
     "dev": "adonis serve --dev",
     "db:refresh": "adonis migration:refresh --seed",
     "task:run": "node ace run:scheduler",
-    "task:add": "node ace make:task"
+    "task:add": "node ace make:task",
+    "generalize": "curl -G http://127.0.0.1:3333/data/generalize"
   },
   "keywords": [
     "adonisjs",

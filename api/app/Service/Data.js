@@ -6,13 +6,14 @@ class DataService
 {
   async generalizeDatas()
   {
-    await dataRepo.setDate('option')
-    await dataRepo.transferOptionData()
-    await dataRepo.setDate('futures_chip')
-    await dataRepo.transferYesterdayData('futures_chip', 'futures_chip_log')
-    await dataRepo.setDate('option_chip')
-    await dataRepo.transferYesterdayData('option_chip', 'option_chip_log')
-    return true
+    let res = true
+    res = res && await dataRepo.setDate('option')
+    res = res && await dataRepo.transferOptionData()
+    res = res && await dataRepo.setDate('futures_chip')
+    res = res && await dataRepo.transferYesterdayData('futures_chip', 'futures_chip_log')
+    res = res && await dataRepo.setDate('option_chip')
+    res = res && await dataRepo.transferYesterdayData('option_chip', 'option_chip_log')
+    return res
   }
 
   async getOptionTodayItem()
