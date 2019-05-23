@@ -41,7 +41,7 @@ class DataRepo
     try
     {
       await trx.raw(sql)
-      await trx.table(source).delete()
+      await trx.table(source).delete().where('created_at', '<', dataEndTime)
       return trx.commit()
     } catch (e)
     {
