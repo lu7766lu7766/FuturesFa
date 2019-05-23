@@ -1,14 +1,16 @@
 'use strict'
 const startTime = moment().subtract(40, 'days').getDateTime()
 const endTime = moment().getDateTime()
+const dataEndTime = moment().getDate() + ' 14:00:00'
 
 class DataRepo
 {
   async setDate(table)
   {
-    return DB.table(table).update({
+
+    return await DB.table(table).update({
       date: moment().subtract(1, 'days').getDate()
-    })
+    }).where('created_at', '<', dataEndTime)
   }
 
   async transferOptionData()
@@ -16,7 +18,7 @@ class DataRepo
     const trx = await DB.beginTransaction()
     try
     {
-      await trx.raw(`insert into option_log select * from option_item_informed`)
+      await trx.raw(`insert into option_log select * from option_item_informed where created_at < ?`, [dataEndTime])
       await trx.table('option').delete()
       return trx.commit()
     } catch (e)
@@ -28,9 +30,9 @@ class DataRepo
     }
   }
 
-  async transferAllData(source, target)
+  async transferYesterdayData(source, target)
   {
-    return await this.transferData(`insert into \`${target}\` select * from \`${source}\``, source)
+    return await this.transferData(`insert into \`${target}\` select * from \`${source}\` where created_at < '${dataEndTime}'`, source)
   }
 
   async transferData(sql, source)
