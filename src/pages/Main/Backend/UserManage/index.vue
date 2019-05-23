@@ -49,8 +49,8 @@
 <script>
   import ListMixins from 'mixins/list'
   import UserModel from 'Model/User'
-  import RootConstant from 'Constants/Root'
-  import RoleConstant from 'Constants/Role'
+  import RootConstant from 'ApiConstants/Root'
+  import RoleConstant from 'ApiConstants/Role'
 
   export default {
     mixins: [ListMixins],

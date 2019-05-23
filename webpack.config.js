@@ -16,7 +16,8 @@ module.exports = {
       mixins: resolve('src/mixins'),
       module: resolve('src/store/module'),
       resource: resolve('resource'),
-      Constants: resolve('api/app/Constants'),
+      ApiConstants: resolve('api/app/Constants'),
+      Constants: resolve('src/constants'),
       Model: resolve('src/lib/Model'),
       '@': resolve('src/components'),
       'pages': resolve('src/pages')

@@ -1,4 +1,4 @@
-import Role from 'Constants/Role'
+import Role from 'ApiConstants/Role'
 import store from 'src/store'
 
 export default class User

@@ -3,24 +3,63 @@ import ListMixins from 'mixins/list'
 export default {
   mixins: [ListMixins],
   data: () => ({
-    timer: null,
-    itemInformed: [],
-    chipAccumulation: []
+    type: '',
+    itemInformedDatas: [],
+    chipAccumulationDatas: []
   }),
   methods: {
     async getItemInformed()
     {
       const res = await this.$api.data.getOptionItemInformed()
-      this.itemInformed = res.data
+      this.itemInformedDatas = res.data
     },
     async getChipAccumulation()
     {
       const res = await this.$api.data.getOptionChipAccumulation()
-      this.chipAccumulation = res.data
-    },
-    startCounter()
+      this.chipAccumulationDatas = res.data
+    }
+  },
+  computed: {
+    itemInformed()
     {
-      this.timer = setInterval(this.getItemInformed, 5 * 1000)
+      return _.filter(this.itemInformed, x => x.name.indexOf(this.type) > -1)
+    },
+    CItemInformed()
+    {
+      return _.filter(this.itemInformed, x => x.name.indexOf('C') === -1)
+    },
+    PItemInformed()
+    {
+      return _.filter(this.itemInformed, x => x.name.indexOf('P') === -1)
+    },
+    groupCItemInformed()
+    {
+      return _.groupBy(this.CItemInformed, 'item')
+    },
+    groupPItemInformed()
+    {
+      return _.groupBy(this.PItemInformed, 'item')
+    },
+    // -----------------------
+    chipAccumulation()
+    {
+      return _.filter(this.chipAccumulation, x => x.name.indexOf(this.type) > -1)
+    },
+    CChipAccumulation()
+    {
+      return _.filter(this.chipAccumulation, x => x.name.indexOf('C') === -1)
+    },
+    PChipAccumulation()
+    {
+      return _.filter(this.chipAccumulation, x => x.name.indexOf('P') === -1)
+    },
+    groupCChipAccumulation()
+    {
+      return _.groupBy(this.CChipAccumulation, 'item')
+    },
+    groupPChipAccumulation()
+    {
+      return _.groupBy(this.PChipAccumulation, 'item')
     }
   },
   created()
@@ -29,11 +68,6 @@ export default {
     {
       this.getItemInformed()
       await this.getChipAccumulation()
-      this.startCounter()
     })
-  },
-  destroyed()
-  {
-    clearInterval(this.timer)
   }
 }
