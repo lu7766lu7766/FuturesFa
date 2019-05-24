@@ -3,9 +3,9 @@
     <section id="login" class="center-box">
       <form>
         <h2>系統登入</h2>
-        <input type="text" v-model="data.user_name" placeholder="帳號" />
-        <input type="password" v-model="data.password" placeholder="密碼" />
-        <button type="button" @click="doLogin">Log in</button>
+        <input type="text" v-model="data.user_name" @keyup.13="doLogin()" placeholder="帳號" />
+        <input type="password" v-model="data.password" @keyup.13="doLogin()" placeholder="密碼" />
+        <button type="button" @click="doLogin">登入</button>
       </form>
     </section>
   </div>
