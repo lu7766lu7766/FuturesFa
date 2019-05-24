@@ -2,6 +2,8 @@
 const startTime = moment().subtract(40, 'days').getDateTime()
 const endTime = moment().getDateTime()
 const dataEndTime = moment().format('YYYY-MM-DD 14:00:00')
+const OptionChipModel = use('Models/OptionChip')
+const FuturesChipModel = use('Models/FuturesChip')
 
 class DataRepo
 {
@@ -97,7 +99,8 @@ class DataRepo
 
   async getOptionChip()
   {
-    return await DB.table('option_chip').select('total_c', 'total_p', 'differ_cp', 'created_at')
+    return await OptionChipModel.query().select('total_c', 'total_p', 'differ_cp', 'created_at').fetch()
+    // return await DB.table('option_chip').select('total_c', 'total_p', 'differ_cp', 'created_at')
   }
 
   async getOptionChipHistory(date)
@@ -107,7 +110,10 @@ class DataRepo
 
   async getFuturesChip()
   {
-    return await DB.table('futures_chip').select('major_chip_valume', 'retail_chip_valume', 'differ', 'created_at')
+    return await FuturesChipModel.query()
+      .select('major_chip_valume', 'retail_chip_valume', 'differ', 'created_at')
+      .fetch()
+    // return await DB.table('futures_chip').select('major_chip_valume', 'retail_chip_valume', 'differ', 'created_at')
   }
 
   async getFuturesChipHistory(date)
