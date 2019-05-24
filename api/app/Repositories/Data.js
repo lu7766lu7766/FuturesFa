@@ -97,7 +97,7 @@ class DataRepo
 
   async getOptionChip()
   {
-    return await DB.table('option_chip')
+    return await DB.table('option_chip').select('total_c', 'total_p', 'differ_cp', 'created_at')
   }
 
   async getOptionChipHistory(date)
@@ -107,7 +107,7 @@ class DataRepo
 
   async getFuturesChip()
   {
-    return await DB.table('futures_chip')
+    return await DB.table('futures_chip').select('major_chip_valume', 'retail_chip_valume', 'differ', 'created_at')
   }
 
   async getFuturesChipHistory(date)
