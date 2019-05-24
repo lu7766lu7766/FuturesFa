@@ -14,5 +14,13 @@
   "txo": {
     "uri": "txo",
     "method": "get"
+  },
+  "option-chip": {
+    "uri": "option-chip",
+    "method": "get"
+  },
+  "futures-chip": {
+    "uri": "futures-chip",
+    "method": "get"
   }
 }

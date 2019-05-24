@@ -30,4 +30,14 @@ export default class Data extends BaseRequest
   {
     return await this.request('txo')
   }
+
+  async getOptionChip()
+  {
+    return await this.request('option-chip')
+  }
+
+  async getFuturesChip()
+  {
+    return await this.request('futures-chip')
+  }
 }

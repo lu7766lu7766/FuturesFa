@@ -36,6 +36,22 @@ export default new Router({
               name: 'month-item',
               component: () => import('pages/Main/Option/MonthItem')
             }
+          ],
+        },
+        {
+          path: 'chip',
+          component: () => import('pages/Main/Chip'),
+          children: [
+            {
+              path: 'option',
+              name: 'option-chip',
+              component: () => import('pages/Main/Chip/OptionChip')
+            },
+            {
+              path: 'futures',
+              name: 'futures-chip',
+              component: () => import('pages/Main/Chip/FuturesChip')
+            }
           ]
         },
         {

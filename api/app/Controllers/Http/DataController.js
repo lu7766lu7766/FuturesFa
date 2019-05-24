@@ -28,6 +28,18 @@ class DataController
 
   // -------------
 
+  async getOptionChip()
+  {
+    return await dataService.getOptionChip()
+  }
+
+  async getFuturesChip()
+  {
+    return await dataService.getFuturesChip()
+  }
+
+  // -------------
+
   async generalizeDatas()
   {
     return await dataService.generalizeDatas()
