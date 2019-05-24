@@ -42,6 +42,7 @@
 <script>
   import OptionMixins from 'mixins/option'
   import OptionType from 'Constants/OptionType'
+  import env from 'src/../env'
 
   export default {
     mixins: [OptionMixins],
@@ -62,7 +63,7 @@
         {
           this.getItemInformed()
           this.getTXO()
-        }, 30 * 1000)
+        }, env.waitSecs * 1000)
       }
     },
     created()
