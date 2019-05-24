@@ -1,8 +1,8 @@
-import ListMixins from 'mixins/list'
+import ReqMixins from 'mixins/request'
 import OptionType from 'Constants/OptionType'
 
 export default {
-  mixins: [ListMixins],
+  mixins: [ReqMixins],
   data: () => ({
     type: '',
     itemInformedDatas: [],
@@ -27,7 +27,7 @@ export default {
     },
     itemInformed()
     {
-      return _.filter(_.cloneDeep(this.itemInformedDatas), x =>
+      return _.filter(this.itemInformedDatas, x =>
       {
         return this.isWeekItem
           ? x.name.indexOf(OptionType.KEY_WORD) > -1
@@ -36,25 +36,25 @@ export default {
     },
     CItemInformed()
     {
-      return _.filter(_.cloneDeep(this.itemInformed), x => x.name.indexOf('C') === -1)
+      return _.filter(this.itemInformed, x => x.name.indexOf('C') === -1)
     },
     PItemInformed()
     {
-      return _.filter(_.cloneDeep(this.itemInformed), x => x.name.indexOf('P') === -1)
+      return _.filter(this.itemInformed, x => x.name.indexOf('P') === -1)
     },
     groupCItemInformed()
     {
-      return _.groupBy(_.cloneDeep(this.CItemInformed), 'item')
+      return _.groupBy(this.CItemInformed, 'item')
     },
     groupPItemInformed()
     {
-      return _.groupBy(_.cloneDeep(this.PItemInformed), 'item')
+      return _.groupBy(this.PItemInformed, 'item')
     },
     informedChartData()
     {
       return {
         columns: ['item', 'C', 'P'],
-        rows: _.reduce(_.keys(_.cloneDeep(this.groupCItemInformed)), (result, item) =>
+        rows: _.reduce(_.keys(this.groupCItemInformed), (result, item) =>
         {
           result.push({
             item,
@@ -68,7 +68,7 @@ export default {
     // -----------------------
     chipAccumulation()
     {
-      return _.filter(_.cloneDeep(this.chipAccumulationDatas), x =>
+      return _.filter(this.chipAccumulationDatas, x =>
       {
         return this.isWeekItem
           ? x.name.indexOf(OptionType.KEY_WORD) > -1
@@ -77,25 +77,25 @@ export default {
     },
     CChipAccumulation()
     {
-      return _.filter(_.cloneDeep(this.chipAccumulation), x => x.name.indexOf('C') === -1)
+      return _.filter(this.chipAccumulation, x => x.name.indexOf('C') === -1)
     },
     PChipAccumulation()
     {
-      return _.filter(_.cloneDeep(this.chipAccumulation), x => x.name.indexOf('P') === -1)
+      return _.filter(this.chipAccumulation, x => x.name.indexOf('P') === -1)
     },
     groupCChipAccumulation()
     {
-      return _.groupBy(_.cloneDeep(this.CChipAccumulation), 'item')
+      return _.groupBy(this.CChipAccumulation, 'item')
     },
     groupPChipAccumulation()
     {
-      return _.groupBy(_.cloneDeep(this.PChipAccumulation), 'item')
+      return _.groupBy(this.PChipAccumulation, 'item')
     },
     chipAccumulationChartData()
     {
       return {
         columns: ['item', 'C', 'P'],
-        rows: _.reduce(_.keys(_.cloneDeep(this.groupCItemInformed)), (result, item) =>
+        rows: _.reduce(_.keys(this.groupCItemInformed), (result, item) =>
         {
           result.push({
             item,

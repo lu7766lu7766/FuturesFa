@@ -61,8 +61,13 @@
       {
         this.timer = setInterval(() =>
         {
-          this.getItemInformed()
-          this.getTXO()
+          this.callApi(async () =>
+          {
+            await axios.all([
+              this.getItemInformed(),
+              this.getTXO()
+            ])
+          })
         }, env.waitSecs * 1000)
       }
     },
