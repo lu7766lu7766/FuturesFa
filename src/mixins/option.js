@@ -58,8 +58,8 @@ export default {
         {
           result.push({
             item,
-            C: this.groupCItemInformed[item][0].chip_valume,
-            P: this.groupPItemInformed[item][0].chip_valume
+            C: _(this.groupCItemInformed).getVal(`${item}.0.chip_valume`, 0),
+            P: _(this.groupPItemInformed).getVal(`${item}.0.chip_valume`, 0)
           })
           return result
         }, [])
@@ -99,8 +99,10 @@ export default {
         {
           result.push({
             item,
-            C: this.groupCChipAccumulation[item][0].total_chip + this.groupCItemInformed[item][0].chip_valume,
-            P: this.groupPChipAccumulation[item][0].total_chip + this.groupPItemInformed[item][0].chip_valume
+            C: _(this.groupCChipAccumulation).getVal(`${item}.0.total_chip`, 0)
+              + _(this.groupCItemInformed).getVal(`${item}.0.chip_valume`, 0),
+            P: _(this.groupPChipAccumulation).getVal(`${item}.0.total_chip`, 0)
+              + _(this.groupPItemInformed).getVal(`${item}.0.chip_valume`, 0)
           })
           return result
         }, [])
