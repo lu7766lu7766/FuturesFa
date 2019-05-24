@@ -10,6 +10,6 @@ export const UnLoginCode = 401
  */
 export const apiHosts = {
   local: 'localhost:3333',
-  test: '54.199.245.101:3333',
-  stable: '54.199.245.101:3333'
+  test: 'fa16888.cc:3333',
+  stable: 'fa16888.cc:3333'
 }
