@@ -16,6 +16,7 @@ Vue.use(iView)
 import VeeValidate from 'vee-validate'
 import zh_TW from 'vee-validate/dist/locale/zh_TW'
 
+
 const config = {
   locale: 'zh_TW',
   events: 'input|blur',
@@ -31,6 +32,10 @@ Vue.use(VeeValidate, config)
 import VueBus from 'vue-bus'
 
 Vue.use(VueBus)
+
+import VCharts from 'v-charts'
+
+Vue.use(VCharts)
 
 
 

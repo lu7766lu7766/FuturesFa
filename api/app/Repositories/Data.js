@@ -1,7 +1,7 @@
 'use strict'
 const startTime = moment().subtract(40, 'days').getDateTime()
 const endTime = moment().getDateTime()
-const dataEndTime = moment().getDate() + ' 14:00:00'
+const dataEndTime = moment().format('YYYY-MM-DD 14:00:00')
 
 class DataRepo
 {
