@@ -1,7 +1,11 @@
 <template>
   <section>
-    <ve-histogram :data="informedChartData"></ve-histogram>
-    <ve-histogram :data="chipAccumulationChartData"></ve-histogram>
+    <ve-histogram
+        :data="informedChartData"
+        :after-config="todayConfig"></ve-histogram>
+    <ve-histogram
+        :data="chipAccumulationChartData"
+        :after-config="accumulationConifg"></ve-histogram>
   </section>
 </template>
 

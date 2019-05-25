@@ -18,6 +18,60 @@ export default {
     {
       const res = await this.$api.data.getOptionChipAccumulation()
       this.chipAccumulationDatas = res.data
+    },
+    todayConfig(options)
+    {
+      return this.getConfig(options, '當日籌碼')
+    },
+    accumulationConifg(options)
+    {
+      return this.getConfig(options, '累計籌碼')
+    },
+    getConfig(options, title)
+    {
+      options.title = {
+        text: title
+        // subtext: '二级标题'
+      }
+      options.legend = { //圖例
+        data: [''] // 柱狀顏色提示 series name相map
+      }
+
+      // 0C 1P
+      _.forEach([0, 1], index =>
+      {
+        options.series[index].barCategoryGap = '50%'
+        options.series[index].data = options.series[index].data.map((value) =>
+        {
+          let color
+          switch (index)
+          {
+            // C
+            case 0:
+              color = value > 0
+                ? '#f00'
+                : '#0f0'
+              break
+            // P
+            case 1:
+              color = value > 0
+                ? '#0f0'
+                : '#f00'
+              break
+          }
+          return {
+            label: {show: true, position: 'top'},
+            value,
+            itemStyle: {
+              normal: {
+                color
+              }
+            }
+          }
+        })
+      })
+
+      return options
     }
   },
   computed: {
@@ -53,14 +107,18 @@ export default {
     informedChartData()
     {
       return {
+
         columns: ['item', 'C', 'P'],
         rows: _.reduce(_.keys(this.groupCItemInformed), (result, item) =>
         {
-          result.push({
-            item,
-            C: _(this.groupCItemInformed).getVal(`${item}.0.chip_valume`, 0),
-            P: _(this.groupPItemInformed).getVal(`${item}.0.chip_valume`, 0)
-          })
+          if (!this.showChipList || this.showChipList.indexOf(item) > -1)
+          {
+            result.push({
+              item,
+              C: _(this.groupCItemInformed).getVal(`${item}.0.chip_valume`, 0),
+              P: _(this.groupPItemInformed).getVal(`${item}.0.chip_valume`, 0)
+            })
+          }
           return result
         }, [])
       }
@@ -97,13 +155,16 @@ export default {
         columns: ['item', 'C', 'P'],
         rows: _.reduce(_.keys(this.groupCItemInformed), (result, item) =>
         {
-          result.push({
-            item,
-            C: _(this.groupCChipAccumulation).getVal(`${item}.0.total_chip`, 0)
-              + _(this.groupCItemInformed).getVal(`${item}.0.chip_valume`, 0),
-            P: _(this.groupPChipAccumulation).getVal(`${item}.0.total_chip`, 0)
-              + _(this.groupPItemInformed).getVal(`${item}.0.chip_valume`, 0)
-          })
+          if (!this.showChipList || this.showChipList.indexOf(item) > -1)
+          {
+            result.push({
+              item,
+              C: _(this.groupCChipAccumulation).getVal(`${item}.0.total_chip`, 0)
+                + _(this.groupCItemInformed).getVal(`${item}.0.chip_valume`, 0),
+              P: _(this.groupPChipAccumulation).getVal(`${item}.0.total_chip`, 0)
+                + _(this.groupPItemInformed).getVal(`${item}.0.chip_valume`, 0)
+            })
+          }
           return result
         }, [])
       }

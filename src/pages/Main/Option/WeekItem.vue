@@ -1,8 +1,26 @@
 <template>
   <div>
-    <ve-histogram :data="informedChartData"></ve-histogram>
-    <ve-histogram :data="chipAccumulationChartData"></ve-histogram>
-    <table class="table table-striped">
+    <!-- 當日籌碼 -->
+    <div class="col-md-8 col-xs-12">
+      <ve-histogram
+          :data="informedChartData"
+          :after-config="todayConfig"
+          height="350px"></ve-histogram>
+    </div>
+    <div class="col-md-4 col-xs-12">
+
+    </div>
+    <!-- 累計籌碼 -->
+    <div class="col-md-8 col-xs-12">
+      <ve-histogram
+          :data="chipAccumulationChartData"
+          :after-config="accumulationConifg"
+          height="350px"></ve-histogram>
+    </div>
+    <div class="col-md-4 col-xs-12">
+
+    </div>
+    <table class="table table-striped txo">
       <thead>
       <tr>
         <td>加權</td>
@@ -21,12 +39,24 @@
       </thead>
       <tbody>
       <tr>
-        <td>{{ txo.taiex }}</td>
-        <td>{{ txo.taiex_updown }}</td>
-        <td>{{ txo.taiex_updown_range }}</td>
-        <td>{{ txo.mtx }}</td>
-        <td>{{ txo.mtx_updown }}</td>
-        <td>{{ txo.mtx_updown_range }}</td>
+        <td>
+          <span :class="txo.taiex > 0 ? 't-red' : 't-green'">{{ txo.taiex }}</span>
+        </td>
+        <td>
+          <span :class="txo.taiex_updown > 0 ? 't-red' : 't-green'">{{ txo.taiex_updown }}</span>
+        </td>
+        <td>
+          <span :class="txo.taiex_updown_range > 0 ? 't-red' : 't-green'">{{ txo.taiex_updown_range }}</span>
+        </td>
+        <td>
+          <span :class="txo.mtx > 0 ? 't-red' : 't-green'">{{ txo.mtx }}</span>
+        </td>
+        <td>
+          <span :class="txo.mtx_updown > 0 ? 't-red' : 't-green'">{{ txo.mtx_updown }}</span>
+        </td>
+        <td>
+          <span :class="txo.mtx_updown_range > 0 ? 't-red' : 't-green'">{{ txo.mtx_updown_range }}</span>
+        </td>
         <td>{{ txo.major }}</td>
         <td>{{ txo.retail }}</td>
         <td>{{ txo.differ }}</td>
@@ -71,6 +101,32 @@
         }, env.waitSecs * 1000)
       }
     },
+    computed: {
+      centerPoint()
+      {
+        return Math.floor(this.txo.mtx / 100) * 100
+      },
+      showChipList()
+      {
+        const res = []
+        const allChips = _.keys(this.groupCItemInformed)
+        let mustNeerChip = 0, neerIndex = 0
+        allChips.forEach((chip, index) =>
+        {
+          if (Math.abs(this.centerPoint - chip) < Math.abs(this.centerPoint - mustNeerChip))
+          {
+            mustNeerChip = chip
+            neerIndex = index
+          }
+        })
+        const startIndex = (neerIndex - 5) < 0
+          ? 0
+          : neerIndex - 5
+
+        // 前5後5所以11
+        return _.cloneDeep(allChips).splice(startIndex, 11)
+      }
+    },
     created()
     {
       this.callApi(async () =>
@@ -91,4 +147,15 @@
 </script>
 
 <style lang="stylus" scoped>
+  .txo
+    font-weight 900
+    font-size 1.1em
+    tbody
+      font-size 1.3em
+
+  .t-red
+    color #ff00ff
+
+  .t-green
+    color #00ff00
 </style>
