@@ -1,28 +1,27 @@
 <template>
   <div class="layout">
-    <Menu mode="horizontal" theme="dark" active-name="1" @on-select="routeTo">
-      <div class="layout-logo" style="color:#eee">
-        <h5>{{ User.nickName }}</h5>
-      </div>
-      <div class="layout-nav">
-        <Submenu name="1" v-if="User.isAdmin">
-          <template slot="title">
-            <Icon type="ios-keypad"></Icon>
-            後台管理
-          </template>
-          <Menu-item name="1-1">使用者管理</Menu-item>
-          <Menu-item name="1-2">登出</Menu-item>
-        </Submenu>
-        <Menu-item name="2">
-          <Icon type="logo-buffer" />
-          周選
-        </Menu-item>
-        <Menu-item name="3">
-          <Icon type="ios-book-outline"></Icon>
-          月選
-        </Menu-item>
-      </div>
-    </Menu>
+    <b-navbar toggleable="lg" type="dark" variant="dark">
+      <b-navbar-brand href="#">{{ User.nickName }}</b-navbar-brand>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item-dropdown text="後台管理">
+            <b-dropdown-item :to="{ name: 'user-manage'}">
+              使用者管理
+            </b-dropdown-item>
+            <b-dropdown-item @click="doLogout">
+              登出
+            </b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item :to="{ name: 'week-item' }">
+            周選
+          </b-nav-item>
+          <b-nav-item :to="{ name: 'month-item' }">
+            月選
+          </b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
 
     <div class="layout-content">
       <router-view />
@@ -40,29 +39,15 @@
 
   export default {
     data: () => ({
-      routeMap: {
-        '1-1': 'user-manage',
-        '1-2': 'logout',
-        '2': 'week-item',
-        '3': 'month-item'
-      }
+
     }),
     methods: {
-      routeTo(routeName)
+      doLogout()
       {
-        if (this.routeMap[routeName] === 'logout')
-        {
-          this.$store.commit(LoginType.clearAccessToken)
-          this.$router.push({
-            name: 'login'
-          })
-        }
-        else
-        {
-          this.$router.push({
-            name: this.routeMap[routeName]
-          })
-        }
+        this.$store.commit(LoginType.clearAccessToken)
+        this.$router.push({
+          name: 'login'
+        })
       }
     },
     async created()
@@ -114,4 +99,12 @@
     width: 100%;
     /*bottom: 0px;*/
   }
+
+  /*.nav-item i {*/
+  /*float: left;*/
+  /*}*/
+
+  /*.nav-item a {*/
+  /*float: left;*/
+  /*}*/
 </style>

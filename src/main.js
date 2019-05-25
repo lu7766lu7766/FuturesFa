@@ -3,15 +3,34 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+// import BootstrapVue from 'bootstrap-vue'
+//
+// Vue.use(BootstrapVue)
+import { NavbarPlugin } from 'bootstrap-vue/es/components'
+
+Vue.use(NavbarPlugin)
+
 import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 // Vue.use(ElementUI)
-import iView from 'iview'
-import 'iview/dist/styles/iview.css'
+// import iView from 'iview'
+//
+// Vue.use(iView)
+import { Button, Option, Select, Form, FormItem, Card, Input, Modal, DatePicker } from 'iview'
 
-Vue.use(iView)
+Vue.component('Button', Button)
+Vue.component('Option', Option)
+Vue.component('Select', Select)
+Vue.component('Form', Form)
+Vue.component('FormItem', FormItem)
+Vue.component('Card', Card)
+Vue.component('Input', Input)
+Vue.component('Modal', Modal)
+Vue.component('DatePicker', DatePicker)
+import 'iview/dist/styles/iview.css'
 
 import VeeValidate from 'vee-validate'
 import zh_TW from 'vee-validate/dist/locale/zh_TW'
