@@ -11,6 +11,7 @@
             後台管理
           </template>
           <Menu-item name="1-1">使用者管理</Menu-item>
+          <Menu-item name="1-2">登出</Menu-item>
         </Submenu>
         <Menu-item name="2">
           <Icon type="logo-buffer" />
@@ -35,11 +36,13 @@
 
 <script>
   import { UserType } from 'module/user'
+  import { LoginType } from 'module/login'
 
   export default {
     data: () => ({
       routeMap: {
         '1-1': 'user-manage',
+        '1-2': 'logout',
         '2': 'week-item',
         '3': 'month-item'
       }
@@ -47,9 +50,19 @@
     methods: {
       routeTo(routeName)
       {
-        this.$router.push({
-          name: this.routeMap[routeName]
-        })
+        if (this.routeMap[routeName] === 'logout')
+        {
+          this.$store.commit(LoginType.clearAccessToken)
+          this.$router.push({
+            name: 'login'
+          })
+        }
+        else
+        {
+          this.$router.push({
+            name: this.routeMap[routeName]
+          })
+        }
       }
     },
     async created()
