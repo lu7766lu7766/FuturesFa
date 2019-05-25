@@ -1,6 +1,9 @@
 <template>
   <section>
-    <ve-line :data="chipChartData"></ve-line>
+    <ve-line
+        :data="chipChartData"
+        :after-config="optionConfig"
+        :colors="colors"></ve-line>
   </section>
 </template>
 

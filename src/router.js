@@ -39,22 +39,6 @@ export default new Router({
           ],
         },
         {
-          path: 'chip',
-          component: () => import('pages/Main/Chip'),
-          children: [
-            {
-              path: 'option',
-              name: 'option-chip',
-              component: () => import('pages/Main/Chip/OptionChip')
-            },
-            {
-              path: 'futures',
-              name: 'futures-chip',
-              component: () => import('pages/Main/Chip/FuturesChip')
-            }
-          ]
-        },
-        {
           path: '/history',
           name: 'history',
           component: () => import('pages/Main/History')

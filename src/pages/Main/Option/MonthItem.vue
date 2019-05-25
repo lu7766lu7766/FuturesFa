@@ -25,10 +25,7 @@
       {
         this.timer = setInterval(() =>
         {
-          this.callApi(async () =>
-          {
-            await this.getItemInformed()
-          })
+          this.getItemInformed()
         }, env.waitSecs * 1000)
       }
     },

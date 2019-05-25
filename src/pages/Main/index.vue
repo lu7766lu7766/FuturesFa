@@ -20,14 +20,6 @@
           <Icon type="ios-book-outline"></Icon>
           月選
         </Menu-item>
-        <Menu-item name="4">
-          <Icon type="ios-git-network" />
-          選擇權籌碼
-        </Menu-item>
-        <Menu-item name="5">
-          <Icon type="ios-podium-outline" />
-          期貨籌碼
-        </Menu-item>
       </div>
     </Menu>
 
@@ -49,9 +41,7 @@
       routeMap: {
         '1-1': 'user-manage',
         '2': 'week-item',
-        '3': 'month-item',
-        '4': 'option-chip',
-        '5': 'futures-chip'
+        '3': 'month-item'
       }
     }),
     methods: {

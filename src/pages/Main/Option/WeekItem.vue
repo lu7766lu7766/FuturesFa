@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="row">
     <!-- 當日籌碼 -->
     <div class="col-md-8 col-xs-12">
       <ve-histogram
@@ -8,7 +8,7 @@
           height="350px"></ve-histogram>
     </div>
     <div class="col-md-4 col-xs-12">
-
+      <futures-chip />
     </div>
     <!-- 累計籌碼 -->
     <div class="col-md-8 col-xs-12">
@@ -18,7 +18,7 @@
           height="350px"></ve-histogram>
     </div>
     <div class="col-md-4 col-xs-12">
-
+      <option-chip />
     </div>
     <table class="table table-striped txo">
       <thead>
@@ -76,6 +76,10 @@
 
   export default {
     mixins: [OptionMixins],
+    components: {
+      FuturesChip: () => import('@/FuturesChip'),
+      OptionChip: () => import('@/OptionChip')
+    },
     data: () => ({
       optionType: OptionType.WEEK,
       timer: null,
@@ -91,13 +95,8 @@
       {
         this.timer = setInterval(() =>
         {
-          this.callApi(async () =>
-          {
-            await axios.all([
-              this.getItemInformed(),
-              this.getTXO()
-            ])
-          })
+          this.getItemInformed()
+          this.getTXO()
         }, env.waitSecs * 1000)
       }
     },
@@ -149,12 +148,13 @@
 <style lang="stylus" scoped>
   .txo
     font-weight 900
-    font-size 1.1em
+    thead
+      font-size 1.1em
     tbody
-      font-size 1.3em
+      font-size 1.4em
 
   .t-red
-    color #ff00ff
+    color #ff0000
 
   .t-green
     color #00ff00
