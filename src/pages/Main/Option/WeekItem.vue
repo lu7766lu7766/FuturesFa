@@ -77,7 +77,7 @@
   export default {
     mixins: [OptionMixins],
     data: () => ({
-      type: OptionType.WEEK,
+      optionType: OptionType.WEEK,
       timer: null,
       txo: {}
     }),

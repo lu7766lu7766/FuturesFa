@@ -17,7 +17,7 @@
   export default {
     mixins: [OptionMixins],
     data: () => ({
-      type: OptionType.MONTH,
+      optionType: OptionType.MONTH,
       timer: null
     }),
     methods: {

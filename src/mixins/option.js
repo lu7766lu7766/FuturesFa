@@ -60,7 +60,12 @@ export default {
               break
           }
           return {
-            label: {show: true, position: 'top'},
+            label: {
+              show: true,
+              position: value > -1
+                ? 'top'
+                : 'bottom'
+            },
             value,
             itemStyle: {
               normal: {
@@ -77,7 +82,7 @@ export default {
   computed: {
     isWeekItem()
     {
-      return this.type === OptionType.WEEK
+      return this.optionType === OptionType.WEEK
     },
     itemInformed()
     {
