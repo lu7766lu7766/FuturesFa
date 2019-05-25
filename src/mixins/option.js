@@ -21,17 +21,17 @@ export default {
     },
     todayConfig(options)
     {
-      return this.getConfig(options, '當日籌碼')
+      return this.getConfig(options, '當日籌碼', this.theDate)
     },
     accumulationConifg(options)
     {
       return this.getConfig(options, '累計籌碼')
     },
-    getConfig(options, title)
+    getConfig(options, title, subTitle)
     {
       options.title = {
-        text: title
-        // subtext: '二级标题'
+        text: title,
+        subtext: subTitle //'二级标题'
       }
       options.legend = { //圖例
         data: [''] // 柱狀顏色提示 series name相map
@@ -79,6 +79,17 @@ export default {
     }
   },
   computed: {
+    theDate()
+    {
+      if (moment().isBetween(moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 13:45:00')))
+      {
+        return moment().subtract(1, 'days').getDate()
+      }
+      else
+      {
+        return moment().getDate()
+      }
+    },
     isWeekItem()
     {
       return this.optionType === OptionType.WEEK

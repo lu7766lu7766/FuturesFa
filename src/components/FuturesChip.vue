@@ -3,7 +3,8 @@
     <ve-line
         :data="chipChartData"
         :after-config="futuresConfig"
-        :colors="colors"></ve-line>
+        :colors="colors"
+        height="350px"></ve-line>
   </section>
 </template>
 

@@ -17,6 +17,17 @@ _.mixin({
   chain: false
 })
 
+// 增加moment getDateTime方法
+moment.fn.getDateTime = function ()
+{
+  return this.format('YYYY-MM-DD HH:mm:ss')
+}
+// 增加moment getDate方法
+moment.fn.getDate = function ()
+{
+  return this.format('YYYY-MM-DD')
+}
+
 export default {
   install: function (Vue, options)
   {

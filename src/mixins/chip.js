@@ -4,7 +4,7 @@ import env from 'src/../env'
 export default {
   mixins: [ReqMixins],
   data: () => ({
-    date: '',
+    theDate: '',
     timer: null,
     datas: [],
     colors: ['#f00', '#0f0', '#9c7548']
@@ -21,8 +21,8 @@ export default {
     getConfig(options, title)
     {
       options.title = {
-        text: title
-        // subtext: '二级标题'
+        text: title,
+        subtext: this.theDate //'二级标题'
       }
       options.legend = { //圖例
         data: [''] // 柱狀顏色提示 series name相map
@@ -35,9 +35,9 @@ export default {
       const res = await this.$api.data[this.$options.api]()
       res.data.forEach(data =>
       {
-        this.date = !this.date
+        this.theDate = !this.theDate
           ? data.created_at.split(' ')[0]
-          : this.date
+          : this.theDate
         data.created_at = data.created_at.split(' ')[1]
       })
       this.datas = res.data

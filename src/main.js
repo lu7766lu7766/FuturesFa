@@ -53,9 +53,12 @@ import VueBus from 'vue-bus'
 Vue.use(VueBus)
 
 import VCharts from 'v-charts'
-
 Vue.use(VCharts)
-
+// import VeLine from 'v-charts/lib/line.common'
+// import VeHistogram from 'v-charts/lib/histogram.common'
+//
+// Vue.component(VeLine.name, VeLine)
+// Vue.component(VeHistogram.name, VeHistogram)
 
 
 Vue.config.productionTip = false
