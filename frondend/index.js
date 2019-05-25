@@ -5,7 +5,7 @@ var resolve = route => path.join(__dirname, '../www', route)
 
 app.all('/', function (req, res)
 {
-  app.use('/static', express.static(resolve('static')))
+  app.use('/', express.static(resolve('')))
   res.sendFile(resolve('index.html'))
 })
 
