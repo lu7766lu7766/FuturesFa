@@ -65,7 +65,7 @@ class UserService
       password: request.input('password'),
       nickName: request.input('nick_name', request.input('user_name')),
       roleID: request.input('role_id'),
-      expireTime: request.input('expire_time', moment().add(30, 'days').getDateTime())
+      expireTime: request.input('expire_time')
     })
   }
 
