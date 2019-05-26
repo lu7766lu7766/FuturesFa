@@ -5,20 +5,20 @@
       <ve-histogram
           :data="informedChartData"
           :after-config="todayConfig"
-          height="350px"></ve-histogram>
+          :height="height"></ve-histogram>
     </div>
     <div class="col-md-4 col-xs-12">
-      <futures-chip />
+      <futures-chip :height="height" />
     </div>
     <!-- 累計籌碼 -->
     <div class="col-md-8 col-xs-12">
       <ve-histogram
           :data="chipAccumulationChartData"
           :after-config="accumulationConifg"
-          height="350px"></ve-histogram>
+          :height="height"></ve-histogram>
     </div>
     <div class="col-md-4 col-xs-12">
-      <option-chip />
+      <option-chip :height="height" />
     </div>
     <table class="table table-striped txo">
       <thead>
@@ -83,7 +83,8 @@
     data: () => ({
       optionType: OptionType.WEEK,
       timer: null,
-      txo: {}
+      txo: {},
+      height: '325px'
     }),
     methods: {
       async getTXO()
@@ -138,6 +139,10 @@
         this.startCounter()
       })
     },
+    mounted()
+    {
+      // this.height = Math.floor(($('.layout-content').height() - $('.txo').height()) / 2) + 'px'
+    },
     destroyed()
     {
       clearInterval(this.timer)
@@ -158,4 +163,5 @@
 
   .t-green
     color #00ff00
+
 </style>

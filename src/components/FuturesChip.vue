@@ -1,17 +1,16 @@
 <template>
-  <section>
-    <ve-line
-        :data="chipChartData"
-        :after-config="futuresConfig"
-        :colors="colors"
-        height="350px"></ve-line>
-  </section>
+  <ve-line
+      :data="chipChartData"
+      :after-config="futuresConfig"
+      :colors="colors"
+      :height="height"></ve-line>
 </template>
 
 <script>
   import ChipMixins from 'mixins/chip'
 
   export default {
+    props: ['height'],
     api: 'getFuturesChip',
     mixins: [ChipMixins],
     computed: {
