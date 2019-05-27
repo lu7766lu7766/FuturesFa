@@ -4,7 +4,6 @@ import User from 'Model/User'
 
 global.User = new User()
 
-
 _.mixin({
   getVal: function (data, prop, defaultVal = '')
   {
@@ -45,4 +44,11 @@ export default {
       return moment(value).format('YYYY-MM-DD')
     })
   }
+}
+
+import env from 'src/../env'
+
+global.getenv = (key, defaultVal) =>
+{
+  return env[key] || defaultVal
 }

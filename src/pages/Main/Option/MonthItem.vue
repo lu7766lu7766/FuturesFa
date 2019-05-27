@@ -12,7 +12,6 @@
 <script>
   import OptionMixins from 'mixins/option'
   import OptionType from 'Constants/OptionType'
-  import env from 'src/../env'
 
   export default {
     mixins: [OptionMixins],
@@ -26,7 +25,7 @@
         this.timer = setInterval(() =>
         {
           this.getItemInformed()
-        }, env.waitSecs * 1000)
+        }, getenv('waitSecs', 30) * 1000)
       }
     },
     created()

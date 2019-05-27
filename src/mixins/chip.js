@@ -1,5 +1,4 @@
 import ReqMixins from 'mixins/request'
-import env from 'src/../env'
 
 export default {
   mixins: [ReqMixins],
@@ -44,7 +43,7 @@ export default {
     },
     startCounter()
     {
-      this.timer = setInterval(this.getDatas, env.waitSecs * 1000)
+      this.timer = setInterval(this.getDatas, getenv('waitSecs', 30) * 1000)
     }
   },
   created()

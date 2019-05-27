@@ -1,7 +1,6 @@
 import qs from 'qs'
 import store from 'src/store'
 import { POST, PUT } from 'src/config/api'
-// import env from 'src/../env'
 
 // export var apiHost = `//${apiHosts[env.target]}`
 
@@ -103,3 +102,5 @@ function getApiHeader() {
     'Authorization': store.state.Login.type + ' ' + store.state.Login.token
   }
 }
+
+
