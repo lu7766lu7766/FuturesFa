@@ -6,7 +6,7 @@ export default {
     theDate: '',
     timer: null,
     datas: [],
-    colors: ['#f00', '#0f0', '#9c7548']
+    colors: ['#f00', '#00CF00', '#9c7548']
   }),
   methods: {
     futuresConfig(options)

@@ -50,12 +50,12 @@ export default {
             case 0:
               color = value > 0
                 ? '#f00'
-                : '#0f0'
+                : '#00CF00'
               break
             // P
             case 1:
               color = value > 0
-                ? '#0f0'
+                ? '#00cf00'
                 : '#f00'
               break
           }
