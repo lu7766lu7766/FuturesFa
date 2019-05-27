@@ -34,7 +34,8 @@ export default {
         subtext: subTitle //'二级标题'
       }
       options.legend = { //圖例
-        data: [''] // 柱狀顏色提示 series name相map
+        // data: [''] // 柱狀顏色提示 series name相map
+        show: false
       }
 
       // 0C 1P

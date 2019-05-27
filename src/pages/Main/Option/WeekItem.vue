@@ -1,23 +1,23 @@
 <template>
   <div class="row">
     <!-- 當日籌碼 -->
-    <div class="col-md-8 col-xs-12">
+    <div class="col-md-7 col-xs-12">
       <ve-histogram
           :data="informedChartData"
           :after-config="todayConfig"
           :height="height"></ve-histogram>
     </div>
-    <div class="col-md-4 col-xs-12">
+    <div class="col-md-5 col-xs-12">
       <futures-chip :height="height" />
     </div>
     <!-- 累計籌碼 -->
-    <div class="col-md-8 col-xs-12">
+    <div class="col-md-7 col-xs-12">
       <ve-histogram
           :data="chipAccumulationChartData"
           :after-config="accumulationConifg"
           :height="height"></ve-histogram>
     </div>
-    <div class="col-md-4 col-xs-12">
+    <div class="col-md-5 col-xs-12">
       <option-chip :height="height" />
     </div>
     <table class="table table-striped txo">
@@ -160,6 +160,6 @@
     color #ff0000
 
   .t-green
-    color #00ff00
+    color #00CF00
 
 </style>
