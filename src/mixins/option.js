@@ -105,11 +105,11 @@ export default {
     },
     CItemInformed()
     {
-      return _.filter(this.itemInformed, x => x.name.indexOf('C') === -1)
+      return _.filter(this.itemInformed, x => x.name.indexOf('C') > -1)
     },
     PItemInformed()
     {
-      return _.filter(this.itemInformed, x => x.name.indexOf('P') === -1)
+      return _.filter(this.itemInformed, x => x.name.indexOf('P') > -1)
     },
     groupCItemInformed()
     {
@@ -150,11 +150,11 @@ export default {
     },
     CChipAccumulation()
     {
-      return _.filter(this.chipAccumulation, x => x.name.indexOf('C') === -1)
+      return _.filter(this.chipAccumulation, x => x.name.indexOf('C') > -1)
     },
     PChipAccumulation()
     {
-      return _.filter(this.chipAccumulation, x => x.name.indexOf('P') === -1)
+      return _.filter(this.chipAccumulation, x => x.name.indexOf('P') > -1)
     },
     groupCChipAccumulation()
     {
