@@ -99,8 +99,8 @@ export default {
       return _.filter(this.itemInformedDatas, x =>
       {
         return this.isWeekItem
-          ? x.name.indexOf(OptionType.KEY_WORD) > -1
-          : x.name.indexOf(OptionType.KEY_WORD) === -1
+          ? x.name.indexOf(OptionType.WEEK_KEY_WORD) > -1
+          : x.name.indexOf(OptionType.WEEK_KEY_WORD) === -1
       })
     },
     CItemInformed()
@@ -144,8 +144,8 @@ export default {
       return _.filter(this.chipAccumulationDatas, x =>
       {
         return this.isWeekItem
-          ? x.name.indexOf(OptionType.KEY_WORD) > -1
-          : x.name.indexOf(OptionType.KEY_WORD) === -1
+          ? x.name.indexOf(OptionType.WEEK_KEY_WORD) > -1
+          : x.name.indexOf(OptionType.WEEK_KEY_WORD) === -1
       })
     },
     CChipAccumulation()
