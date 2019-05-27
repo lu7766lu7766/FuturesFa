@@ -39,9 +39,6 @@ export default class BaseRequest
     const conf = this.config[key]
     if (!conf) throw 'not found the config'
 
-    const successF = options.success || options.s
-    const failF = options.fail || options.f
-
     // console.log(createApiBody(conf.method, conf.uri, _.merge(_.pickBy(data), conf.data), conf.header))
 
     let res
@@ -55,10 +52,16 @@ export default class BaseRequest
         conf.header))
     } catch (e)
     {
-      alert('system error!! please try again later')
-      throw e
-      return
+      return this.resultProccess(e, options)
     }
+
+    return this.resultProccess(res, options)
+  }
+
+  resultProccess(res, options)
+  {
+    const successF = options.success || options.s
+    const failF = options.fail || options.f
 
     let errorMessages = []
     _.forEach(res.data.code, code =>
@@ -67,24 +70,20 @@ export default class BaseRequest
       {
         case SuccessCodes:
           break
-        case UnLoginCode:
-          store.commit(LoginType.clearAccessToken)
-          break
         default:
           errorMessages.push(errorCode[code]
             ? errorCode[code]
-            : 'have error!')
+            : 'system error!! please try again later')
           break
       }
     })
     return errorMessages.length
       ? failF
-        ? failF(errorMessages)
-        : this.errorHandle(errorMessages)
+        ? failF(res.data, errorMessages)
+        : this.errorHandle(res.data, errorMessages)
       : successF
         ? successF(roopParse(res.data))
         : roopParse(res.data)
-
   }
 
   errorHandle(errorMessages) {
