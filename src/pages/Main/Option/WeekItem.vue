@@ -108,7 +108,6 @@
       },
       showChipList()
       {
-        const res = []
         const allChips = _.keys(this.groupCItemInformed)
         let mustNeerChip = 0, neerIndex = 0
         allChips.forEach((chip, index) =>

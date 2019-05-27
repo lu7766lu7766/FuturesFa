@@ -64,7 +64,7 @@ class UserService
       userName: request.input('user_name'),
       password: request.input('password'),
       nickName: request.input('nick_name', request.input('user_name')),
-      roleID: request.input('role_id'),
+      roleID: request.input('role_id', RoleConstant.TESTER_CODE),
       expireTime: request.input('expire_time')
     })
   }

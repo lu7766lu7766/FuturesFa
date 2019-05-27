@@ -16,20 +16,20 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 // import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 // Vue.use(ElementUI)
-// import iView from 'iview'
-//
-// Vue.use(iView)
-import { Button, Option, Select, Form, FormItem, Card, Input, Modal, DatePicker } from 'iview'
+import iView from 'iview'
 
-Vue.component('Button', Button)
-Vue.component('Option', Option)
-Vue.component('Select', Select)
-Vue.component('Form', Form)
-Vue.component('FormItem', FormItem)
-Vue.component('Card', Card)
-Vue.component('Input', Input)
-Vue.component('Modal', Modal)
-Vue.component('DatePicker', DatePicker)
+Vue.use(iView)
+// import { Button, Option, Select, Form, FormItem, Card, Input, Modal, DatePicker, Message } from 'iview'
+//
+// Vue.component('Button', Button)
+// Vue.component('Option', Option)
+// Vue.component('Select', Select)
+// Vue.component('Form', Form)
+// Vue.component('FormItem', FormItem)
+// Vue.component('Card', Card)
+// Vue.component('Input', Input)
+// Vue.component('Modal', Modal)
+// Vue.component('DatePicker', DatePicker)
 import 'iview/dist/styles/iview.css'
 
 import VeeValidate from 'vee-validate'

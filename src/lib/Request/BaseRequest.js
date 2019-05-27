@@ -26,7 +26,8 @@ export default class BaseRequest
   {
     _.forEach(res, (val, key) =>
     {
-      if (typeof val === 'object' && (moment.isMoment(val) || typeof val.getMonth === 'function'))
+      if (val && typeof val === 'object' && (moment.isMoment(val) || typeof val.getMonth === 'function')
+      )
       {
         res[key] = moment(val).format('YYYY-MM-DD HH:mm:ss')
       }

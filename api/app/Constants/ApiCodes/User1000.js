@@ -21,6 +21,8 @@ class Common
   static get PASSWORD_IS_TOO_SHORT() { return 1010 }
 
   static get NO_PERMISSION() { return 1011 }
+
+  static get USER_EXISTS() { return 1012 }
 }
 
 module.exports = Common
