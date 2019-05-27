@@ -57,12 +57,24 @@
         <td>
           <span :class="txo.mtx_updown_range > 0 ? 't-red' : 't-green'">{{ txo.mtx_updown_range }}</span>
         </td>
-        <td>{{ txo.major }}</td>
-        <td>{{ txo.retail }}</td>
-        <td>{{ txo.differ }}</td>
-        <td>{{ txo.total_c }}</td>
-        <td>{{ txo.total_p }}</td>
-        <td>{{ txo.differ_cp }}</td>
+        <td>
+          <span :class="txo.major > 0 ? 't-red' : 't-green'">{{ txo.major }}</span>
+        </td>
+        <td>
+          <span :class="txo.retail > 0 ? 't-red' : 't-green'">{{ txo.retail }}</span>
+        </td>
+        <td>
+          <span :class="txo.differ > 0 ? 't-red' : 't-green'">{{ txo.differ }}</span>
+        </td>
+        <td>
+          <span :class="txo.total_c > 0 ? 't-red' : 't-green'">{{ txo.total_c }}</span>
+        </td>
+        <td>
+          <span :class="txo.total_p > 0 ? 't-red' : 't-green'">{{ txo.total_p }}</span>
+        </td>
+        <td>
+          <span :class="txo.differ_cp > 0 ? 't-red' : 't-green'">{{ txo.differ_cp }}</span>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -154,7 +166,7 @@
     thead
       font-size 1.1em
     tbody
-      font-size 1.4em
+      font-size 2.0em
 
   .t-red
     color #ff0000
