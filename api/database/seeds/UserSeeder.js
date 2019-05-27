@@ -36,6 +36,18 @@ class UserSeeder {
         role_id: RoleConstant.ADMIN_CODE
       },
       {
+        user_name: 'marco',
+        password: '123456',
+        nick_name: 'Marco',
+        role_id: RoleConstant.ADMIN_CODE
+      },
+      {
+        user_name: 'k2greentea',
+        password: '670224',
+        nick_name: 'Eagle',
+        role_id: RoleConstant.ADMIN_CODE
+      },
+      {
         user_name: 'user',
         password: 'user',
         nick_name: 'User',
