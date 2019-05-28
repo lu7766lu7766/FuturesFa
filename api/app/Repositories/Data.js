@@ -29,10 +29,11 @@ class DataRepo
     try
     {
       await trx.raw(`
-        insert into option_log 
+        insert into option_accumulation
           (select b.* 
             from (select name, max(created_at) as last_time from option where created_at < '${dataEndTime}' group by name) as a 
             left join option as b on a.name = b.name and a.last_time = b.created_at) `)
+      await trx.raw(`insert into option_log from option where created_at < '${dataEndTime}' `)
       await trx.table('option').delete().where('created_at', '<', dataEndTime)
       trx.commit()
       return true
@@ -81,7 +82,7 @@ class DataRepo
   async getOptionChipAccumulation()
   {
     const todayItem = DB.table('option_today_item').select('name')
-    return await DB.table('option_log').select('name', 'item').sum('chip_valume as total_chip')
+    return await DB.table('option_accumulation').select('name', 'item').sum('chip_valume as total_chip')
       .whereIn('name', todayItem)
       .whereBetween('date', [startTime, endTime])
       .groupBy('name')
