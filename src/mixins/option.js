@@ -143,6 +143,10 @@ export default {
           return result
         }, [])
       }
+    },
+    getAnyNewItem(isWeekItem)
+    {
+      return _.last(_.map(this.getGroupItemInformed('C', isWeekItem))[0])
     }
   },
   computed: {
@@ -159,15 +163,14 @@ export default {
     },
     theName()
     {
-      return this.itemInformedDatas.length
-        ? _(_.map(this.getGroupItemInformed('C', this.isWeekItem)))
-          .getVal('0.0.name')
-          .split(' ')[0].replace(/[^0-9A-Z]/g, '')
+      const data = this.getAnyNewItem(this.isWeekItem)
+      return data
+        ? this.getAnyNewItem(this.isWeekItem).name.split(' ')[0].replace(/[^0-9A-Z]/g, '')
         : ''
     },
     updateTime()
     {
-      const data = _(_.map(this.getGroupItemInformed('C', this.isWeekItem))).getVal('0.0')
+      const data = this.getAnyNewItem(this.isWeekItem)
       return data
         ? moment(data.created_at).getDateTime()
         : ''
