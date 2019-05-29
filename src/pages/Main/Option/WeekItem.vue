@@ -94,6 +94,7 @@
     data: () => ({
       optionType: OptionType.WEEK,
       timer: null,
+      timer2: null,
       txo: {},
       height: '325px'
     }),
@@ -109,7 +110,11 @@
         {
           this.getItemInformed()
           this.getTXO()
-        }, getenv('waitSecss', 30) * 1000)
+        }, getenv('waitSecs', 30) * 1000)
+        this.timer2 = setInterval(() =>
+        {
+          this.getChipAccumulation()
+        }, 60 * 60 * 1000)
       }
     },
     computed: {
@@ -150,6 +155,7 @@
     destroyed()
     {
       clearInterval(this.timer)
+      clearInterval(this.timer2)
     }
   }
 </script>

@@ -17,7 +17,8 @@
     mixins: [OptionMixins],
     data: () => ({
       optionType: OptionType.MONTH,
-      timer: null
+      timer: null,
+      timer2: null
     }),
     methods: {
       startCounter()
@@ -26,6 +27,10 @@
         {
           this.getItemInformed()
         }, getenv('waitSecs', 30) * 1000)
+        this.timer2 = setInterval(() =>
+        {
+          this.getChipAccumulation()
+        }, 60 * 60 * 1000)
       }
     },
     created()
@@ -42,6 +47,7 @@
     destroyed()
     {
       clearInterval(this.timer)
+      clearInterval(this.timer2)
     }
   }
 </script>
