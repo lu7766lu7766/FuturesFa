@@ -8,6 +8,7 @@
         <Input type="password"
                name="password"
                placeholder="不異動請保持空白"
+               ref="password"
                v-model="data.password"
                v-validate="'min:6'"></Input>
         <span class="text-danger">{{ errorBags.first('password') }}</span>
@@ -16,8 +17,8 @@
         <Input type="password"
                name="password_confirm"
                placeholder="不異動請保持空白"
-               v-model="data.passwordConfirm"
-               v-validate="'min:6|confirmed:password'"></Input>
+               v-model="data.password_confirm"
+               v-validate="'confirmed:password'"></Input>
         <span class="text-danger">{{ errorBags.first('password_confirm') }}</span>
       </Form-item>
       <Form-item label="暱稱*">
@@ -34,6 +35,7 @@
 
 <script>
   import ReqMixins from 'mixins/request'
+  import { UserType } from 'module/user'
 
   export default {
     mixins: [ReqMixins],
@@ -55,6 +57,10 @@
           })
         })
       }
+    },
+    created()
+    {
+
     }
   }
 </script>

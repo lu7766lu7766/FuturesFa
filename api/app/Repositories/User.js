@@ -55,6 +55,16 @@ class UserRepo {
   }
 
   /**
+   * update myself
+   */
+  async updateMyself({target: user, password, nickName})
+  {
+    password && (user.password = password)
+    user.nick_name = nickName
+    return await user.save()
+  }
+
+  /**
    * create user
    */
   async deleteUser({target: user}) {

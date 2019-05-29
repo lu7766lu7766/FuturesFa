@@ -131,6 +131,30 @@ class UserService
   }
 
   /**
+   * 更新自己
+   */
+  async updateMyself({request, auth})
+  {
+    const id = request.input('id')
+    const source = await auth.getUser()
+    const target = await UserModel.find(id)
+
+    if (!target)
+    {
+      throw new ApiErrorException(UserCodes.USER_NOT_FOUND)
+    }
+    else if (source.id !== target.id)
+    {
+      throw new ApiErrorException(UserCodes.NO_PERMISSION)
+    }
+    return userRepo.updateMyself({
+      target,
+      password: request.input('password'),
+      nickName: request.input('nick_name', source.user_name)
+    })
+  }
+
+  /**
    * 刪除使用者(會員)
    */
   async deleteUser({request}) {

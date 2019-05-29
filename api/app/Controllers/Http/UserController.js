@@ -52,6 +52,14 @@ class UserController {
     return await userService.updateUser(ctx)
   }
 
+  /**
+   * 更新自己
+   */
+  async updateMyself(ctx)
+  {
+    return await userService.updateMyself(ctx)
+  }
+
 
   /**
    * 刪除使用者(會員)

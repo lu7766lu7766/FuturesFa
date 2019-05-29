@@ -31,6 +31,7 @@ Route.group(() =>
   Route.post('/', 'UserController.createUser').validator('User/Create')
   Route.post('/tester', 'UserController.createTester')
   Route.put('/', 'UserController.updateUser').validator('User/Update')
+  Route.put('/myself', 'UserController.updateMyself').validator('User/UpdateMyself')
   Route.delete('/', 'UserController.deleteUser').validator('User/Delete')
 }).prefix('api/user').middleware(['api', 'auth', 'admin'])
 
