@@ -6,13 +6,13 @@
     </div>
     <div class="col-md-12 col-xs-12">
       <ve-histogram
-          :data="informedChartData"
-          :after-config="todayConfig"></ve-histogram>
+          :data="getInformedChartData(isWeekItem)"
+          :after-config="getTodayConfig"></ve-histogram>
     </div>
     <div class="col-md-12 col-xs-12">
       <ve-histogram
-          :data="chipAccumulationChartData"
-          :after-config="accumulationConifg"></ve-histogram>
+          :data="getChipAccumulationChartData(isWeekItem)"
+          :after-config="getAccumulationConifg"></ve-histogram>
     </div>
   </div>
 </template>
@@ -24,7 +24,7 @@
   export default {
     mixins: [OptionMixins],
     data: () => ({
-      optionType: OptionType.MONTH,
+      isWeekItem: false,
       timer: null,
       timer2: null
     }),

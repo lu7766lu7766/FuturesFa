@@ -21,11 +21,11 @@ export default {
       const res = await this.$api.data.getOptionChipAccumulation()
       this.chipAccumulationDatas = res.data
     },
-    todayConfig(options)
+    getTodayConfig(options)
     {
       return this.getConfig(options, '當日籌碼', this.theDate)
     },
-    accumulationConifg(options)
+    getAccumulationConifg(options)
     {
       return this.getConfig(options, '累計籌碼')
     },
@@ -79,6 +79,70 @@ export default {
         })
       })
       return options
+    },
+    getGroupItemInformed(type, isWeekItem)
+    {
+      return _.groupBy(_.filter(
+        _.filter(this.itemInformedDatas, x => isWeekItem
+          ? x.name.indexOf(OptionType.WEEK_KEY_WORD) > -1
+          : x.name.indexOf(OptionType.WEEK_KEY_WORD) === -1
+        ), x => x.name.indexOf(type) > -1), 'item')
+    },
+    getGroupChipAccumulation(type, isWeekItem)
+    {
+      return _.groupBy(_.filter(
+        _.filter(this.chipAccumulationDatas, x => isWeekItem
+          ? x.name.indexOf(OptionType.WEEK_KEY_WORD) > -1
+          : x.name.indexOf(OptionType.WEEK_KEY_WORD) === -1
+        ), x => x.name.indexOf(type) > -1), 'item')
+    },
+    getInformedChartData(isWeekItem)
+    {
+      return {
+        columns: ['item', 'C', 'P'],
+        rows: _.reduce(_.keys(this.getGroupItemInformed('C', isWeekItem)), (result, item) =>
+        {
+          if (!this.showChipList || this.showChipList.indexOf(item) > -1)
+          {
+            let CGroupItem = this.getGroupItemInformed('C', isWeekItem)
+            let PGroupItem = this.getGroupItemInformed('P', isWeekItem)
+            result.push({
+              item,
+              C: _(_.last(CGroupItem[item])).getVal('chip_valume', 0),
+              P: _(_.last(PGroupItem[item])).getVal('chip_valume', 0)
+            })
+          }
+          return result
+        }, [])
+      }
+    },
+    getChipAccumulationChartData(isWeekItem)
+    {
+      return {
+        columns: ['item', 'C', 'P'],
+        rows: _.reduce(_.keys(this.getGroupItemInformed('C', isWeekItem)), (result, item) =>
+        {
+          if (!this.showChipList || this.showChipList.indexOf(item) > -1)
+          {
+            let CGroupItem = this.getGroupItemInformed('C', isWeekItem)
+            let PGroupItem = this.getGroupItemInformed('P', isWeekItem)
+            let CGroupAccumulation = this.getGroupChipAccumulation('C', isWeekItem)
+            let PGroupAccumulation = this.getGroupChipAccumulation('P', isWeekItem)
+            result.push({
+              item,
+              C: _(_.last(CGroupItem[item])).getVal('chip_valume', 0) +
+                (CGroupAccumulation[item]
+                  ? _(_.last(CGroupAccumulation[item])).getVal('chip_valume', 0)
+                  : 0),
+              P: _(_.last(PGroupItem[item])).getVal('chip_valume', 0) +
+                (PGroupAccumulation[item]
+                  ? _(_.last(PGroupAccumulation[item])).getVal('chip_valume', 0)
+                  : 0)
+            })
+          }
+          return result
+        }, [])
+      }
     }
   },
   computed: {
@@ -95,108 +159,18 @@ export default {
     },
     theName()
     {
-      return _.first(this.itemInformed).name.split(' ')[0].replace(/[^0-9A-Z]/g, '')
+      return this.itemInformedDatas.length
+        ? _(_.map(this.getGroupItemInformed('C', this.isWeekItem)))
+          .getVal('0.0.name')
+          .split(' ')[0].replace(/[^0-9A-Z]/g, '')
+        : ''
     },
     updateTime()
     {
-      const data = _.first(this.itemInformed)
+      const data = _(_.map(this.getGroupItemInformed('C', this.isWeekItem))).getVal('0.0')
       return data
         ? moment(data.created_at).getDateTime()
         : ''
-    },
-    isWeekItem()
-    {
-      return this.optionType === OptionType.WEEK
-    },
-    itemInformed()
-    {
-      return _.filter(this.itemInformedDatas, x =>
-      {
-        return this.isWeekItem
-          ? x.name.indexOf(OptionType.WEEK_KEY_WORD) > -1
-          : x.name.indexOf(OptionType.WEEK_KEY_WORD) === -1
-      })
-    },
-    CItemInformed()
-    {
-      return _.filter(this.itemInformed, x => x.name.indexOf('C') > -1)
-    },
-    PItemInformed()
-    {
-      return _.filter(this.itemInformed, x => x.name.indexOf('P') > -1)
-    },
-    groupCItemInformed()
-    {
-      return _.groupBy(this.CItemInformed, 'item')
-    },
-    groupPItemInformed()
-    {
-      return _.groupBy(this.PItemInformed, 'item')
-    },
-    informedChartData()
-    {
-      return {
-
-        columns: ['item', 'C', 'P'],
-        rows: _.reduce(_.keys(this.groupCItemInformed), (result, item) =>
-        {
-          if (!this.showChipList || this.showChipList.indexOf(item) > -1)
-          {
-            result.push({
-              item,
-              C: _(this.groupCItemInformed).getVal(`${item}.0.chip_valume`, 0),
-              P: _(this.groupPItemInformed).getVal(`${item}.0.chip_valume`, 0)
-            })
-          }
-          return result
-        }, [])
-      }
-    },
-    // -----------------------
-    chipAccumulation()
-    {
-      return _.filter(this.chipAccumulationDatas, x =>
-      {
-        return this.isWeekItem
-          ? x.name.indexOf(OptionType.WEEK_KEY_WORD) > -1
-          : x.name.indexOf(OptionType.WEEK_KEY_WORD) === -1
-      })
-    },
-    CChipAccumulation()
-    {
-      return _.filter(this.chipAccumulation, x => x.name.indexOf('C') > -1)
-    },
-    PChipAccumulation()
-    {
-      return _.filter(this.chipAccumulation, x => x.name.indexOf('P') > -1)
-    },
-    groupCChipAccumulation()
-    {
-      return _.groupBy(this.CChipAccumulation, 'item')
-    },
-    groupPChipAccumulation()
-    {
-      return _.groupBy(this.PChipAccumulation, 'item')
-    },
-    chipAccumulationChartData()
-    {
-      return {
-        columns: ['item', 'C', 'P'],
-        rows: _.reduce(_.keys(this.groupCItemInformed), (result, item) =>
-        {
-          if (!this.showChipList || this.showChipList.indexOf(item) > -1)
-          {
-            result.push({
-              item,
-              C: _(this.groupCChipAccumulation).getVal(`${item}.0.total_chip`, 0)
-                + _(this.groupCItemInformed).getVal(`${item}.0.chip_valume`, 0),
-              P: _(this.groupPChipAccumulation).getVal(`${item}.0.total_chip`, 0)
-                + _(this.groupPItemInformed).getVal(`${item}.0.chip_valume`, 0)
-            })
-          }
-          return result
-        }, [])
-      }
     }
   },
   created()

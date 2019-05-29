@@ -7,8 +7,8 @@
     <!-- 當日籌碼 -->
     <div class="col-md-7 col-xs-12">
       <ve-histogram
-          :data="informedChartData"
-          :after-config="todayConfig"
+          :data="getInformedChartData(isWeekItem)"
+          :after-config="getTodayConfig"
           :height="height"></ve-histogram>
     </div>
     <div class="col-md-5 col-xs-12">
@@ -17,8 +17,8 @@
     <!-- 累計籌碼 -->
     <div class="col-md-7 col-xs-12">
       <ve-histogram
-          :data="chipAccumulationChartData"
-          :after-config="accumulationConifg"
+          :data="getChipAccumulationChartData(isWeekItem)"
+          :after-config="getAccumulationConifg"
           :height="height"></ve-histogram>
     </div>
     <div class="col-md-5 col-xs-12">
@@ -96,7 +96,7 @@
       OptionChip: () => import('@/OptionChip')
     },
     data: () => ({
-      optionType: OptionType.WEEK,
+      isWeekItem: true,
       timer: null,
       timer2: null,
       txo: {},
@@ -128,7 +128,7 @@
       },
       showChipList()
       {
-        const allChips = _.keys(this.groupCItemInformed)
+        const allChips = _.keys(this.getGroupItemInformed('C', this.isWeekItem))
         let mustNeerChip = 0, neerIndex = 0
         allChips.forEach((chip, index) =>
         {
