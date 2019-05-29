@@ -1,5 +1,9 @@
 <template>
   <div class="row">
+    <div class="col-md-12 col-xs-12">
+      現在時間：{{ currentTime }} &nbsp;&nbsp;
+      資料時間：{{ updateTime }}
+    </div>
     <!-- 當日籌碼 -->
     <div class="col-md-7 col-xs-12">
       <ve-histogram

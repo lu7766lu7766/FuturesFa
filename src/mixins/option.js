@@ -6,7 +6,9 @@ export default {
   data: () => ({
     type: '',
     itemInformedDatas: [],
-    chipAccumulationDatas: []
+    chipAccumulationDatas: [],
+    currentTime: moment().getDateTime(),
+    currentTimer: null
   }),
   methods: {
     async getItemInformed()
@@ -94,6 +96,13 @@ export default {
     theName()
     {
       return _.first(this.itemInformed).name.split(' ')[0].replace(/[^0-9A-Z]/g, '')
+    },
+    updateTime()
+    {
+      const data = _.first(this.itemInformed)
+      return data
+        ? moment(data.created_at).getDateTime()
+        : ''
     },
     isWeekItem()
     {
@@ -189,5 +198,12 @@ export default {
         }, [])
       }
     }
+  },
+  created()
+  {
+    this.currentTimer = setInterval(() =>
+    {
+      this.currentTime = moment().getDateTime()
+    }, 1000)
   }
 }

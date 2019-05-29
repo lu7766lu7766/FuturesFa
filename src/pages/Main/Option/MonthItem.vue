@@ -1,12 +1,20 @@
 <template>
-  <section>
-    <ve-histogram
-        :data="informedChartData"
-        :after-config="todayConfig"></ve-histogram>
-    <ve-histogram
-        :data="chipAccumulationChartData"
-        :after-config="accumulationConifg"></ve-histogram>
-  </section>
+  <div class="row">
+    <div class="col-md-12 col-xs-12">
+      現在時間：{{ currentTime }} &nbsp;&nbsp;
+      資料時間：{{ updateTime }}
+    </div>
+    <div class="col-md-12 col-xs-12">
+      <ve-histogram
+          :data="informedChartData"
+          :after-config="todayConfig"></ve-histogram>
+    </div>
+    <div class="col-md-12 col-xs-12">
+      <ve-histogram
+          :data="chipAccumulationChartData"
+          :after-config="accumulationConifg"></ve-histogram>
+    </div>
+  </div>
 </template>
 
 <script>
