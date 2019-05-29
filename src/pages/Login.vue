@@ -29,8 +29,8 @@
         this.callApi(async () =>
         {
           const res = await this.$api.user.login(this.data)
-          this.$store.commit(LoginType.setAccessToken, res.data)
-          this.$router.push({name: 'week-item'})
+          await this.$store.commit(LoginType.setAccessToken, res.data)
+          await this.$router.push({name: 'week-item'})
         })
       }
     }

@@ -22,6 +22,7 @@ Route.group(() =>
 {
   Route.post('login', 'UserController.login').validator('Login').middleware(['throttle:3,120'])
   Route.get('/', 'UserController.getUserInfo').middleware(['auth'])
+  Route.put('/myself', 'UserController.updateMyself').validator('User/UpdateMyself').middleware(['auth'])
 }).prefix('api/user').middleware(['api'])
 
 Route.group(() =>
@@ -31,7 +32,6 @@ Route.group(() =>
   Route.post('/', 'UserController.createUser').validator('User/Create')
   Route.post('/tester', 'UserController.createTester')
   Route.put('/', 'UserController.updateUser').validator('User/Update')
-  Route.put('/myself', 'UserController.updateMyself').validator('User/UpdateMyself')
   Route.delete('/', 'UserController.deleteUser').validator('User/Delete')
 }).prefix('api/user').middleware(['api', 'auth', 'admin'])
 

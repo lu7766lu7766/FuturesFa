@@ -137,20 +137,14 @@
         return _.cloneDeep(allChips).splice(startIndex, 11)
       }
     },
-    created()
+    async mounted()
     {
-      this.callApi(async () =>
-      {
-        await axios.all([
-          this.getTXO(),
-          this.getItemInformed(),
-          this.getChipAccumulation()
-        ])
-        this.startCounter()
-      })
-    },
-    mounted()
-    {
+      await axios.all([
+        this.getTXO(),
+        this.getItemInformed(),
+        this.getChipAccumulation()
+      ])
+      this.startCounter()
       // this.height = Math.floor(($('.layout-content').height() - $('.txo').height()) / 2) + 'px'
     },
     destroyed()
