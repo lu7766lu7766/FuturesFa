@@ -3,6 +3,7 @@ import { apiHosts, SuccessCodes, UnLoginCode } from 'src/config/api'
 import { LoginType } from 'module/login'
 import store from 'src/store'
 import errorCode from 'src/config/error'
+import router from 'src/router'
 
 var path = require('path')
 
@@ -70,6 +71,12 @@ export default class BaseRequest
       {
         case SuccessCodes:
           break
+        case UnLoginCode:
+          store.commit(LoginType.clearAccessToken)
+          router.push({
+            name: 'login'
+          })
+          break
         default:
           errorMessages.push(errorCode[code]
             ? errorCode[code]
@@ -86,9 +93,10 @@ export default class BaseRequest
         : roopParse(res.data)
   }
 
-  errorHandle(errorMessages) {
+  errorHandle(res, errorMessages)
+  {
     const msg = errorMessages.join('\n')
     alert(msg)
-    throw msg
+    throw {message: msg, ...res}
   }
 }

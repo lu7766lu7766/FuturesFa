@@ -19,6 +19,10 @@
     "uri": "",
     "method": "put"
   },
+  "updateMyself": {
+    "uri": "myself",
+    "method": "put"
+  },
   "list": {
     "uri": "list",
     "method": "get"

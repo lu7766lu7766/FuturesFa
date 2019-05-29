@@ -1,3 +1,5 @@
+import RoleConstant from 'ApiConstants/Role'
+
 const type = {
   // mutation
   setInfo: 'User/setInfo',

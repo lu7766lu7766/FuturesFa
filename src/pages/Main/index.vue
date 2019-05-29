@@ -6,7 +6,12 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item-dropdown text="後台管理">
-            <b-dropdown-item :to="{ name: 'user-manage'}">
+            <b-dropdown-item :to="{ name: 'account-manage'}">
+              帳號管理
+            </b-dropdown-item>
+            <b-dropdown-item
+                v-if="User.isAdmin"
+                :to="{ name: 'user-manage'}">
               使用者管理
             </b-dropdown-item>
             <b-dropdown-item @click="doLogout">
@@ -18,6 +23,12 @@
           </b-nav-item>
           <b-nav-item :to="{ name: 'month-item' }">
             月選
+          </b-nav-item>
+          <b-nav-item :to="{ name: 'quotation' }">
+            報價
+          </b-nav-item>
+          <b-nav-item :to="{ name: 'history-analysis' }">
+            歷史分析
           </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
@@ -36,6 +47,7 @@
 <script>
   import { UserType } from 'module/user'
   import { LoginType } from 'module/login'
+
 
   export default {
     data: () => ({

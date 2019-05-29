@@ -19,6 +19,11 @@ export default new Router({
               path: '/user-manage',
               name: 'user-manage',
               component: () => import('pages/Main/Backend/UserManage')
+            },
+            {
+              path: '/account-manage',
+              name: 'account-manage',
+              component: () => import('pages/Main/Backend/AccountManage')
             }
           ]
         },
@@ -39,9 +44,14 @@ export default new Router({
           ],
         },
         {
-          path: '/history',
-          name: 'history',
-          component: () => import('pages/Main/History')
+          path: '/quotation',
+          name: 'quotation',
+          component: () => import('pages/Main/Quotation')
+        },
+        {
+          path: '/history-analysis',
+          name: 'history-analysis',
+          component: () => import('pages/Main/HistoryAnalysis')
         }
       ]
     },

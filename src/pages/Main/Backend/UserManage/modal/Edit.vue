@@ -13,7 +13,7 @@
                name="password"
                placeholder="不異動請空白"
                v-model="data.password"
-               v-validate="'required|min:6'"></Input>
+               v-validate="'min:6'"></Input>
         <span class="text-danger">{{ errorBags.first('password') }}</span>
       </Form-item>
       <Form-item label="暱稱">

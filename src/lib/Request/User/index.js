@@ -40,6 +40,11 @@ export default class User extends BaseRequest
     return await this.request('update', data, options)
   }
 
+  async updateMyself(data, options)
+  {
+    return await this.request('updateMyself', data, options)
+  }
+
   async delete(data, options) {
     return await this.request('delete', data, options)
   }
