@@ -30,7 +30,7 @@ export default {
     getConfig(options, title, subTitle)
     {
       options.title = {
-        text: title,
+        text: `${title}(${this.theName})`,
         subtext: subTitle //'二级标题'
       }
       options.legend = { //圖例
@@ -90,6 +90,10 @@ export default {
       {
         return moment().getDate()
       }
+    },
+    theName()
+    {
+      return _.first(this.itemInformed).name.split(' ')[0].replace(/[^0-9A-Z]/g, '')
     },
     isWeekItem()
     {
