@@ -31,9 +31,9 @@ class DataRepo
       await trx.raw(`
         insert into option_accumulation
           (select b.* 
-            from (select name, max(created_at) as last_time from option where created_at < '${dataEndTime}' group by name) as a 
-            left join option as b on a.name = b.name and a.last_time = b.created_at) `)
-      await trx.raw(`insert into option_log from option where created_at < '${dataEndTime}' `)
+            from (select name, max(created_at) as last_time from option where created_at < ? group by name) as a 
+            left join option as b on a.name = b.name and a.last_time = b.created_at) `, [dataEndTime])
+      await trx.raw(`insert into option_log select * from option where created_at < ?`, [dataEndTime])
       await trx.table('option').delete().where('created_at', '<', dataEndTime)
       trx.commit()
       return true

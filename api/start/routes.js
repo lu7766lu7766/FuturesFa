@@ -37,7 +37,6 @@ Route.group(() =>
 
 Route.group(() =>
 {
-
   Route.get('option-today-item', 'DataController.getOptionTodayItem')
   Route.get('option-item-informed', 'DataController.getOptionItemInformed')
   Route.get('option-chip-accumulation', 'DataController.getOptionChipAccumulation')
@@ -45,6 +44,7 @@ Route.group(() =>
   Route.get('option-chip', 'DataController.getOptionChip')
   Route.get('futures-chip', 'DataController.getFuturesChip')
 }).prefix('api/data').middleware(['auth', 'api'])
+
 Route.get('data/generalize', 'DataController.generalizeDatas').middleware(['api', 'local'])
 
 
