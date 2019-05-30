@@ -15,4 +15,10 @@
 
   .action-field
     width 300px
+
+  .t-red
+    color #ff0000
+
+  .t-green
+    color #00CF00
 </style>

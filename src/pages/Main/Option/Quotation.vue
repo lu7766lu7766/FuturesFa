@@ -27,9 +27,9 @@
         </thead>
         <tbody>
         <tr v-for="(item, index) in allItemsOrderByValueDesc" :key="index">
-          <td>{{ _.getVal(_.last(CGroupItemInformed[item]), 'price', 0) }}</td>
+          <td class="t-red">{{ _.getVal(_.last(CGroupItemInformed[item]), 'price', 0) }}</td>
           <td>{{ item }}</td>
-          <td>{{ _.getVal(_.last(PGroupItemInformed[item]), 'price', 0) }}</td>
+          <td class="t-green">{{ _.getVal(_.last(PGroupItemInformed[item]), 'price', 0) }}</td>
         </tr>
         </tbody>
       </table>
@@ -95,7 +95,12 @@
 </script>
 
 <style lang="stylus" scoped>
-  .quotation tr td
-    width 33.3%
-    text-align center
+  .quotation tr
+    td
+      width 33.3%
+      text-align center
+    .t-red, .t-green
+      font-weight 900
+      font-size 1.8em
+
 </style>

@@ -170,10 +170,4 @@
     tbody
       font-size 2.0em
 
-  .t-red
-    color #ff0000
-
-  .t-green
-    color #00CF00
-
 </style>
