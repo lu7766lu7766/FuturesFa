@@ -132,11 +132,11 @@ export default {
               item,
               C: _(_.last(CGroupItem[item])).getVal('chip_valume', 0) +
                 (CGroupAccumulation[item]
-                  ? _(_.last(CGroupAccumulation[item])).getVal('chip_valume', 0)
+                  ? _.getVal(_.last(CGroupAccumulation[item]), 'total_chip', 0)
                   : 0),
               P: _(_.last(PGroupItem[item])).getVal('chip_valume', 0) +
                 (PGroupAccumulation[item]
-                  ? _(_.last(PGroupAccumulation[item])).getVal('chip_valume', 0)
+                  ? _.getVal(_.last(PGroupAccumulation[item]), 'total_chip', 0)
                   : 0)
             })
           }
