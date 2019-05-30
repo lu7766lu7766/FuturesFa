@@ -40,13 +40,13 @@ export default new Router({
               path: 'month-item',
               name: 'month-item',
               component: () => import('pages/Main/Option/MonthItem')
+            },
+            {
+              path: '/quotation',
+              name: 'quotation',
+              component: () => import('pages/Main/Option/Quotation')
             }
-          ],
-        },
-        {
-          path: '/quotation',
-          name: 'quotation',
-          component: () => import('pages/Main/Quotation')
+          ]
         },
         {
           path: '/history-analysis',
