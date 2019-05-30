@@ -72,6 +72,13 @@ import Toast from 'vue2-toast'
 
 Vue.use(Toast)
 
+// Vue.config.errorHandler = (err, vm, info) =>
+// {
+//   // console.log('[ERROR CATCH]: ', err)
+//   // console.log('[ERROR COMPONENT]: ', vm)
+//   // console.log('[ERROR INFO]: ', info)
+// }
+
 new Vue({
   router,
   store,
