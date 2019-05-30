@@ -1,6 +1,5 @@
 'use strict'
-const startTime = moment().subtract(40, 'days').getDateTime()
-const endTime = moment().getDateTime()
+
 const dataEndTime = moment().format('YYYY-MM-DD 14:00:00')
 const OptionChipModel = use('Models/OptionChip')
 const FuturesChipModel = use('Models/FuturesChip')
@@ -69,28 +68,33 @@ class DataRepo
     }
   }
 
-  async getOptionTodayItem()
+  async selectOptionTodayItems(...select)
   {
-    return await DB.table('option_today_item').select('name')
+    return DB.table(...select).table('option_item_informed')
   }
 
   async getOptionItemInformed()
   {
-    return await DB.table('option_item_informed').select('name', 'item', 'chip_valume', 'created_at')
+    return await this.selectOptionTodayItems('name', 'item', 'chip_valume', 'created_at')
   }
 
   async getOptionChipAccumulation()
   {
-    const todayItem = DB.table('option_today_item').select('name')
-    return await DB.table('option_accumulation').select('name', 'item').sum('chip_valume as total_chip')
-      .whereIn('name', todayItem)
-      .whereBetween('date', [startTime, endTime])
-      .groupBy('name')
+    // 防止選到去年同期商品
+    const startTime = moment().subtract(40, 'days').getDateTime()
+    const endTime = moment().getDateTime()
+    const itemsName = _.map(await this.selectOptionTodayItems('name'), 'name')
+    return itemsName.length
+      ? await DB.table('option_accumulation').select('name', 'item').sum('chip_valume as total_chip')
+        .whereIn('name', itemsName)
+        .whereBetween('date', [startTime, endTime])
+        .groupBy('name')
+      : []
   }
 
-  async getOptionHostory(date)
+  async getOptionHostory(endTime)
   {
-    return await DB.table('option_log').where('date', date)
+    return await DB.table('option_log').where('created_at', '<', endTime).orderBy('created_at', 'desc').limit(1)
   }
 
   async getTXO()
@@ -104,9 +108,9 @@ class DataRepo
     // return await DB.table('option_chip').select('total_c', 'total_p', 'differ_cp', 'created_at')
   }
 
-  async getOptionChipHistory(date)
+  async getOptionChipHistory(startTime, endTime)
   {
-    return await DB.table('option_chip_log').where('date', date)
+    return await DB.table('option_chip_log').whereBetween('created_at', [startTime, endTime])
   }
 
   async getFuturesChip()
@@ -117,9 +121,9 @@ class DataRepo
     // return await DB.table('futures_chip').select('major_chip_valume', 'retail_chip_valume', 'differ', 'created_at')
   }
 
-  async getFuturesChipHistory(date)
+  async getFuturesChipHistory(startTime, endTime)
   {
-    return await DB.table('futures_chip_log').where('date', date)
+    return await DB.table('futures_chip_log').whereBetween('created_at', [startTime, endTime])
   }
 }
 

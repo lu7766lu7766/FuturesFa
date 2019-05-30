@@ -11,11 +11,6 @@ export default class Data extends BaseRequest
     this.config = _config
   }
 
-  async getOptionTodayItem()
-  {
-    return await this.request('today-item')
-  }
-
   async getOptionItemInformed()
   {
     return await this.request('item-informed')

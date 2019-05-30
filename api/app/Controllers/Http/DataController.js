@@ -5,11 +5,6 @@ const dataService = App.make('Service/Data')
 
 class DataController
 {
-  async getOptionTodayItem()
-  {
-    return await dataService.getOptionTodayItem()
-  }
-
   async getOptionItemInformed()
   {
     return await dataService.getOptionItemInformed()

@@ -1,8 +1,4 @@
 {
-  "today-item": {
-    "uri": "option-today-item",
-    "method": "get"
-  },
   "item-informed": {
     "uri": "option-item-informed",
     "method": "get"
