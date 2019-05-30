@@ -7,7 +7,7 @@
     <!-- 當日籌碼 -->
     <div class="col-md-7 col-xs-12">
       <ve-histogram
-          :data="getInformedChartData(isWeekItem)"
+          :data="InformedChartData"
           :after-config="getTodayConfig"
           :height="height"></ve-histogram>
     </div>
@@ -17,7 +17,7 @@
     <!-- 累計籌碼 -->
     <div class="col-md-7 col-xs-12">
       <ve-histogram
-          :data="getChipAccumulationChartData(isWeekItem)"
+          :data="ChipAccumulationChartData"
           :after-config="getAccumulationConifg"
           :height="height"></ve-histogram>
     </div>
@@ -128,13 +128,12 @@
       },
       showChipList()
       {
-        const allChips = _.keys(this.getGroupItemInformed('C', this.isWeekItem))
-        let mustNeerChip = 0, neerIndex = 0
-        allChips.forEach((chip, index) =>
+        let mustNeerItem = 0, neerIndex = 0
+        this.allItems.forEach((item, index) =>
         {
-          if (Math.abs(this.centerPoint - chip) < Math.abs(this.centerPoint - mustNeerChip))
+          if (Math.abs(this.centerPoint - item) < Math.abs(this.centerPoint - mustNeerItem))
           {
-            mustNeerChip = chip
+            mustNeerItem = item
             neerIndex = index
           }
         })
@@ -143,7 +142,7 @@
           : neerIndex - 5
 
         // 前5後5所以11
-        return _.cloneDeep(allChips).splice(startIndex, 11)
+        return _.cloneDeep(this.allItems).splice(startIndex, 11)
       }
     },
     async mounted()

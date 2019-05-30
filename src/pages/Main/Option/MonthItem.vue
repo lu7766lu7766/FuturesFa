@@ -6,12 +6,12 @@
     </div>
     <div class="col-md-12 col-xs-12">
       <ve-histogram
-          :data="getInformedChartData(isWeekItem)"
+          :data="InformedChartData"
           :after-config="getTodayConfig"></ve-histogram>
     </div>
     <div class="col-md-12 col-xs-12">
       <ve-histogram
-          :data="getChipAccumulationChartData(isWeekItem)"
+          :data="ChipAccumulationChartData"
           :after-config="getAccumulationConifg"></ve-histogram>
     </div>
   </div>

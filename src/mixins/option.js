@@ -11,11 +11,13 @@ export default {
     currentTimer: null
   }),
   methods: {
+    // 當日籌碼資料取得
     async getItemInformed()
     {
       const res = await this.$api.data.getOptionItemInformed()
       this.itemInformedDatas = res.data
     },
+    // 累計籌碼資料取得
     async getChipAccumulation()
     {
       const res = await this.$api.data.getOptionChipAccumulation()
@@ -29,6 +31,7 @@ export default {
     {
       return this.getConfig(options, '累計籌碼')
     },
+    // chart的config
     getConfig(options, title, subTitle)
     {
       options.title = {
@@ -96,60 +99,13 @@ export default {
           : x.name.indexOf(OptionType.WEEK_KEY_WORD) === -1
         ), x => x.name.indexOf(type) > -1), 'item')
     },
-    getInformedChartData(isWeekItem)
-    {
-      return {
-        columns: ['item', 'C', 'P'],
-        rows: _.reduce(_.keys(this.getGroupItemInformed('C', isWeekItem)), (result, item) =>
-        {
-          if (!this.showChipList || this.showChipList.indexOf(item) > -1)
-          {
-            let CGroupItem = this.getGroupItemInformed('C', isWeekItem)
-            let PGroupItem = this.getGroupItemInformed('P', isWeekItem)
-            result.push({
-              item,
-              C: _(_.last(CGroupItem[item])).getVal('chip_valume', 0),
-              P: _(_.last(PGroupItem[item])).getVal('chip_valume', 0)
-            })
-          }
-          return result
-        }, [])
-      }
-    },
-    getChipAccumulationChartData(isWeekItem)
-    {
-      return {
-        columns: ['item', 'C', 'P'],
-        rows: _.reduce(_.keys(this.getGroupItemInformed('C', isWeekItem)), (result, item) =>
-        {
-          if (!this.showChipList || this.showChipList.indexOf(item) > -1)
-          {
-            let CGroupItem = this.getGroupItemInformed('C', isWeekItem)
-            let PGroupItem = this.getGroupItemInformed('P', isWeekItem)
-            let CGroupAccumulation = this.getGroupChipAccumulation('C', isWeekItem)
-            let PGroupAccumulation = this.getGroupChipAccumulation('P', isWeekItem)
-            result.push({
-              item,
-              C: _(_.last(CGroupItem[item])).getVal('chip_valume', 0) +
-                (CGroupAccumulation[item]
-                  ? _.getVal(_.last(CGroupAccumulation[item]), 'total_chip', 0)
-                  : 0),
-              P: _(_.last(PGroupItem[item])).getVal('chip_valume', 0) +
-                (PGroupAccumulation[item]
-                  ? _.getVal(_.last(PGroupAccumulation[item]), 'total_chip', 0)
-                  : 0)
-            })
-          }
-          return result
-        }, [])
-      }
-    },
     getAnyNewItem(isWeekItem)
     {
       return _.last(_.map(this.getGroupItemInformed('C', isWeekItem))[0])
-    }
+    },
   },
   computed: {
+    // 資料的開始日期
     theDate()
     {
       if (moment().isBetween(moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 13:45:00')))
@@ -161,6 +117,7 @@ export default {
         return moment().getDate()
       }
     },
+    // 商品名稱
     theName()
     {
       const data = this.getAnyNewItem(this.isWeekItem)
@@ -168,12 +125,86 @@ export default {
         ? this.getAnyNewItem(this.isWeekItem).name.split(' ')[0].replace(/[^0-9A-Z]/g, '')
         : ''
     },
+    // 最新資料的更新日期
     updateTime()
     {
       const data = this.getAnyNewItem(this.isWeekItem)
       return data
         ? moment(data.created_at).getDateTime()
         : ''
+    },
+    /**
+     * 以下皆以 data.isWeekItem作切換
+     * 寫成computed，可以當變數使用，不用持續計算，效能較好
+     */
+    CGroupItemInformed()
+    {
+      return this.getGroupItemInformed('C', this.isWeekItem)
+    },
+    PGroupItemInformed()
+    {
+      return this.getGroupItemInformed('P', this.isWeekItem)
+    },
+    // 所有的item
+    allItems()
+    {
+      return _.keys(this.CGroupItemInformed)
+    },
+    CGroupChipAccumulation()
+    {
+      return this.getGroupChipAccumulation('C', this.isWeekItem)
+    },
+    PGroupChipAccumulation()
+    {
+      return this.getGroupChipAccumulation('P', this.isWeekItem)
+    },
+    /**
+     * 整理成繪製需要的資料
+     */
+    InformedChartData()
+    {
+      return {
+        columns: ['item', 'C', 'P'],
+        rows: _.reduce(this.allItems, (result, item) =>
+        {
+          if (!this.showChipList || this.showChipList.indexOf(item) > -1)
+          {
+            result.push({
+              item,
+              C: _.getVal(_.last(this.CGroupItemInformed[item]), 'chip_valume', 0),
+              P: _.getVal(_.last(this.PGroupItemInformed[item]), 'chip_valume', 0)
+            })
+          }
+          return result
+        }, [])
+      }
+    },
+    /**
+     * 整理成繪製需要的資料
+     */
+    ChipAccumulationChartData()
+    {
+      return {
+        columns: ['item', 'C', 'P'],
+        rows: _.reduce(this.allItems, (result, item) =>
+        {
+          if (!this.showChipList || this.showChipList.indexOf(item) > -1)
+          {
+            result.push({
+              item,
+              C: _.getVal(_.last(this.CGroupItemInformed[item]), 'chip_valume', 0) +
+                (this.CGroupChipAccumulation[item]
+                  ? _.getVal(_.last(this.CGroupChipAccumulation[item]), 'total_chip', 0)
+                  : 0),
+              P: _.getVal(_.last(this.PGroupItemInformed[item]), 'chip_valume', 0) +
+                (this.PGroupChipAccumulation[item]
+                  ? _.getVal(_.last(this.PGroupChipAccumulation[item]), 'total_chip', 0)
+                  : 0)
+            })
+          }
+          return result
+        }, [])
+      }
     }
   },
   created()
