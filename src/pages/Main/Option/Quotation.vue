@@ -26,10 +26,10 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(item, index) in allItems" :key="index">
+        <tr v-for="(item, index) in allItemsOrderByValueDesc" :key="index">
           <td>{{ _.getVal(_.last(CGroupItemInformed[item]), 'price', 0) }}</td>
           <td>{{ item }}</td>
-          <td>{{ _.getVal(_.last(CGroupItemInformed[item]), 'price', 0) }}</td>
+          <td>{{ _.getVal(_.last(PGroupItemInformed[item]), 'price', 0) }}</td>
         </tr>
         </tbody>
       </table>
@@ -73,6 +73,10 @@
       isWeekItem()
       {
         return this.search.tmpWeekItem === 'true'
+      },
+      allItemsOrderByValueDesc()
+      {
+        return _.orderBy(_.map(this.allItems, x => +x), x => x, 'desc')
       }
     },
     created()
