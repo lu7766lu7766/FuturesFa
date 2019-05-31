@@ -11,10 +11,27 @@ class RedisService
     let time = await Redis.get(timeKey)
     if (isLock)
     {
-      setTimeout(() =>
+      return new Promise(resolve =>
       {
-        this.catch(key, func)
-      }, 1000)
+        let times = 0
+        let timer = setInterval(async () =>
+        {
+          times++
+          isLock = ((await Redis.get(lockKey)) === 'true')
+          if (!isLock)
+          {
+            const r = await this.catch(key, func)
+            resolve(r)
+          }
+          if (times++ > 1)
+          {
+            await Redis.set(lockKey, 'false')
+            const r = await this.catch(key, func)
+            resolve(r)
+            clearInterval(timer)
+          }
+        }, 1000)
+      })
     }
     else if (!time || moment().diff(moment(time), 'seconds') >= secs)
     {
