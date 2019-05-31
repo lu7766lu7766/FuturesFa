@@ -12,7 +12,8 @@ class OutputMiddleware
       data: response._lazyBody.content,
       querys: querys.length
         ? querys
-        : '' // assign in AppProvider
+        : '', // assign in AppProvider
+      isRedis: global.isRedis
     }
     response.send(_.pickBy(sendBody))
   }
