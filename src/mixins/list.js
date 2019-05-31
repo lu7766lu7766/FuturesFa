@@ -16,6 +16,11 @@ export default {
     getReqBody(body)
     {
       return _.assign(body, this.search, this.paginate)
+    },
+    pageChange(page)
+    {
+      this.paginate.page = page
+      this.doRefresh()
     }
   }
 }

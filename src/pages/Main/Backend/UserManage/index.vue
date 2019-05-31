@@ -38,7 +38,7 @@
       </tr>
       </tbody>
     </table>
-    <paginate :paginate="paginate"></paginate>
+    <paginate :paginate="paginate" @change="pageChange"></paginate>
 
     <Add />
     <Edit />
