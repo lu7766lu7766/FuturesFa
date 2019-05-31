@@ -13,7 +13,7 @@
 |
 */
 
-// const Ws = use('Ws')
-//
-// Ws.channel('OptionItemInformed', 'OptionItemInformedController')//.middleware(['auth'])
+const Ws = use('Ws')
+
+Ws.channel('DataCollect', 'DataCollectController')//.middleware(['auth'])
 

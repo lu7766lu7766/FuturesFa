@@ -1,6 +1,6 @@
 'use strict'
 
-// const Ws = use('Ws')
+const Ws = use('Ws')
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +35,6 @@ const namedMiddleware = {
 }
 
 
-// Ws
-//   .registerGlobal(globalMiddleware)
-//   .registerNamed(namedMiddleware)
+Ws
+  .registerGlobal(globalMiddleware)
+  .registerNamed(namedMiddleware)

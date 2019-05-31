@@ -47,11 +47,11 @@
 <script>
   import { UserType } from 'module/user'
   import { LoginType } from 'module/login'
-
+  import { apiHost } from 'lib/myLib'
 
   export default {
     data: () => ({
-
+      ws: null
     }),
     methods: {
       doLogout()
@@ -60,10 +60,36 @@
         this.$router.push({
           name: 'login'
         })
+      },
+      wsConnect()
+      {
+        this.ws = adonis.Ws(`ws://${apiHost}`).connect()
+        this.ws.on('open', () =>
+        {
+          console.log('dataCollect open')
+          const dataCollect = this.ws.subscribe('DataCollect')
+
+          dataCollect.on('ready', () =>
+          {
+            console.log('dataCollect ready')
+            dataCollect.emit('join', 'hello')
+          })
+        })
+
+        this.ws.on('error', () =>
+        {
+          console.log('dataCollect error')
+        })
+
+        this.ws.on('close', () =>
+        {
+          console.log('dataCollect close')
+        })
       }
     },
     async created()
     {
+      this.wsConnect()
       const res = await this.$api.user.getInfo()
       this.$store.commit(UserType.setInfo, res.data)
     }

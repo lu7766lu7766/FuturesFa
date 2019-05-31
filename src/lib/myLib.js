@@ -1,8 +1,10 @@
 import qs from 'qs'
 import store from 'src/store'
-import { POST, PUT } from 'src/config/api'
+import { apiHosts, POST, PUT } from 'src/config/api'
 
-// export var apiHost = `//${apiHosts[env.target]}`
+import env from 'src/../env'
+
+export const apiHost = `${apiHosts[env.target]}`
 
 /**
  * create api request body
