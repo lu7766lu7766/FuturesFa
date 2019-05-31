@@ -74,7 +74,7 @@ class DataRepo
   ///////////////////// 資料取得start
   async getOptionItemInformed()
   {
-    return await DB.select('name', 'item', 'chip_valume', 'created_at').table('option_item_informed')
+    return await DB.select('name', 'item', 'chip_valume', 'price', 'created_at').table('option_item_informed')
   }
 
   async getOptionChipAccumulation()
