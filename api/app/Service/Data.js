@@ -1,6 +1,7 @@
 'use strict'
 
 const dataRepo = App.make('Repositories/Data')
+const redisService = App.make('Service/Redis')
 
 class DataService
 {
@@ -18,12 +19,12 @@ class DataService
 
   async getOptionItemInformed()
   {
-    return await dataRepo.getOptionItemInformed()
+    return await redisService.catch('OptionItemInformed', dataRepo.getOptionItemInformed)
   }
 
   async getOptionChipAccumulation()
   {
-    return await dataRepo.getOptionChipAccumulation()
+    return await redisService.catch('OptionChipAccumulation', dataRepo.getOptionChipAccumulation)
   }
 
   async getOptionHostory(date)
@@ -33,12 +34,12 @@ class DataService
 
   async getTXO()
   {
-    return await dataRepo.getTXO()
+    return await redisService.catch('TXO', dataRepo.getTXO)
   }
 
   async getOptionChip()
   {
-    return await dataRepo.getOptionChip()
+    return await redisService.catch('OptionChip', dataRepo.getOptionChip)
   }
 
   async getOptionChipHistory(date)
@@ -48,7 +49,7 @@ class DataService
 
   async getFuturesChip()
   {
-    return await dataRepo.getFuturesChip()
+    return await redisService.catch('FuturesChip', dataRepo.getFuturesChip)
   }
 
   async getFuturesChipHistory(date)

@@ -6,6 +6,7 @@ const FuturesChipModel = use('Models/FuturesChip')
 
 class DataRepo
 {
+  ///////////////////// 資料整理start
   async setDate(table)
   {
     try
@@ -68,14 +69,12 @@ class DataRepo
     }
   }
 
-  async selectOptionTodayItems(...select)
-  {
-    return DB.table(...select).table('option_item_informed')
-  }
+  ///////////////////// 資料整理end
 
+  ///////////////////// 資料取得start
   async getOptionItemInformed()
   {
-    return await this.selectOptionTodayItems('name', 'item', 'chip_valume', 'created_at')
+    return await DB.select('name', 'item', 'chip_valume', 'created_at').table('option_item_informed')
   }
 
   async getOptionChipAccumulation()
@@ -83,7 +82,7 @@ class DataRepo
     // 防止選到去年同期商品
     const startTime = moment().subtract(40, 'days').getDateTime()
     const endTime = moment().getDateTime()
-    const itemsName = _.map(await this.selectOptionTodayItems('name'), 'name')
+    const itemsName = _.map(await DB.select('name').table('option_item_informed'), 'name')
     return itemsName.length
       ? await DB.table('option_accumulation').select('name', 'item').sum('chip_valume as total_chip')
         .whereIn('name', itemsName)
@@ -125,6 +124,8 @@ class DataRepo
   {
     return await DB.table('futures_chip_log').whereBetween('created_at', [startTime, endTime])
   }
+
+  ///////////////////// 資料取得end
 }
 
 module.exports = DataRepo

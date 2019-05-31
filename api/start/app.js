@@ -26,6 +26,7 @@ const providers = [
   '@adonisjs/session/providers/SessionProvider',
   'adonis-throttle/providers/ThrottleProvider',
   // '@adonisjs/websocket/providers/WsProvider',
+  '@adonisjs/redis/providers/RedisProvider',
   path.join(__dirname, '..', 'providers', 'AppProvider'),
   path.join(__dirname, '..', 'providers', 'ValidationProvider')
 ]
