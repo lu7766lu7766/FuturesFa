@@ -12,9 +12,9 @@ class RedisService
     if (!time || moment().diff(moment(time), 'seconds') >= secs)
     {
       // await Redis.quit([key, timeKey])
+      await Redis.set(timeKey, moment().getDateTime())
       res = await func()
       await Redis.set(key, JSON.stringify(res))
-      await Redis.set(timeKey, moment().getDateTime())
     }
     else
     {
