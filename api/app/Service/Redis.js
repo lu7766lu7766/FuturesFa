@@ -11,7 +11,10 @@ class RedisService
     let time = await Redis.get(timeKey)
     if (isLock)
     {
-      setTimeout(this.catch(key, func), 1000)
+      setTimeout(() =>
+      {
+        this.catch(key, func)
+      }, 1000)
     }
     else if (!time || moment().diff(moment(time), 'seconds') >= secs)
     {
