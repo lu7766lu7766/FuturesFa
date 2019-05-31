@@ -27,9 +27,9 @@ class RedisService
           if (times++ > 1)
           {
             await Redis.set(lockKey, 'false')
-            const r = await this.catch(key, func)
+            res = await func()
             global.isRedis = false
-            resolve(r)
+            resolve(res)
             clearInterval(timer)
           }
         }, 1000)
