@@ -34,11 +34,11 @@ class AppProvider extends ServiceProvider
     // 全域DB物件
     global.DB = use('Database')
     // 測試環境環傳sql
-    global.querys = []
-    if (Env.get('NODE_ENV', 'development') === 'development')
-    {
-      DB.on('query', _query => global.querys.push(_.pick(_query, ['bindings', 'sql'])))
-    }
+    // global.querys = []
+    // if (Env.get('NODE_ENV', 'development') === 'development')
+    // {
+    //   DB.on('query', _query => global.querys.push(_.pick(_query, ['bindings', 'sql'])))
+    // }
 
     // 全域md5方法
     global.md5 = text => crypto.createHash('md5').update(text).digest('hex')
