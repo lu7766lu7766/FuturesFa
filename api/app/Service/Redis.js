@@ -22,7 +22,7 @@ class RedisService
           {
             res = JSON.parse(await Redis.get(key))
             global.isRedis = true
-            resolve(r)
+            resolve(res)
           }
           if (times++ > 1)
           {
