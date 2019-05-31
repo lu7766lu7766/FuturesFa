@@ -65,7 +65,14 @@ class UserRepo {
   }
 
   /**
-   * create user
+   * delete user token
+   */
+  async deleteTokens(id)
+  {
+    await DB.table('tokens').where('user_id', id).delete()
+  }
+  /**
+   * delete user
    */
   async deleteUser({target: user}) {
     // const user = await UserModel.find(id)

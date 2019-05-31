@@ -168,7 +168,8 @@ class UserService
     {
       throw new ApiErrorException(UserCodes.NO_PERMISSION)
     }
-    return userRepo.deleteUser({
+    await userRepo.deleteTokens(id)
+    return await userRepo.deleteUser({
       target
     })
   }

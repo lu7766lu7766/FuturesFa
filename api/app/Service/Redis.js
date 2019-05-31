@@ -15,12 +15,10 @@ class RedisService
       res = await func()
       await Redis.set(key, JSON.stringify(res))
       await Redis.set(timeKey, moment().getDateTime())
-      res.isRedis = false
     }
     else
     {
       res = JSON.parse(await Redis.get(key))
-      res.isRedis = true
     }
     return res
   }
