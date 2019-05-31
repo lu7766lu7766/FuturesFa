@@ -5,7 +5,7 @@ class RedisService
 {
   async catch(key, func)
   {
-    const timeKey = `${key}_time`, lockKey = `${key}_lock`, secs = RedisConfig[key] || 5
+    const timeKey = `${key}_time`, lockKey = `${key}_lock`, secs = RedisConfig[key] || 10
     let res
     let isLock = ((await Redis.get(lockKey)) === 'true')
     let time = await Redis.get(timeKey)
@@ -20,13 +20,15 @@ class RedisService
           isLock = ((await Redis.get(lockKey)) === 'true')
           if (!isLock)
           {
-            const r = await this.catch(key, func)
+            res = JSON.parse(await Redis.get(key))
+            global.isRedis = true
             resolve(r)
           }
           if (times++ > 1)
           {
             await Redis.set(lockKey, 'false')
             const r = await this.catch(key, func)
+            global.isRedis = false
             resolve(r)
             clearInterval(timer)
           }

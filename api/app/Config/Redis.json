@@ -1,7 +1,7 @@
 {
-  "OptionItemInformed": 5,
+  "OptionItemInformed": 10,
   "OptionChipAccumulation": 3600,
-  "TXO": 5,
-  "FuturesChip": 5,
-  "OptionChip": 5
+  "TXO": 10,
+  "FuturesChip": 10,
+  "OptionChip": 10
 }

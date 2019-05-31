@@ -5,7 +5,7 @@ const CommonCodes = use('ApiCodes/Common')
 class OutputMiddleware
 {
   async handle({response}, next) {
-
+    global.querys = []
     await next()
     const sendBody = {
       code: [CommonCodes.OK],
