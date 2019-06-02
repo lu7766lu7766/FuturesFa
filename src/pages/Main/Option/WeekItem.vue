@@ -114,11 +114,11 @@
         {
           this.getItemInformed()
           this.getTXO()
-        }, getenv('waitSecs', 30) * 1000)
+        }, getenv('optionUpdateSecs', 30) * 1000)
         this.timer2 = setInterval(() =>
         {
           this.getChipAccumulation()
-        }, 60 * 60 * 1000)
+        }, getenv('accumulationUpdateSecs', 30) * 1000)
       }
     },
     computed: {

@@ -44,7 +44,7 @@ export default {
     },
     startCounter()
     {
-      this.timer = setInterval(this.getDatas, getenv('waitSecs', 30) * 1000)
+      this.timer = setInterval(this.getDatas, getenv('optionUpdateSecs', 30) * 1000)
     }
   },
   created()

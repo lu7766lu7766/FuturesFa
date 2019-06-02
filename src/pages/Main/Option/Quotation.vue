@@ -76,7 +76,7 @@
         this.timer = setInterval(() =>
         {
           this.getItemInformed()
-        }, getenv('waitSecs', 30) * 1000)
+        }, getenv('optionUpdateSecs', 30) * 1000)
       }
     },
     computed: {
