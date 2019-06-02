@@ -83,7 +83,8 @@ export default class BaseRequest
         default:
           errorMessages.push(errorCode[code]
             ? errorCode[code]
-            : 'system error!! please try again later')
+            : `system error!! please try again later.\n
+               status: ${res.status}, code: ${code}`)
           break
       }
     })
