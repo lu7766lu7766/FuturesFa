@@ -15,6 +15,8 @@ class UserRepo {
     return await UserModel.query()
       .with('role')
       .where('role_id', roleID)
+      .orderBy('expire_time', 'asc')
+      .orderBy('created_at', 'asc')
       .offset((page - 1) * perPage)
       .limit(perPage)
       .fetch()
