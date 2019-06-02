@@ -44,40 +44,40 @@
       <tbody>
       <tr>
         <td>
-          <span :class="txo.taiex > 0 ? 't-red' : 't-green'">{{ txo.taiex }}</span>
+          <span :class="getClassByValue(txo.taiex)">{{ txo.taiex }}</span>
         </td>
         <td>
-          <span :class="txo.taiex_updown > 0 ? 't-red' : 't-green'">{{ txo.taiex_updown }}</span>
+          <span :class="getClassByValue(txo.taiex_updown)">{{ txo.taiex_updown }}</span>
         </td>
         <td>
-          <span :class="txo.taiex_updown_range > 0 ? 't-red' : 't-green'">{{ txo.taiex_updown_range }}</span>
+          <span :class="getClassByValue(txo.taiex_updown_range)">{{ txo.taiex_updown_range }}</span>
         </td>
         <td>
-          <span :class="txo.mtx > 0 ? 't-red' : 't-green'">{{ txo.mtx }}</span>
+          <span :class="getClassByValue(txo.mtx)">{{ txo.mtx }}</span>
         </td>
         <td>
-          <span :class="txo.mtx_updown > 0 ? 't-red' : 't-green'">{{ txo.mtx_updown }}</span>
+          <span :class="getClassByValue(txo.mtx_updown)">{{ txo.mtx_updown }}</span>
         </td>
         <td>
-          <span :class="txo.mtx_updown_range > 0 ? 't-red' : 't-green'">{{ txo.mtx_updown_range }}</span>
+          <span :class="getClassByValue(txo.mtx_updown_range)">{{ txo.mtx_updown_range }}</span>
         </td>
         <td>
-          <span :class="txo.major > 0 ? 't-red' : 't-green'">{{ txo.major }}</span>
+          <span :class="getClassByValue(txo.major)">{{ txo.major }}</span>
         </td>
         <td>
-          <span :class="txo.retail > 0 ? 't-red' : 't-green'">{{ txo.retail }}</span>
+          <span :class="getClassByValue(txo.retail)">{{ txo.retail }}</span>
         </td>
         <td>
-          <span :class="txo.differ > 0 ? 't-red' : 't-green'">{{ txo.differ }}</span>
+          <span :class="getClassByValue(txo.differ)">{{ txo.differ }}</span>
         </td>
         <td>
-          <span :class="txo.total_c > 0 ? 't-red' : 't-green'">{{ txo.total_c }}</span>
+          <span :class="getClassByValue(txo.total_c)">{{ txo.total_c }}</span>
         </td>
         <td>
-          <span :class="txo.total_p > 0 ? 't-red' : 't-green'">{{ txo.total_p }}</span>
+          <span :class="getClassByValue(txo.total_p, '')">{{ txo.total_p }}</span>
         </td>
         <td>
-          <span :class="txo.differ_cp > 0 ? 't-red' : 't-green'">{{ txo.differ_cp }}</span>
+          <span :class="getClassByValue(txo.differ_cp)">{{ txo.differ_cp }}</span>
         </td>
       </tr>
       </tbody>
@@ -87,9 +87,10 @@
 
 <script>
   import OptionMixins from 'mixins/option'
+  import CSSMixins from 'mixins/css'
 
   export default {
-    mixins: [OptionMixins],
+    mixins: [OptionMixins, CSSMixins],
     components: {
       FuturesChip: () => import('@/FuturesChip'),
       OptionChip: () => import('@/OptionChip')
