@@ -24,9 +24,21 @@
         </thead>
         <tbody>
         <tr v-for="(item, index) in allItemsOrderByValueDesc" :key="index">
-          <td class="item-c t-red">{{ _.getVal(_.last(CGroupItemInformed[item]), 'price', 0) }}</td>
+          <td class="item-c">
+            <span v-for="(val, index) in [_.getVal(_.last(CGroupItemInformed[item]), 'price', 0)]"
+                  :key="index"
+                  :class="getClassByValue(val)">
+              {{ val }}
+            </span>
+          </td>
           <td class="item">{{ item }}</td>
-          <td class="item-p t-green">{{ _.getVal(_.last(PGroupItemInformed[item]), 'price', 0) }}</td>
+          <td class="item-p">
+            <span v-for="(val, index) in [_.getVal(_.last(PGroupItemInformed[item]), 'price', 0)]"
+                  :key="index"
+                  :class="getClassByValue(val, '')">
+              {{ val }}
+            </span>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -36,9 +48,10 @@
 
 <script>
   import OptionMixins from 'mixins/option'
+  import CSSMixins from 'mixins/css'
 
   export default {
-    mixins: [OptionMixins],
+    mixins: [OptionMixins, CSSMixins],
     data: () => ({
       search: {
         tmpWeekItem: 'true'
