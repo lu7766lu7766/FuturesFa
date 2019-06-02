@@ -30,7 +30,7 @@ class AppProvider extends ServiceProvider
     {
       return this.format('YYYY-MM-DD')
     }
-
+    
     // 全域DB物件
     global.DB = use('Database')
     // 測試環境環傳sql

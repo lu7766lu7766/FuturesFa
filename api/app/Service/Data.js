@@ -17,14 +17,14 @@ class DataService
     return res
   }
 
-  async getOptionItemInformed()
+  async getOptionItemInformed(ctx)
   {
-    return await redisService.catch('OptionItemInformed', dataRepo.getOptionItemInformed)
+    return await redisService.catch('OptionItemInformed', dataRepo.getOptionItemInformed, ctx)
   }
 
-  async getOptionChipAccumulation()
+  async getOptionChipAccumulation(ctx)
   {
-    return await redisService.catch('OptionChipAccumulation', dataRepo.getOptionChipAccumulation)
+    return await redisService.catch('OptionChipAccumulation', dataRepo.getOptionChipAccumulation, ctx)
   }
 
   async getOptionHostory(date)
@@ -32,14 +32,14 @@ class DataService
     return await dataRepo.getOptionHostory(date)
   }
 
-  async getTXO()
+  async getTXO(ctx)
   {
-    return await redisService.catch('TXO', dataRepo.getTXO)
+    return await redisService.catch('TXO', dataRepo.getTXO, ctx)
   }
 
-  async getOptionChip()
+  async getOptionChip(ctx)
   {
-    return await redisService.catch('OptionChip', dataRepo.getOptionChip)
+    return await redisService.catch('OptionChip', dataRepo.getOptionChip, ctx)
   }
 
   async getOptionChipHistory(date)
@@ -47,9 +47,9 @@ class DataService
     return await dataRepo.getOptionChipHistory(date)
   }
 
-  async getFuturesChip()
+  async getFuturesChip(ctx)
   {
-    return await redisService.catch('FuturesChip', dataRepo.getFuturesChip)
+    return await redisService.catch('FuturesChip', dataRepo.getFuturesChip, ctx)
   }
 
   async getFuturesChipHistory(date)

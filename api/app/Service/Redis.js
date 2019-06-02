@@ -3,8 +3,11 @@ const RedisConfig = use('Config/Redis')
 
 class RedisService
 {
-  async catch(key, func)
+  async catch(key, func, ctx)
   {
+    console.log(ctx)
+    const session = ctx.session
+
     const timeKey = `${key}_time`, lockKey = `${key}_lock`, secs = RedisConfig[key] || 10
     let res
     let isLock = ((await Redis.get(lockKey)) === 'true')
@@ -21,14 +24,14 @@ class RedisService
           if (!isLock)
           {
             res = JSON.parse(await Redis.get(key))
-            global.isRedis = true
+            session.put('isRedis', true)
             resolve(res)
           }
           if (times++ > 1)
           {
             await Redis.set(lockKey, 'false')
             res = await func()
-            global.isRedis = false
+            session.put('isRedis', false)
             resolve(res)
             clearInterval(timer)
           }
@@ -43,12 +46,12 @@ class RedisService
       await Redis.set(timeKey, moment().getDateTime())
       await Redis.set(key, JSON.stringify(res))
       await Redis.set(lockKey, 'false')
-      global.isRedis = false
+      session.put('isRedis', false)
     }
     else
     {
       res = JSON.parse(await Redis.get(key))
-      global.isRedis = true
+      session.put('isRedis', true)
     }
     return res
   }
