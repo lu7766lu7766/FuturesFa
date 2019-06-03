@@ -1,7 +1,7 @@
 'use strict'
 
 const dataRepo = App.make('Repositories/Data')
-const redisService = App.make('Service/Redis')
+// const redisService = App.make('Service/Redis')
 const Redis = use('Redis')
 
 class DataService
@@ -71,6 +71,24 @@ class DataService
     return JSON.parse(await Redis.get('FuturesChip'))
   }
 
+  async setAllOptionData()
+  {
+    this.setOftenData()
+    this.setOccasionallyData()
+  }
+
+  async setOftenData()
+  {
+    Redis.set('OptionItemInformed', JSON.stringify(await this.getOptionItemInformed()))
+    Redis.set('TXO', JSON.stringify(await this.getTXO()))
+    Redis.set('OptionChip', JSON.stringify(await this.getOptionChip()))
+    Redis.set('FuturesChip', JSON.stringify(await this.getFuturesChip()))
+  }
+
+  async setOccasionallyData()
+  {
+    Redis.set('OptionChipAccumulation', JSON.stringify(await dataService.getOptionChipAccumulation()))
+  }
   /////// history
 
   async getOptionHostory(date)

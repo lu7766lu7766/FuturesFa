@@ -93,6 +93,10 @@ class AppProvider extends ServiceProvider
 
     // Log.info('first message')
     // Log.error('first message')
+
+    // action
+    const dataService = App.make('Service/Data')
+    dataService.setAllOptionData()
   }
 }
 

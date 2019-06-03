@@ -3,7 +3,8 @@
 const Task = use('Task')
 const frondEnv = require('../../../env')
 const dataService = App.make('Service/Data')
-const Redis = use('Redis')
+
+// const Redis = use('Redis')
 
 class DataGetter extends Task {
   static get schedule () {
@@ -12,10 +13,7 @@ class DataGetter extends Task {
 
   async handle () {
     // this.info('Task DataGetter handle')
-    Redis.set('OptionItemInformed', JSON.stringify(await dataService.getOptionItemInformed()))
-    Redis.set('TXO', JSON.stringify(await dataService.getTXO()))
-    Redis.set('OptionChip', JSON.stringify(await dataService.getOptionChip()))
-    Redis.set('FuturesChip', JSON.stringify(await dataService.getFuturesChip()))
+    await dataService.setOftenData()
   }
 }
 

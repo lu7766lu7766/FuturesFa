@@ -1,18 +1,19 @@
 'use strict'
 
 const Task = use('Task')
-const frondEnv = require('../../../env')
 const dataService = App.make('Service/Data')
-const Redis = use('Redis')
+
+// const Redis = use('Redis')
 
 class AccumulationGetter extends Task {
   static get schedule () {
-    return `*/${frondEnv.accumulationUpdateSecs - 1} * * * * *`
+    return `0 0 * * * *`
   }
 
   async handle () {
     // this.info('Task AccumulationGetter handle')
-    Redis.set('OptionChipAccumulation', JSON.stringify(await dataService.getOptionChipAccumulation()))
+    // Redis.set('OptionChipAccumulation', JSON.stringify(await dataService.getOptionChipAccumulation()))
+    dataService.setOccasionallyData()
   }
 }
 
