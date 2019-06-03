@@ -41,7 +41,7 @@ Route.group(() =>
   Route.get('txo', 'DataController.getTXO')
   Route.get('option-chip', 'DataController.getOptionChip')
   Route.get('futures-chip', 'DataController.getFuturesChip')
-}).prefix('api/data').middleware(['auth', 'api'])
+}).prefix('api/data').middleware(['api'])
 
 Route.get('data/generalize', 'DataController.generalizeDatas').middleware(['api', 'local'])
 
