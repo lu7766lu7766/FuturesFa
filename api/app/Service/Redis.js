@@ -5,7 +5,6 @@ class RedisService
 {
   async catch(key, func, ctx)
   {
-    console.log(ctx)
     const session = ctx.session
 
     const timeKey = `${key}_time`, lockKey = `${key}_lock`, secs = RedisConfig[key] || 10
