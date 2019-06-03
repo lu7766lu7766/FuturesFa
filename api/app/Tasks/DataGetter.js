@@ -3,6 +3,7 @@
 const Task = use('Task')
 const frondEnv = require('../../../env')
 const dataService = App.make('Service/Data')
+const Redis = use('Redis')
 
 class DataGetter extends Task {
   static get schedule () {
