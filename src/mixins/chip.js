@@ -32,7 +32,9 @@ export default {
     },
     async getDatas()
     {
-      const res = await this.$api.data[this.$options.api]()
+      const res = await this.$api.data[this.$options.api]({
+        key: this.$options.api.replace('get', '')
+      })
       res.data.forEach(data =>
       {
         this.theDate = !this.theDate

@@ -105,7 +105,9 @@
     methods: {
       async getTXO()
       {
-        const res = await this.$api.data.getTXO()
+        const res = await this.$api.data.getTXO({
+          key: 'TXO'
+        })
         this.txo = res.data
       },
       startCounter()

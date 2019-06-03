@@ -4,12 +4,13 @@ const CommonCodes = use('ApiCodes/Common')
 
 class OutputMiddleware
 {
-  async handle({response, session}, next)
+  async handle({response, request, session}, next)
   {
     // global.querys = []
-    session.put('isRedis', false)
+    const redisKey = request.input('key') + 'isRedis'
+    session.put(redisKey, false)
     await next()
-    const isRedis = session.get('isRedis')
+    const isRedis = session.get(redisKey)
     const sendBody = {
       code: [CommonCodes.OK],
       data: response._lazyBody.content,

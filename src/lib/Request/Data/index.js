@@ -11,28 +11,28 @@ export default class Data extends BaseRequest
     this.config = _config
   }
 
-  async getOptionItemInformed()
+  async getOptionItemInformed(data)
   {
-    return await this.request('item-informed')
+    return await this.request('item-informed', data)
   }
 
-  async getOptionChipAccumulation()
+  async getOptionChipAccumulation(data)
   {
-    return await this.request('chip-accumulation')
+    return await this.request('chip-accumulation', data)
   }
 
-  async getTXO()
+  async getTXO(data)
   {
-    return await this.request('txo')
+    return await this.request('txo', data)
   }
 
-  async getOptionChip()
+  async getOptionChip(data)
   {
-    return await this.request('option-chip')
+    return await this.request('option-chip', data)
   }
 
-  async getFuturesChip()
+  async getFuturesChip(data)
   {
-    return await this.request('futures-chip')
+    return await this.request('futures-chip', data)
   }
 }

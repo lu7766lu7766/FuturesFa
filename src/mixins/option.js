@@ -14,13 +14,17 @@ export default {
     // 當日籌碼資料取得
     async getItemInformed()
     {
-      const res = await this.$api.data.getOptionItemInformed()
+      const res = await this.$api.data.getOptionItemInformed({
+        key: 'ItemInformed'
+      })
       this.itemInformedDatas = res.data
     },
     // 累計籌碼資料取得
     async getChipAccumulation()
     {
-      const res = await this.$api.data.getOptionChipAccumulation()
+      const res = await this.$api.data.getOptionChipAccumulation({
+        key: 'OptionChipAccumulation'
+      })
       this.chipAccumulationDatas = res.data
     },
     getTodayConfig(options)

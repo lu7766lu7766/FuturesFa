@@ -33,11 +33,15 @@
       {
         this.timer = setInterval(() =>
         {
-          this.getItemInformed()
+          this.getItemInformed({
+            key: 'ItemInformed'
+          })
         }, getenv('optionUpdateSecs', 30) * 1000)
         this.timer2 = setInterval(() =>
         {
-          this.getChipAccumulation()
+          this.getChipAccumulation({
+            key: 'ChipAccumulation'
+          })
         }, getenv('accumulationUpdateSecs', 30) * 1000)
       }
     },
