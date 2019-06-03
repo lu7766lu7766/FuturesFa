@@ -87,7 +87,7 @@ class DataService
 
   async setOccasionallyData()
   {
-    Redis.set('OptionChipAccumulation', JSON.stringify(await dataService.getOptionChipAccumulation()))
+    Redis.set('OptionChipAccumulation', JSON.stringify(await this.getOptionChipAccumulation()))
   }
   /////// history
 
