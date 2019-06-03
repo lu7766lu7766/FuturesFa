@@ -8,7 +8,7 @@ const dataService = App.make('Service/Data')
 
 class DataGetter extends Task {
   static get schedule () {
-    return `*/${frondEnv.optionUpdateSecs - 1} * * * * *`
+    return `*/${frondEnv.optionUpdateSecs - 4} * * * * *`
   }
 
   async handle () {
