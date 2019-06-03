@@ -17,7 +17,6 @@
 const Route = use('Route')
 
 
-
 Route.group(() =>
 {
   Route.post('login', 'UserController.login').validator('Login').middleware(['throttle:3,120'])
@@ -45,5 +44,5 @@ Route.group(() =>
 }).prefix('api/data').middleware(['auth', 'api'])
 
 Route.get('data/generalize', 'DataController.generalizeDatas').middleware(['api', 'local'])
-
+Route.get('sys/updateVersion', 'SysController.updateVersion').middleware(['api', 'local'])
 
