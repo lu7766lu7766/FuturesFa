@@ -5,10 +5,12 @@ const redisService = App.make('Service/Redis')
 
 class DataService
 {
-  async generalizeDatas({request})
+  async generalizeDatas(ctx)
   {
     let res = true
-    const date = request.input('date', moment().subtract(1, 'days').getDate())
+    const date = ctx
+      ? ctx.request.input('date', moment().subtract(1, 'days').getDate())
+      : moment().subtract(1, 'days').getDate()
     res = res && await dataRepo.setDate('option', date)
     res = res && await dataRepo.transferOptionData(date)
     res = res && await dataRepo.setDate('futures_chip', date)
