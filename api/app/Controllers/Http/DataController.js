@@ -5,32 +5,32 @@ const dataService = App.make('Service/Data')
 
 class DataController
 {
-  async getOptionItemInformed(ctx)
+  async getOptionItemInformed()
   {
-    return await dataService.getOptionItemInformed(ctx)
+    return await dataService.getOptionItemInformedByRedis()
   }
 
-  async getOptionChipAccumulation(ctx)
+  async getOptionChipAccumulation()
   {
-    return await dataService.getOptionChipAccumulation(ctx)
-  }
-
-  // -------------
-  async getTXO(ctx)
-  {
-    return await dataService.getTXO(ctx)
+    return await dataService.getOptionChipAccumulationByRedis()
   }
 
   // -------------
-
-  async getOptionChip(ctx)
+  async getTXO()
   {
-    return await dataService.getOptionChip(ctx)
+    return await dataService.getTXOByRedis()
   }
 
-  async getFuturesChip(ctx)
+  // -------------
+
+  async getOptionChip()
   {
-    return await dataService.getFuturesChip(ctx)
+    return await dataService.getOptionChipByRedis()
+  }
+
+  async getFuturesChip()
+  {
+    return await dataService.getFuturesChipByRedis()
   }
 
   // -------------

@@ -2,6 +2,7 @@
 
 const dataRepo = App.make('Repositories/Data')
 const redisService = App.make('Service/Redis')
+const Redis = use('Redis')
 
 class DataService
 {
@@ -20,39 +21,67 @@ class DataService
     return res
   }
 
-  async getOptionItemInformed(ctx)
+  async getOptionItemInformed()
   {
-    return await redisService.catch('OptionItemInformed', dataRepo.getOptionItemInformed, ctx)
+    return await dataRepo.getOptionItemInformed()
   }
 
-  async getOptionChipAccumulation(ctx)
+  async getOptionItemInformedByRedis()
   {
-    return await redisService.catch('OptionChipAccumulation', dataRepo.getOptionChipAccumulation, ctx)
+    return JSON.parse(await Redis.get('OptionItemInformed'))
   }
+
+  async getOptionChipAccumulation()
+  {
+    return await dataRepo.getOptionChipAccumulation()
+  }
+
+  async getOptionChipAccumulationByRedis()
+  {
+    return JSON.parse(await Redis.get('OptionChipAccumulation'))
+  }
+
+  async getTXO()
+  {
+    return await dataRepo.getTXO()
+  }
+
+  async getTXOByRedis()
+  {
+    return JSON.parse(await Redis.get('TXO'))
+  }
+
+  async getOptionChip()
+  {
+    return await dataRepo.getOptionChip()
+  }
+
+  async getOptionChipByRedis()
+  {
+    return JSON.parse(await Redis.get('OptionChip'))
+  }
+
+  async getFuturesChip()
+  {
+    return await dataRepo.getFuturesChip()
+  }
+
+  async getFuturesChipByRedis()
+  {
+    return JSON.parse(await Redis.get('FuturesChip'))
+  }
+
+  /////// history
 
   async getOptionHostory(date)
   {
     return await dataRepo.getOptionHostory(date)
   }
 
-  async getTXO(ctx)
-  {
-    return await redisService.catch('TXO', dataRepo.getTXO, ctx)
-  }
-
-  async getOptionChip(ctx)
-  {
-    return await redisService.catch('OptionChip', dataRepo.getOptionChip, ctx)
-  }
 
   async getOptionChipHistory(date)
   {
     return await dataRepo.getOptionChipHistory(date)
-  }
-
-  async getFuturesChip(ctx)
-  {
-    return await redisService.catch('FuturesChip', dataRepo.getFuturesChip, ctx)
   }
 
   async getFuturesChipHistory(date)
