@@ -35,9 +35,9 @@ class DataController
 
   // -------------
 
-  async generalizeDatas()
+  async generalizeDatas(ctx)
   {
-    return await dataService.generalizeDatas()
+    return await dataService.generalizeDatas(ctx)
   }
 }
 
