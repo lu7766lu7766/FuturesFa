@@ -12,7 +12,7 @@
     "task:run": "node ace run:scheduler",
     "task:add": "node ace make:task",
     "generalize": "curl -G http://127.0.0.1:3333/data/generalize",
-    "updateVersion": "curl -G http://127.0.0.1:3333/sys/updateVersion"
+    "updateVersion": "curl -G http://127.0.0.1:3333/api/sys/updateVersion"
   },
   "keywords": [
     "adonisjs",

@@ -10,7 +10,7 @@ class SYSSchema extends Schema
     this.dropTableIfExists('sys')
     this.create('sys', (table) =>
     {
-      table.string('version', 20).default('0').comment('版本號')
+      table.integer('version', 15).default(0).comment('版本號')
     })
   }
 

@@ -44,6 +44,11 @@ Route.group(() =>
 }).prefix('api/data').middleware(['auth', 'api'])
 
 Route.get('data/generalize', 'DataController.generalizeDatas').middleware(['api', 'local'])
-Route.get('sys/updateVersion', 'SysController.updateVersion').middleware(['api', 'local'])
-Route.get('sys/version', 'SysController.version').middleware(['api', 'local'])
+
+Route.group(() =>
+{
+  Route.get('updateVersion', 'SysController.updateVersion').middleware(['local'])
+  Route.get('version', 'SysController.version')
+}).prefix('api/sys').middleware(['api'])
+
 

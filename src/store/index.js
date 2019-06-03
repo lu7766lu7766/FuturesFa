@@ -11,8 +11,19 @@ export default new Vuex.Store({
     Login,
     User
   },
-  state: {},
-  mutations: {},
+  state: {
+    version: 0
+  },
+  mutations: {
+    checkVersion(state, version)
+    {
+      if (state.version < version)
+      {
+        state.version = version
+        location.reload()
+      }
+    }
+  },
   actions: {},
   plugins: [createPersistedState()]
 })

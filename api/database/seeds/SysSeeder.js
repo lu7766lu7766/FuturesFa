@@ -16,8 +16,8 @@ class UserSeeder
 {
   async run()
   {
-    await DB.table('sys').update({
-      version: Math.floor(Date.now() / 1000)
+    await DB.table('sys').insert({
+      version: 0
     })
   }
 }
