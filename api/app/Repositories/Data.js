@@ -11,20 +11,27 @@ class DataRepo
   }
 
   ///////////////////// 資料整理start
-  async setDate(table, date)
+  async setDate(trx, table, dataStartAndEndTime)
   {
-    const dataStartAndEndTime = this.getDateStartAndEndTime(date)
-    try
+    if (trx && typeof trx === 'function')
     {
-      await DB.table(table).update({
-        date: date
-      }).whereBetween('created_at', dataStartAndEndTime)
-      return true
-    } catch (e)
+      await trx.table(table).update({date: date}).whereBetween('created_at', dataStartAndEndTime)
+    }
+    else
     {
-      console.log(e)
-      Log.error(e)
-      return false
+      await DB.table(table).update({date: date}).whereBetween('created_at', dataStartAndEndTime)
+    }
+  }
+
+  async deleteTheDateData(trx, table, dataStartAndEndTime)
+  {
+    if (trx && typeof trx === 'function')
+    {
+      await trx.table(table).delete().whereBetween('created_at', dataStartAndEndTime)
+    }
+    else
+    {
+      await DB.table(table).delete().whereBetween('created_at', dataStartAndEndTime)
     }
   }
 
@@ -34,13 +41,14 @@ class DataRepo
     const trx = await DB.beginTransaction()
     try
     {
+      await this.setDate(trx, 'option', dataStartAndEndTime)
       await trx.raw(`
         insert into option_accumulation
           (select b.* 
             from (select name, max(created_at) as last_time from option where created_at between ? and ? group by name) as a 
             left join option as b on a.name = b.name and a.last_time = b.created_at) `, dataStartAndEndTime)
       await trx.raw(`insert into option_log select * from option where created_at between ? and ?`, dataStartAndEndTime)
-      await trx.table('option').delete().whereBetween('created_at', dataStartAndEndTime)
+      await this.deleteTheDateData(trx, 'option', dataStartAndEndTime)
       trx.commit()
       return true
     } catch (e)
@@ -52,22 +60,15 @@ class DataRepo
     }
   }
 
-  async transferYesterdayData(source, target, date)
-  {
-    const dataStartAndEndTime = this.getDateStartAndEndTime(date)
-    console.log(date, dataStartAndEndTime)
-    return await this.transferData(`insert into \`${target}\` select * from \`${source}\` 
-    where created_at between '${dataStartAndEndTime[0]}' and '${dataStartAndEndTime[1]}'`, source, date)
-  }
-
-  async transferData(sql, source, date)
+  async transferTheDateData(source, target, date)
   {
     const dataStartAndEndTime = this.getDateStartAndEndTime(date)
     const trx = await DB.beginTransaction()
     try
     {
-      await trx.raw(sql)
-      await trx.table(source).delete().whereBetween('created_at', dataStartAndEndTime)
+      await this.setDate(trx, source, dataStartAndEndTime)
+      await trx.raw(`insert into ${target} select * from ${source} where created_at between ? and ?`, dataStartAndEndTime)
+      await this.deleteTheDateData(trx, source, dataStartAndEndTime)
       trx.commit()
       return true
     } catch (e)

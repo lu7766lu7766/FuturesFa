@@ -11,12 +11,9 @@ class DataService
     const date = ctx
       ? ctx.request.input('date', moment().subtract(1, 'days').getDate())
       : moment().subtract(1, 'days').getDate()
-    res = res && await dataRepo.setDate('option', date)
     res = res && await dataRepo.transferOptionData(date)
-    res = res && await dataRepo.setDate('futures_chip', date)
-    res = res && await dataRepo.transferYesterdayData('futures_chip', 'futures_chip_log', date)
-    res = res && await dataRepo.setDate('option_chip', date)
-    res = res && await dataRepo.transferYesterdayData('option_chip', 'option_chip_log', date)
+    res = res && await dataRepo.transferTheDateData('futures_chip', 'futures_chip_log', date)
+    res = res && await dataRepo.transferTheDateData('option_chip', 'option_chip_log', date)
     return res
   }
 

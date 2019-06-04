@@ -97,6 +97,9 @@ class AppProvider extends ServiceProvider
     // action
     const dataService = App.make('Service/Data')
     dataService.setAllOptionData()
+
+    const trx = await DB.beginTransaction()
+    console.log(typeof trx === 'function')
   }
 }
 
