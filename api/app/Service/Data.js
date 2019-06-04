@@ -17,6 +17,28 @@ class DataService
     return res
   }
 
+  async deleteTheDateDatas({params})
+  {
+    const trx = await DB.beginTransaction()
+    const dataStartAndEndTime = dataRepo.getDateStartAndEndTime(params.date)
+    try
+    {
+      await dataRepo.deleteTheDateData(trx, 'option', dataStartAndEndTime)
+      await dataRepo.deleteTheDateData(trx, 'futures_chip', dataStartAndEndTime)
+      await dataRepo.deleteTheDateData(trx, 'option_chip', dataStartAndEndTime)
+      trx.commit()
+      return true
+    } catch (e)
+    {
+      console.log(e)
+      trx.rollback()
+      Log.error(e)
+      return false
+    }
+  }
+
+  ////////////
+
   async getOptionItemInformed()
   {
     return await dataRepo.getOptionItemInformed()

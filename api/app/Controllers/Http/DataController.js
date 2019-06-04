@@ -39,6 +39,11 @@ class DataController
   {
     return await dataService.generalizeDatas(ctx)
   }
+
+  async deleteTheDateDatas(ctx)
+  {
+    return await dataService.deleteTheDateDatas(ctx)
+  }
 }
 
 module.exports = DataController

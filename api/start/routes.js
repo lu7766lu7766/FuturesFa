@@ -43,7 +43,11 @@ Route.group(() =>
   Route.get('futures-chip', 'DataController.getFuturesChip')
 }).prefix('api/data').middleware(['auth', 'api'])
 
-Route.get('data/generalize', 'DataController.generalizeDatas').middleware(['api', 'local'])
+Route.group(() =>
+{
+  Route.get('generalize', 'DataController.generalizeDatas')
+  Route.delete(':date', 'DataController.deleteTheDateDatas')
+}).prefix('data').middleware(['api', 'local'])
 
 Route.group(() =>
 {
