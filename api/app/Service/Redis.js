@@ -76,6 +76,16 @@ class RedisService
     }
     return res
   }
+
+  async get(key)
+  {
+    return JSON.parse(Redis.get(key))
+  }
+
+  async set(key, data)
+  {
+    Redis.set(key, JSON.stringify(data))
+  }
 }
 
 module.exports = RedisService

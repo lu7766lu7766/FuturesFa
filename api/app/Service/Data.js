@@ -1,8 +1,7 @@
 'use strict'
 
 const dataRepo = App.make('Repositories/Data')
-// const redisService = App.make('Service/Redis')
-const Redis = use('Redis')
+const redisService = App.make('Service/Redis')
 
 class DataService
 {
@@ -28,7 +27,7 @@ class DataService
 
   async getOptionItemInformedByRedis()
   {
-    return JSON.parse(await Redis.get('OptionItemInformed'))
+    return redisService.get('OptionItemInformed')
   }
 
   async getOptionChipAccumulation()
@@ -38,7 +37,7 @@ class DataService
 
   async getOptionChipAccumulationByRedis()
   {
-    return JSON.parse(await Redis.get('OptionChipAccumulation'))
+    return redisService.get('OptionChipAccumulation')
   }
 
   async getTXO()
@@ -48,7 +47,7 @@ class DataService
 
   async getTXOByRedis()
   {
-    return JSON.parse(await Redis.get('TXO'))
+    return redisService.get('TXO')
   }
 
   async getOptionChip()
@@ -58,7 +57,7 @@ class DataService
 
   async getOptionChipByRedis()
   {
-    return JSON.parse(await Redis.get('OptionChip'))
+    return redisService.get('OptionChip')
   }
 
   async getFuturesChip()
@@ -68,7 +67,7 @@ class DataService
 
   async getFuturesChipByRedis()
   {
-    return JSON.parse(await Redis.get('FuturesChip'))
+    return redisService.get('FuturesChip')
   }
 
   async setAllOptionData()
@@ -79,15 +78,15 @@ class DataService
 
   async setOftenData()
   {
-    Redis.set('OptionItemInformed', JSON.stringify(await this.getOptionItemInformed()))
-    Redis.set('TXO', JSON.stringify(await this.getTXO()))
-    Redis.set('OptionChip', JSON.stringify(await this.getOptionChip()))
-    Redis.set('FuturesChip', JSON.stringify(await this.getFuturesChip()))
+    redisService.set('OptionItemInformed', await this.getOptionItemInformed())
+    redisService.set('TXO', await this.getTXO())
+    redisService.set('OptionChip', await this.getOptionChip())
+    redisService.set('FuturesChip', await this.getFuturesChip())
   }
 
   async setOccasionallyData()
   {
-    Redis.set('OptionChipAccumulation', JSON.stringify(await this.getOptionChipAccumulation()))
+    redisService.set('OptionChipAccumulation', await this.getOptionChipAccumulation())
   }
   /////// history
 
