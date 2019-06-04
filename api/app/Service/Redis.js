@@ -79,12 +79,12 @@ class RedisService
 
   async get(key)
   {
-    return JSON.parse(Redis.get(key))
+    return JSON.parse(await Redis.get(key))
   }
 
   async set(key, data)
   {
-    Redis.set(key, JSON.stringify(data))
+    await Redis.set(key, JSON.stringify(data))
   }
 }
 

@@ -46,7 +46,7 @@ class DataService
 
   async getOptionItemInformedByRedis()
   {
-    return redisService.get('OptionItemInformed')
+    return await redisService.get('OptionItemInformed')
   }
 
   async getOptionChipAccumulation()
@@ -56,7 +56,7 @@ class DataService
 
   async getOptionChipAccumulationByRedis()
   {
-    return redisService.get('OptionChipAccumulation')
+    return await redisService.get('OptionChipAccumulation')
   }
 
   async getTXO()
@@ -66,7 +66,7 @@ class DataService
 
   async getTXOByRedis()
   {
-    return redisService.get('TXO')
+    return await redisService.get('TXO')
   }
 
   async getOptionChip()
@@ -76,7 +76,7 @@ class DataService
 
   async getOptionChipByRedis()
   {
-    return redisService.get('OptionChip')
+    return await redisService.get('OptionChip')
   }
 
   async getFuturesChip()
@@ -86,7 +86,7 @@ class DataService
 
   async getFuturesChipByRedis()
   {
-    return redisService.get('FuturesChip')
+    return await redisService.get('FuturesChip')
   }
 
   async setAllOptionData()
@@ -97,15 +97,15 @@ class DataService
 
   async setOftenData()
   {
-    redisService.set('OptionItemInformed', await this.getOptionItemInformed())
-    redisService.set('TXO', await this.getTXO())
-    redisService.set('OptionChip', await this.getOptionChip())
-    redisService.set('FuturesChip', await this.getFuturesChip())
+    await redisService.set('OptionItemInformed', (await this.getOptionItemInformed()))
+    await redisService.set('TXO', (await this.getTXO()))
+    await redisService.set('OptionChip', (await this.getOptionChip()))
+    await redisService.set('FuturesChip', (await this.getFuturesChip()))
   }
 
   async setOccasionallyData()
   {
-    redisService.set('OptionChipAccumulation', await this.getOptionChipAccumulation())
+    await redisService.set('OptionChipAccumulation', (await this.getOptionChipAccumulation()))
   }
   /////// history
 
