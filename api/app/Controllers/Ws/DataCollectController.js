@@ -1,54 +1,43 @@
 'use strict'
+const redisService = App.make('Service/Redis')
 
 class DataCollectController
 {
-  constructor({socket, request, session, auth})
+  constructor({socket, auth})
   {
-    // console.log(auth)
-
-    // const collect = session.get('DataCollect') || []
-    // collect.push(socket.id)
-    // session.put('DataCollect', collect)
-    //
-    // console.log(user)
     this.socket = socket
-    this.request = request
-    this.session = session
     this.auth = auth
-    // this.startCounter()
-    // console.log('a new subscription for news topic')
   }
 
-  async onJoin(message)
+  async onJoin()
   {
-    console.log(message)
-    // console.log(this.request.input('user_name'))
+    const user = {
+      id: this.auth.user.id,
+      user_name: this.auth.user.user_name,
+      nick_name: this.auth.user.nick_name
+    }
+
+    const DataCollect = await redisService.get('DataCollect')
+    DataCollect[this.socket.id] = user
+    redisService.set('DataCollect', DataCollect)
   }
 
-  async onGetAllIDs(message)
+  async onGetOnlineMembers()
   {
-
-    // console.log(this.auth)
-    // const user = await this.auth.getUser()
-    // console.log(user, this.session.get)
-    // this.socket.emit('getAllIDs', session.get('DataCollect'))
+    this.socket.emitTo('getOnlineMembers', (await redisService.get('DataCollect') || {}), [this.socket.id])
   }
 
-  onClose({socket, session})
+  async onClose(socket)
   {
+    const DataCollect = await redisService.get('DataCollect')
+    delete DataCollect[socket.id]
+    redisService.set('DataCollect', DataCollect)
     // same as: socket.on('close')
-    // const ids = session.get('OptionItemInformedIDs')
-    // ids.splice(ids.indexOf(socket.id), 1)
-    // session.put('OptionItemInformedIDs', ids)
   }
 
   onError({socket})
   {
     // same as: socket.on('error')
-    // console.log('join error', socket.id)
-    // const ids = session.get('OptionItemInformedIDs')
-    // ids.splice(ids.indexOf(socket.id), 1)
-    // session.put('OptionItemInformedIDs', ids)
   }
 }
 

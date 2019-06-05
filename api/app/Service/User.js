@@ -4,6 +4,7 @@ const UserCodes = use('ApiCodes/User1000')
 const RoleConstant = use('Constants/Role')
 const RootConstant = use('Constants/Root')
 const UserModel = use('Models/User')
+const redisService = App.make('Service/Redis')
 
 class UserService
 {
@@ -180,6 +181,14 @@ class UserService
   async clearExpiredTester() {
     const ids = _.map(await userRepo.getExpiredTester(), 'id')
     return ids.length && await userRepo.clearExpiredTester(ids)
+  }
+
+  /**
+   * 清空redis線上人員
+   */
+  async clearRedisOnlineMembers()
+  {
+    redisService.set('DataCollect', {})
   }
 }
 

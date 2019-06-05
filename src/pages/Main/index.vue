@@ -6,6 +6,9 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item-dropdown text="後台管理">
+            <b-dropdown-item>
+              在線人數：{{ _.keys($store.state.User.online).length }}
+            </b-dropdown-item>
             <b-dropdown-item :to="{ name: 'account-manage'}">
               帳號管理
             </b-dropdown-item>
@@ -51,7 +54,8 @@
 
   export default {
     data: () => ({
-      ws: null
+      ws: null,
+      dataCollect: null
     }),
     methods: {
       doLogout()
@@ -63,28 +67,36 @@
       },
       wsConnect()
       {
-        this.ws = adonis.Ws(`ws://${apiHost}`).connect()
+        this.ws = adonis.Ws(`ws://${apiHost}`).withJwtToken(this.$store.state.Login.token).connect()
         this.ws.on('open', () =>
         {
-          console.log('dataCollect open')
-          const dataCollect = this.ws.subscribe('DataCollect')
-
-          dataCollect.on('ready', () =>
-          {
-            console.log('dataCollect ready')
-            dataCollect.emit('join', 'hello')
-          })
+          this.wsListening()
         })
-
         this.ws.on('error', () =>
         {
-          console.log('dataCollect error')
+          // console.log('dataCollect error')
         })
-
         this.ws.on('close', () =>
         {
-          console.log('dataCollect close')
+          // console.log('dataCollect close')
         })
+      },
+      wsListening()
+      {
+        this.dataCollect = this.ws.subscribe('DataCollect')
+        this.dataCollect.on('ready', () =>
+        {
+          this.dataCollect.emit('join', User.info)
+        })
+
+        this.dataCollect.on('getOnlineMembers', (members) =>
+        {
+          this.$store.commit(UserType.setOnline, members)
+        })
+      },
+      getOnlineMembers()
+      {
+        this.dataCollect.emit('getOnlineMembers')
       }
     },
     async created()
@@ -92,6 +104,10 @@
       this.wsConnect()
       const res = await this.$api.user.getInfo()
       this.$store.commit(UserType.setInfo, res.data)
+      setInterval(() =>
+      {
+        this.getOnlineMembers()
+      }, 10 * 1000)
     }
   }
 </script>
