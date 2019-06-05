@@ -10,7 +10,7 @@ class ClearExpiredTester extends Task {
   }
 
   async handle () {
-    this.info('Task ClearExpiredTester handle')
+    console.log('Task ClearExpiredTester handle')
     await userService.clearExpiredTester()
   }
 }

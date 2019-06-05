@@ -12,7 +12,7 @@ class DataGeneralize extends Task {
   }
 
   async handle () {
-    this.info('Task DataGeneralize handle')
+    console.log('Task DataGeneralize handle')
     await dataService.generalizeDatas()
   }
 }
