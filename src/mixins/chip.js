@@ -32,7 +32,9 @@ export default {
     },
     async getDatas()
     {
-      const res = await this.$api.data[this.$options.api]()
+      const res = await this.$api.data[this.$options.api]({
+        key: this.$options.api.replace('get', '')
+      })
       res.data.forEach(data =>
       {
         this.theDate = !this.theDate
@@ -44,7 +46,7 @@ export default {
     },
     startCounter()
     {
-      this.timer = setInterval(this.getDatas, getenv('waitSecs', 30) * 1000)
+      this.timer = setInterval(this.getDatas, getenv('optionUpdateSecs', 30) * 1000)
     }
   },
   created()

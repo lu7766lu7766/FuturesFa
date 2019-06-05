@@ -17,7 +17,6 @@
 const Route = use('Route')
 
 
-
 Route.group(() =>
 {
   Route.post('login', 'UserController.login').validator('Login').middleware(['throttle:3,120'])
@@ -44,6 +43,16 @@ Route.group(() =>
   Route.get('futures-chip', 'DataController.getFuturesChip')
 }).prefix('api/data').middleware(['auth', 'api'])
 
-Route.get('data/generalize', 'DataController.generalizeDatas').middleware(['api', 'local'])
+Route.group(() =>
+{
+  Route.get('generalize', 'DataController.generalizeDatas')
+  Route.delete(':date', 'DataController.deleteTheDateDatas')
+}).prefix('data').middleware(['api', 'local'])
+
+Route.group(() =>
+{
+  Route.get('updateVersion', 'SysController.updateVersion').middleware(['local'])
+  Route.get('version', 'SysController.version')
+}).prefix('api/sys').middleware(['api'])
 
 

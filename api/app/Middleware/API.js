@@ -4,8 +4,10 @@ const CommonCodes = use('ApiCodes/Common')
 
 class OutputMiddleware
 {
-  async handle({response}, next) {
+  async handle({response}, next)
+  {
     // global.querys = []
+
     await next()
     const sendBody = {
       code: [CommonCodes.OK],
@@ -13,7 +15,6 @@ class OutputMiddleware
       // querys: querys.length
       //   ? querys
       //   : '', // assign in AppProvider
-      isRedis: global.isRedis
     }
     response.send(_.pickBy(sendBody))
   }

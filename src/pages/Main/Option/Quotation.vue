@@ -1,8 +1,6 @@
 <template>
   <section>
-
     <div class="row">
-
       <div class="col-md-offset-4 col-md-2 col-xs-12">
         <Select v-model="search.tmpWeekItem">
           <Option v-for="(item, index) in option.isWeekItem" :key="index" :value="item.value">
@@ -14,7 +12,6 @@
         <div class="col-md-6 col-xs-12">現在時間：{{ currentTime }}</div>
         <div class="col-md-6 col-xs-12">資料時間：{{ updateTime }}</div>
       </div>
-
     </div>
     <div class="row">
       <table class="table col-md-offset-4 col-md-4 col-xs-12 quotation">
@@ -27,9 +24,21 @@
         </thead>
         <tbody>
         <tr v-for="(item, index) in allItemsOrderByValueDesc" :key="index">
-          <td class="t-red">{{ _.getVal(_.last(CGroupItemInformed[item]), 'price', 0) }}</td>
-          <td>{{ item }}</td>
-          <td class="t-green">{{ _.getVal(_.last(PGroupItemInformed[item]), 'price', 0) }}</td>
+          <td class="item-c">
+            <span v-for="(val, index) in [_.getVal(_.last(CGroupItemInformed[item]), 'price', 0)]"
+                  :key="index"
+                  :class="getClassByValue(val)">
+              {{ val }}
+            </span>
+          </td>
+          <td class="item">{{ item }}</td>
+          <td class="item-p">
+            <span v-for="(val, index) in [_.getVal(_.last(PGroupItemInformed[item]), 'price', 0)]"
+                  :key="index"
+                  :class="getClassByValue(val, '')">
+              {{ val }}
+            </span>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -39,9 +48,10 @@
 
 <script>
   import OptionMixins from 'mixins/option'
+  import CSSMixins from 'mixins/css'
 
   export default {
-    mixins: [OptionMixins],
+    mixins: [OptionMixins, CSSMixins],
     data: () => ({
       search: {
         tmpWeekItem: 'true'
@@ -66,7 +76,7 @@
         this.timer = setInterval(() =>
         {
           this.getItemInformed()
-        }, getenv('waitSecs', 30) * 1000)
+        }, getenv('optionUpdateSecs', 30) * 1000)
       }
     },
     computed: {
@@ -99,8 +109,11 @@
     td
       width 33.3%
       text-align center
-    .t-red, .t-green
+    .item-c, .item-p
       font-weight 900
       font-size 1.8em
+    .item
+      font-weight 900
+      font-size 1.3em
 
 </style>

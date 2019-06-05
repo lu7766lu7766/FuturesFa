@@ -30,15 +30,16 @@ class AppProvider extends ServiceProvider
     {
       return this.format('YYYY-MM-DD')
     }
-
+    
     // 全域DB物件
     global.DB = use('Database')
     // 測試環境環傳sql
     // global.querys = []
-    // if (Env.get('NODE_ENV', 'development') === 'development')
-    // {
-    //   DB.on('query', _query => global.querys.push(_.pick(_query, ['bindings', 'sql'])))
-    // }
+    if (Env.get('DB_SQL_CONSOLE', 'false') === 'true')
+    {
+      DB.on('query', query => console.log(_.pick(query, ['bindings', 'sql'])))
+      // DB.on('query', _query => global.querys.push(_.pick(_query, ['bindings', 'sql'])))
+    }
 
     // 全域md5方法
     global.md5 = text => crypto.createHash('md5').update(text).digest('hex')
@@ -92,6 +93,10 @@ class AppProvider extends ServiceProvider
 
     // Log.info('first message')
     // Log.error('first message')
+
+    // action
+    const dataService = App.make('Service/Data')
+    dataService.setAllOptionData()
   }
 }
 

@@ -76,13 +76,15 @@ export default class BaseRequest
           router.push({
             name: 'login'
           })
-          errorMessages.push('Please Login!!')
-          return false
+          throw 'Please Login!!'
+          // errorMessages.push('Please Login!!')
+          // return false
           break
         default:
           errorMessages.push(errorCode[code]
             ? errorCode[code]
-            : 'system error!! please try again later')
+            : `system error!! please try again later.\n
+               status: ${res.status}, code: ${code}`)
           break
       }
     })

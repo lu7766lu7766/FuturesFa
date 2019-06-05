@@ -7,37 +7,42 @@ class DataController
 {
   async getOptionItemInformed()
   {
-    return await dataService.getOptionItemInformed()
+    return await dataService.getOptionItemInformedByRedis()
   }
 
   async getOptionChipAccumulation()
   {
-    return await dataService.getOptionChipAccumulation()
+    return await dataService.getOptionChipAccumulationByRedis()
   }
 
   // -------------
   async getTXO()
   {
-    return await dataService.getTXO()
+    return await dataService.getTXOByRedis()
   }
 
   // -------------
 
   async getOptionChip()
   {
-    return await dataService.getOptionChip()
+    return await dataService.getOptionChipByRedis()
   }
 
   async getFuturesChip()
   {
-    return await dataService.getFuturesChip()
+    return await dataService.getFuturesChipByRedis()
   }
 
   // -------------
 
-  async generalizeDatas()
+  async generalizeDatas(ctx)
   {
-    return await dataService.generalizeDatas()
+    return await dataService.generalizeDatas(ctx)
+  }
+
+  async deleteTheDateDatas(ctx)
+  {
+    return await dataService.deleteTheDateDatas(ctx)
   }
 }
 

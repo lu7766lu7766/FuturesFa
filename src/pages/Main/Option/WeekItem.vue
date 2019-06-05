@@ -24,75 +24,21 @@
     <div class="col-md-5 col-xs-12">
       <option-chip :height="height" />
     </div>
-    <table class="table table-striped txo">
-      <thead>
-      <tr>
-        <td>加權</td>
-        <td>漲跌</td>
-        <td>漲跌幅</td>
-        <td>台指</td>
-        <td>漲跌</td>
-        <td>漲跌幅</td>
-        <td>大戶(夜)</td>
-        <td>散戶(夜)</td>
-        <td>筆差</td>
-        <td>總Ｃ</td>
-        <td>總Ｐ</td>
-        <td>ＣＰ差額</td>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>
-          <span :class="txo.taiex > 0 ? 't-red' : 't-green'">{{ txo.taiex }}</span>
-        </td>
-        <td>
-          <span :class="txo.taiex_updown > 0 ? 't-red' : 't-green'">{{ txo.taiex_updown }}</span>
-        </td>
-        <td>
-          <span :class="txo.taiex_updown_range > 0 ? 't-red' : 't-green'">{{ txo.taiex_updown_range }}</span>
-        </td>
-        <td>
-          <span :class="txo.mtx > 0 ? 't-red' : 't-green'">{{ txo.mtx }}</span>
-        </td>
-        <td>
-          <span :class="txo.mtx_updown > 0 ? 't-red' : 't-green'">{{ txo.mtx_updown }}</span>
-        </td>
-        <td>
-          <span :class="txo.mtx_updown_range > 0 ? 't-red' : 't-green'">{{ txo.mtx_updown_range }}</span>
-        </td>
-        <td>
-          <span :class="txo.major > 0 ? 't-red' : 't-green'">{{ txo.major }}</span>
-        </td>
-        <td>
-          <span :class="txo.retail > 0 ? 't-red' : 't-green'">{{ txo.retail }}</span>
-        </td>
-        <td>
-          <span :class="txo.differ > 0 ? 't-red' : 't-green'">{{ txo.differ }}</span>
-        </td>
-        <td>
-          <span :class="txo.total_c > 0 ? 't-red' : 't-green'">{{ txo.total_c }}</span>
-        </td>
-        <td>
-          <span :class="txo.total_p > 0 ? 't-red' : 't-green'">{{ txo.total_p }}</span>
-        </td>
-        <td>
-          <span :class="txo.differ_cp > 0 ? 't-red' : 't-green'">{{ txo.differ_cp }}</span>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+
+    <TXO :txo="txo" />
   </div>
 </template>
 
 <script>
   import OptionMixins from 'mixins/option'
 
+
   export default {
     mixins: [OptionMixins],
     components: {
       FuturesChip: () => import('@/FuturesChip'),
-      OptionChip: () => import('@/OptionChip')
+      OptionChip: () => import('@/OptionChip'),
+      TXO: () => import('@/TXO')
     },
     data: () => ({
       isWeekItem: true,
@@ -104,7 +50,9 @@
     methods: {
       async getTXO()
       {
-        const res = await this.$api.data.getTXO()
+        const res = await this.$api.data.getTXO({
+          key: 'TXO'
+        })
         this.txo = res.data
       },
       startCounter()
@@ -113,11 +61,11 @@
         {
           this.getItemInformed()
           this.getTXO()
-        }, getenv('waitSecs', 30) * 1000)
+        }, getenv('optionUpdateSecs', 30) * 1000)
         this.timer2 = setInterval(() =>
         {
           this.getChipAccumulation()
-        }, 60 * 60 * 1000)
+        }, getenv('accumulationUpdateSecs', 30) * 1000)
       }
     },
     computed: {
@@ -162,12 +110,3 @@
   }
 </script>
 
-<style lang="stylus" scoped>
-  .txo
-    font-weight 900
-    thead
-      font-size 1.1em
-    tbody
-      font-size 2.0em
-
-</style>

@@ -1,40 +1,54 @@
 'use strict'
 
-const dataEndTime = moment().format('YYYY-MM-DD 14:00:00')
 const OptionChipModel = use('Models/OptionChip')
 const FuturesChipModel = use('Models/FuturesChip')
 
 class DataRepo
 {
-  ///////////////////// 資料整理start
-  async setDate(table)
+  getDateStartAndEndTime(date)
   {
-    try
+    return [moment(date).format('YYYY-MM-DD 15:00:00'), moment(date).add(1, 'days').format('YYYY-MM-DD 14:00:00')]
+  }
+
+  ///////////////////// 資料整理start
+  async setDate(trx, table, dataStartAndEndTime)
+  {
+    if (trx && typeof trx === 'function')
     {
-      await DB.table(table).update({
-        date: moment().subtract(1, 'days').getDate()
-      }).where('created_at', '<', dataEndTime)
-      return true
-    } catch (e)
+      await trx.table(table).update({date: date}).whereBetween('created_at', dataStartAndEndTime)
+    }
+    else
     {
-      console.log(e)
-      Log.error(e)
-      return false
+      await DB.table(table).update({date: date}).whereBetween('created_at', dataStartAndEndTime)
     }
   }
 
-  async transferOptionData()
+  async deleteTheDateData(trx, table, dataStartAndEndTime)
   {
+    if (trx && typeof trx === 'function')
+    {
+      await trx.table(table).delete().whereBetween('created_at', dataStartAndEndTime)
+    }
+    else
+    {
+      await DB.table(table).delete().whereBetween('created_at', dataStartAndEndTime)
+    }
+  }
+
+  async transferOptionData(date)
+  {
+    const dataStartAndEndTime = this.getDateStartAndEndTime(date)
     const trx = await DB.beginTransaction()
     try
     {
+      await this.setDate(trx, 'option', dataStartAndEndTime)
       await trx.raw(`
         insert into option_accumulation
           (select b.* 
-            from (select name, max(created_at) as last_time from option where created_at < ? group by name) as a 
-            left join option as b on a.name = b.name and a.last_time = b.created_at) `, [dataEndTime])
-      await trx.raw(`insert into option_log select * from option where created_at < ?`, [dataEndTime])
-      await trx.table('option').delete().where('created_at', '<', dataEndTime)
+            from (select name, max(created_at) as last_time from option where created_at between ? and ? group by name) as a 
+            left join option as b on a.name = b.name and a.last_time = b.created_at) `, dataStartAndEndTime)
+      await trx.raw(`insert into option_log select * from option where created_at between ? and ?`, dataStartAndEndTime)
+      await this.deleteTheDateData(trx, 'option', dataStartAndEndTime)
       trx.commit()
       return true
     } catch (e)
@@ -46,18 +60,15 @@ class DataRepo
     }
   }
 
-  async transferYesterdayData(source, target)
+  async transferTheDateData(source, target, date)
   {
-    return await this.transferData(`insert into \`${target}\` select * from \`${source}\` where created_at < '${dataEndTime}'`, source)
-  }
-
-  async transferData(sql, source)
-  {
+    const dataStartAndEndTime = this.getDateStartAndEndTime(date)
     const trx = await DB.beginTransaction()
     try
     {
-      await trx.raw(sql)
-      await trx.table(source).delete().where('created_at', '<', dataEndTime)
+      await this.setDate(trx, source, dataStartAndEndTime)
+      await trx.raw(`insert into ${target} select * from ${source} where created_at between ? and ?`, dataStartAndEndTime)
+      await this.deleteTheDateData(trx, source, dataStartAndEndTime)
       trx.commit()
       return true
     } catch (e)

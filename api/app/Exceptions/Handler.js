@@ -65,7 +65,7 @@ class ExceptionHandler extends BaseExceptionHandler
         break
       default:
         Log.error(error)
-        dd('exception!!', 'status:', error.status, 'name:', error.name, 'message:', error.message, 'messages:', error.messages)
+        console.log('exception!!', 'status:', error.status, 'name:', error.name, 'message:', error.message, 'messages:', error.messages)
         res.status(error.status).send(error.message)
         break
     }
