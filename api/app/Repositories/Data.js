@@ -11,15 +11,16 @@ class DataRepo
   }
 
   ///////////////////// 資料整理start
-  async setDate(trx, table, dataStartAndEndTime)
+  async setDate(trx, table, date)
   {
+    const dataStartAndEndTime = this.getDateStartAndEndTime(date)
     if (trx && typeof trx === 'function')
     {
-      await trx.table(table).update({date: date}).whereBetween('created_at', dataStartAndEndTime)
+      await trx.table(table).update({date}).whereBetween('created_at', dataStartAndEndTime)
     }
     else
     {
-      await DB.table(table).update({date: date}).whereBetween('created_at', dataStartAndEndTime)
+      await DB.table(table).update({date}).whereBetween('created_at', dataStartAndEndTime)
     }
   }
 
@@ -41,7 +42,7 @@ class DataRepo
     const trx = await DB.beginTransaction()
     try
     {
-      await this.setDate(trx, 'option', dataStartAndEndTime)
+      await this.setDate(trx, 'option', date)
       await trx.raw(`
         insert into option_accumulation
           (select b.* 
@@ -66,7 +67,7 @@ class DataRepo
     const trx = await DB.beginTransaction()
     try
     {
-      await this.setDate(trx, source, dataStartAndEndTime)
+      await this.setDate(trx, source, date)
       await trx.raw(`insert into ${target} select * from ${source} where created_at between ? and ?`, dataStartAndEndTime)
       await this.deleteTheDateData(trx, source, dataStartAndEndTime)
       trx.commit()

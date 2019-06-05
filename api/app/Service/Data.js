@@ -2,6 +2,7 @@
 
 const dataRepo = App.make('Repositories/Data')
 const redisService = App.make('Service/Redis')
+const CommonCodes = use('ApiCodes/Common')
 
 class DataService
 {
@@ -14,7 +15,14 @@ class DataService
     res = res && await dataRepo.transferOptionData(date)
     res = res && await dataRepo.transferTheDateData('futures_chip', 'futures_chip_log', date)
     res = res && await dataRepo.transferTheDateData('option_chip', 'option_chip_log', date)
-    return res
+    if (res)
+    {
+      return res
+    }
+    else
+    {
+      throw new ApiErrorException(CommonCodes.ERROR)
+    }
   }
 
   async deleteTheDateDatas({params})
