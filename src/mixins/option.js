@@ -105,7 +105,8 @@ export default {
     },
     getAnyNewItem(isWeekItem)
     {
-      return _.last(_.map(this.getGroupItemInformed('C', isWeekItem))[0])
+      // return _.last(_.map(this.getGroupItemInformed('C', isWeekItem))[0])
+      return _.first(_.map(this.getGroupItemInformed('C', isWeekItem))[0])
     },
   },
   computed: {
@@ -173,10 +174,13 @@ export default {
         {
           if (!this.showChipList || this.showChipList.indexOf(item) > -1)
           {
+            // 新倉跟舊倉可能同時存在資料，所以取前者
             result.push({
               item,
-              C: _.getVal(_.last(this.CGroupItemInformed[item]), 'chip_valume', 0),
-              P: _.getVal(_.last(this.PGroupItemInformed[item]), 'chip_valume', 0)
+              // C: _.getVal(_.last(this.CGroupItemInformed[item]), 'chip_valume', 0),
+              // P: _.getVal(_.last(this.PGroupItemInformed[item]), 'chip_valume', 0)
+              C: _(this.CGroupItemInformed).getVal(`${item}.0.chip_valume`, 0),
+              P: _(this.PGroupItemInformed).getVal(`${item}.0.chip_valume`, 0)
             })
           }
           return result
@@ -194,16 +198,21 @@ export default {
         {
           if (!this.showChipList || this.showChipList.indexOf(item) > -1)
           {
+            // 新倉跟舊倉可能同時存在資料，所以取前者
             result.push({
               item,
-              C: _.getVal(_.last(this.CGroupItemInformed[item]), 'chip_valume', 0) +
-                (this.CGroupChipAccumulation[item]
-                  ? _.getVal(_.last(this.CGroupChipAccumulation[item]), 'total_chip', 0)
-                  : 0),
-              P: _.getVal(_.last(this.PGroupItemInformed[item]), 'chip_valume', 0) +
-                (this.PGroupChipAccumulation[item]
-                  ? _.getVal(_.last(this.PGroupChipAccumulation[item]), 'total_chip', 0)
-                  : 0)
+              // C: _.getVal(_.last(this.CGroupItemInformed[item]), 'chip_valume', 0) +
+              //   (this.CGroupChipAccumulation[item]
+              //     ? _.getVal(_.last(this.CGroupChipAccumulation[item]), 'total_chip', 0)
+              //     : 0),
+              // P: _.getVal(_.last(this.PGroupItemInformed[item]), 'chip_valume', 0) +
+              //   (this.PGroupChipAccumulation[item]
+              //     ? _.getVal(_.last(this.PGroupChipAccumulation[item]), 'total_chip', 0)
+              //     : 0)
+              C: _(this.CGroupItemInformed).getVal(`${item}.0.chip_valume`, 0) +
+                _(this.CGroupChipAccumulation).getVal(`${item}.0.total_chip`, 0),
+              P: _(this.PGroupItemInformed).getVal(`${item}.0.chip_valume`, 0) +
+                _(this.PGroupChipAccumulation).getVal(`${item}.0.total_chip`, 0)
             })
           }
           return result
@@ -217,5 +226,9 @@ export default {
     {
       this.currentTime = moment().getDateTime()
     }, 1000)
+  },
+  destroy()
+  {
+    clearInterval(this.currentTimer)
   }
 }
