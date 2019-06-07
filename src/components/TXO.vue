@@ -2,19 +2,19 @@
   <table class="table table-striped txo rwd-table">
     <thead>
     <tr>
-      <td>加權</td>
-      <td>漲跌</td>
-      <td>漲跌幅</td>
-      <td>台指</td>
-      <td>漲跌</td>
-      <td>漲跌幅</td>
-      <td>正逆價差</td>
-      <td>大戶(夜)</td>
-      <td>散戶(夜)</td>
-      <td>筆差</td>
-      <td>總Ｃ</td>
-      <td>總Ｐ</td>
-      <td>ＣＰ差額</td>
+      <th>加權</th>
+      <th>漲跌</th>
+      <th>漲跌幅</th>
+      <th>台指</th>
+      <th>漲跌</th>
+      <th>漲跌幅</th>
+      <th>正逆價差</th>
+      <th>大戶(夜)</th>
+      <th>散戶(夜)</th>
+      <th>筆差</th>
+      <th>總Ｃ</th>
+      <th>總Ｐ</th>
+      <th>ＣＰ差額</th>
     </tr>
     </thead>
     <tbody>

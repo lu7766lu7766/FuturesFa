@@ -25,7 +25,10 @@
       <option-chip :height="height" />
     </div>
 
-    <TXO :txo="txo" />
+    <div class="table-responsive">
+      <TXO :txo="txo" />
+    </div>
+    
   </div>
 </template>
 
