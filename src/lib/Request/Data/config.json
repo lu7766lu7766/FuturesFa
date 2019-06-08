@@ -18,5 +18,9 @@
   "futures-chip": {
     "uri": "futures-chip",
     "method": "get"
+  },
+  "history": {
+    "uri": "history",
+    "method": "get"
   }
 }

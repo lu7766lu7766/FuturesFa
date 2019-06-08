@@ -35,4 +35,9 @@ export default class Data extends BaseRequest
   {
     return await this.request('futures-chip', data)
   }
+
+  async getHistory(data)
+  {
+    return await this.request('history', data)
+  }
 }
