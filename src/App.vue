@@ -84,6 +84,4 @@
         padding-left 0
       th:last-child, td:last-child
         padding-right 0
-
-
 </style>

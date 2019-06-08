@@ -18,7 +18,7 @@ class DataCollectController
     }
 
     const DataCollect = await redisService.get('DataCollect')
-    DataCollect[this.socket.id] = user
+    DataCollect[user.user_name] = user
     redisService.set('DataCollect', DataCollect)
   }
 
@@ -30,7 +30,7 @@ class DataCollectController
   async onClose(socket)
   {
     const DataCollect = await redisService.get('DataCollect')
-    delete DataCollect[socket.id]
+    delete DataCollect[this.auth.user.user_name]
     redisService.set('DataCollect', DataCollect)
     // same as: socket.on('close')
   }
