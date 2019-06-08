@@ -6,6 +6,9 @@ const CommonCodes = use('ApiCodes/Common')
 
 class DataService
 {
+
+  // ------------- data generalize
+
   async generalizeDatas(ctx)
   {
     let res = true
@@ -45,7 +48,7 @@ class DataService
     }
   }
 
-  ////////////
+  // ------------- option
 
   async getOptionItemInformed()
   {
@@ -97,6 +100,8 @@ class DataService
     return await redisService.get('FuturesChip')
   }
 
+  // ------------- data setting
+
   async setAllOptionData()
   {
     this.setOftenData()
@@ -117,20 +122,27 @@ class DataService
   }
   /////// history
 
-  async getOptionHostory(date)
+  async getHistory({request})
   {
-    return await dataRepo.getOptionHostory(date)
+    const startTime = moment(request.input('dateTime')).subtract(15, 'minutes').getDateTime()
+    const endTime = moment(request.input('dateTime')).getDateTime()
+    const date = this.getDateByTime(endTime)
+
+    const itemNames = _.map((await dataRepo.getItemNamesByDate(date)), 'name')
+    const option = await dataRepo.getOptionHostory(date, endTime, itemNames)
+    const option_accumulation = await dataRepo.getOptionAccumulationHostory(date, itemNames)
+    const option_chip = await dataRepo.getOptionChipHistory(startTime, endTime)
+    const futures_chip = await dataRepo.getFuturesChipHistory(startTime, endTime)
+    return {
+      option, option_accumulation, option_chip, futures_chip
+    }
   }
 
-
-  async getOptionChipHistory(date)
+  getDateByTime(time)
   {
-    return await dataRepo.getOptionChipHistory(date)
-  }
-
-  async getFuturesChipHistory(date)
-  {
-    return await dataRepo.getFuturesChipHistory(date)
+    return moment(time).isBefore(moment(time).format('YYYY-MM-DD 14:00:00'))
+      ? moment(time).subtract(1, 'days').getDate()
+      : moment(time).getDate()
   }
 }
 

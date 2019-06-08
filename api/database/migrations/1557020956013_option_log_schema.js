@@ -11,8 +11,8 @@ class OptionLogSchema extends Schema
     this.create('option_log', (table) =>
     {
       table.primary(['name', 'created_at'])
-      table.date('date').comment('開盤日期').notNullable()
-      table.string('name', 50).comment('商品名').notNullable()
+      table.date('date').comment('開盤日期').notNullable().index()
+      table.string('name', 50).comment('商品名').notNullable().index()
       table.string('item', 20).comment('商品編號').notNullable()
       table.integer('chip_valume', 10).default(0).comment('籌碼量')
       table.decimal('price', 10, 2).default(0).comment('現價(成交,報價)')

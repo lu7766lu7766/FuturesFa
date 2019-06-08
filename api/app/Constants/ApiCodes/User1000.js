@@ -1,4 +1,4 @@
-class Common
+class User1000
 {
   static get USER_OR_PASSWORD_ERROR() { return 1001 }
 
@@ -25,4 +25,4 @@ class Common
   static get USER_EXISTS() { return 1012 }
 }
 
-module.exports = Common
+module.exports = User1000

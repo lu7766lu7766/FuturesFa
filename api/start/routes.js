@@ -41,6 +41,8 @@ Route.group(() =>
   Route.get('txo', 'DataController.getTXO')
   Route.get('option-chip', 'DataController.getOptionChip')
   Route.get('futures-chip', 'DataController.getFuturesChip')
+
+  Route.get('history', 'DataController.getHistory').validator('Data/History')
 }).prefix('api/data').middleware(['auth', 'api'])
 
 Route.group(() =>
@@ -54,5 +56,6 @@ Route.group(() =>
   Route.get('updateVersion', 'SysController.updateVersion').middleware(['local'])
   Route.get('version', 'SysController.version')
 }).prefix('api/sys').middleware(['api'])
+
 
 
