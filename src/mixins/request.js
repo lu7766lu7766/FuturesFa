@@ -4,16 +4,19 @@ export default {
   mixins: [PageMixins],
   methods: {
     async callApi(f) {
-      this.$loading()
+      let loader = this.$loading.show({
+        container: this.$el,
+        canCancel: true
+      })
       try
       {
         await f()
       } catch (e)
       {
-        this.$loading.close()
+        loader.hide()
         throw e
       }
-      this.$loading.close()
+      loader.hide()
     },
     sMsg() {
       this.$Message.success('success')

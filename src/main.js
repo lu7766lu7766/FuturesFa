@@ -67,10 +67,10 @@ import MyPlugin from 'src/plugin'
 
 Vue.use(MyPlugin)
 
-import 'vue2-toast/lib/toast.css'
-import Toast from 'vue2-toast'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 
-Vue.use(Toast)
+Vue.use(Loading)
 
 // Vue.config.errorHandler = (err, vm, info) =>
 // {
