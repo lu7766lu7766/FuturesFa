@@ -41,7 +41,7 @@ export default {
     {
       const data = this.getAnyNewItem(this.isWeekItem)
       return data
-        ? moment(data.created_at).getDateTime()
+        ? moment(data.created_at || data.last_time).getDateTime()
         : ''
     }
   },

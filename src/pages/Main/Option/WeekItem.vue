@@ -5,30 +5,39 @@
       資料時間：{{ updateTime }}
     </div>
     <!-- 當日籌碼 -->
-    <div class="col-md-7 col-xs-12">
-      <option-histogram
-          :data="WeekInformedChartData"
-          :config="getWeekTodayConfig"
-          :height="height"></option-histogram>
+    <div class="col-md-3">
+      <quotation :showTime="false"
+                 :centerPoint="centerPoint"
+                 :showRange="8"></quotation>
     </div>
-    <div class="col-md-5 col-xs-12">
-      <futures-chip
-          :data="futuresChip"
-          :subTitle="theDate"
-          :height="height" />
-    </div>
-    <!-- 累計籌碼 -->
-    <div class="col-md-7 col-xs-12">
-      <option-histogram
-          :data="WeekChipAccumulationChartData"
-          :config="getWeekAccumulationConifg"
-          :height="height"></option-histogram>
-    </div>
-    <div class="col-md-5 col-xs-12">
-      <option-chip
-          :data="optionChip"
-          :subTitle="theDate"
-          :height="height" />
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-7 col-xs-12">
+          <option-histogram
+              :data="WeekInformedChartData"
+              :config="getWeekTodayConfig"
+              :height="height"></option-histogram>
+        </div>
+        <div class="col-md-5 col-xs-12">
+          <futures-chip
+              :data="futuresChip"
+              :subTitle="theDate"
+              :height="height" />
+        </div>
+        <!-- 累計籌碼 -->
+        <div class="col-md-7 col-xs-12">
+          <option-histogram
+              :data="WeekChipAccumulationChartData"
+              :config="getWeekAccumulationConifg"
+              :height="height"></option-histogram>
+        </div>
+        <div class="col-md-5 col-xs-12">
+          <option-chip
+              :data="optionChip"
+              :subTitle="theDate"
+              :height="height" />
+        </div>
+      </div>
     </div>
 
     <div class="table-responsive">
@@ -49,7 +58,8 @@
       OptionHistogram: () => import('@/OptionHistogram'),
       FuturesChip: () => import('@/FuturesChip'),
       OptionChip: () => import('@/OptionChip'),
-      TXO: () => import('@/TXO')
+      TXO: () => import('@/TXO'),
+      Quotation: () => import('@/Quotation')
     },
     data: () => ({
       isWeekItem: true,
@@ -98,6 +108,7 @@
       },
       showChipList()
       {
+        const showRange = 5
         let mustNeerItem = 0, neerIndex = 0
         this.allWeekItems.forEach((item, index) =>
         {
@@ -107,12 +118,12 @@
             neerIndex = index
           }
         })
-        const startIndex = (neerIndex - 5) < 0
+        const startIndex = (neerIndex - showRange) < 0
           ? 0
-          : neerIndex - 5
+          : neerIndex - showRange
 
         // 前5後5所以11
-        return _.cloneDeep(this.allWeekItems).splice(startIndex, 11)
+        return _.cloneDeep(this.allWeekItems).splice(startIndex, showRange * 2 + 1)
       }
     },
     async mounted()
