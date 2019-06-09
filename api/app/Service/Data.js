@@ -143,6 +143,28 @@ class DataService
   }
 
   // ------------- data setting
+  isDataTransferTime()
+  {
+    const now = moment()
+    switch (now.format('e'))
+    {
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+        return now.isBetween(now.format('YYYY-MM-DD 15:00:00'), now.format('YYYY-MM-DD 23:59:59')) ||
+          now.isBetween(now.format('YYYY-MM-DD 00:00:00'), now.format('YYYY-MM-DD 05:00:00')) ||
+          now.isBetween(now.format('YYYY-MM-DD 08:45:00'), now.format('YYYY-MM-DD 13:45:00'))
+        break
+      case '6':
+        return now.isBetween(now.format('YYYY-MM-DD 00:00:00'), now.format('YYYY-MM-DD 05:00:00'))
+        break
+      default:
+        return false
+        break
+    }
+  }
 
   async setAllOptionData()
   {
@@ -152,6 +174,7 @@ class DataService
 
   async setOftenData()
   {
+    if (!this.isDataTransferTime()) return
     await redisService.set('OptionItemInformed', (await this.getOptionItemInformed()))
     await redisService.set('TXO', (await this.getTXO()))
     await redisService.set('OptionChip', (await this.getOptionChip()))
@@ -160,6 +183,7 @@ class DataService
 
   async setOccasionallyData()
   {
+    if (!this.isDataTransferTime()) return
     await redisService.set('OptionChipAccumulation', (await this.getOptionChipAccumulation()))
   }
   /////// history
