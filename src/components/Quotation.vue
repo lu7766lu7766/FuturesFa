@@ -51,6 +51,10 @@
   export default {
     mixins: [OptionPageMixins, OptionWeekMixins, OptionMonthMixins, CSSMixins],
     props: {
+      data: {
+        type: Array,
+        required: true
+      },
       showTime: {
         type: Boolean,
         default: true
@@ -78,16 +82,12 @@
             value: 'false'
           }
         ]
-      },
-      timer: null
+      }
     }),
-    methods: {
-      startCounter()
+    watch: {
+      data()
       {
-        this.timer = setInterval(() =>
-        {
-          this.getItemInformed()
-        }, getenv('optionUpdateSecs', 30) * 1000)
+        this.itemInformedDatas = this.data
       }
     },
     computed: {
@@ -132,17 +132,9 @@
         return _.cloneDeep(this.allItemsOrderByValueDesc).splice(startIndex, this.showRange * 2 + 1)
       }
     },
-    created()
+    mounted()
     {
-      this.callApi(async () =>
-      {
-        await this.getItemInformed()
-        this.startCounter()
-      })
-    },
-    destroyed()
-    {
-      clearInterval(this.timer)
+      this.itemInformedDatas = this.data
     }
   }
 </script>

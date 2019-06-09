@@ -6,7 +6,8 @@
     </div>
     <!-- 當日籌碼 -->
     <div class="col-md-3">
-      <quotation :showTime="false"
+      <quotation :data="itemInformedDatas"
+                 :showTime="false"
                  :centerPoint="centerPoint"
                  :showRange="8"></quotation>
     </div>
