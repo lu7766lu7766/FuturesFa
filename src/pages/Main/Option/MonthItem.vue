@@ -5,24 +5,28 @@
       資料時間：{{ updateTime }}
     </div>
     <div class="col-md-12 col-xs-12">
-      <ve-histogram
-          :data="InformedChartData"
-          :after-config="getTodayConfig"></ve-histogram>
+      <option-histogram
+          :data="MonthInformedChartData"
+          :config="getMonthTodayConfig"></option-histogram>
     </div>
     <div class="col-md-12 col-xs-12">
-      <ve-histogram
-          :data="ChipAccumulationChartData"
-          :after-config="getAccumulationConifg"></ve-histogram>
+      <option-histogram
+          :data="MonthChipAccumulationChartData"
+          :config="getMonthAccumulationConifg"></option-histogram>
     </div>
   </div>
 </template>
 
 <script>
-  import OptionMixins from 'mixins/option'
-  import OptionType from 'Constants/OptionType'
+  import OptionPageMixins from 'mixins/option/page'
+  import OptionMonthMixins from 'mixins/option/month'
+
 
   export default {
-    mixins: [OptionMixins],
+    mixins: [OptionPageMixins, OptionMonthMixins],
+    components: {
+      OptionHistogram: () => import('@/OptionHistogram')
+    },
     data: () => ({
       isWeekItem: false,
       timer: null,

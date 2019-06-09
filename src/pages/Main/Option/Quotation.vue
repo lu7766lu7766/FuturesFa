@@ -47,11 +47,11 @@
 </template>
 
 <script>
-  import OptionMixins from 'mixins/option'
+  import OptionPageMixins from 'mixins/option/page'
   import CSSMixins from 'mixins/css'
 
   export default {
-    mixins: [OptionMixins, CSSMixins],
+    mixins: [OptionPageMixins, CSSMixins],
     data: () => ({
       search: {
         tmpWeekItem: 'true'

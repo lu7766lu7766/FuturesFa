@@ -6,39 +6,47 @@
     </div>
     <!-- 當日籌碼 -->
     <div class="col-md-7 col-xs-12">
-      <ve-histogram
-          :data="InformedChartData"
-          :after-config="getTodayConfig"
-          :height="height"></ve-histogram>
+      <option-histogram
+          :data="WeekInformedChartData"
+          :config="getWeekTodayConfig"
+          :height="height"></option-histogram>
     </div>
     <div class="col-md-5 col-xs-12">
-      <futures-chip :height="height" />
+      <futures-chip
+          :data="futuresChip"
+          :subTitle="theDate"
+          :height="height" />
     </div>
     <!-- 累計籌碼 -->
     <div class="col-md-7 col-xs-12">
-      <ve-histogram
-          :data="ChipAccumulationChartData"
-          :after-config="getAccumulationConifg"
-          :height="height"></ve-histogram>
+      <option-histogram
+          :data="WeekChipAccumulationChartData"
+          :config="getWeekAccumulationConifg"
+          :height="height"></option-histogram>
     </div>
     <div class="col-md-5 col-xs-12">
-      <option-chip :height="height" />
+      <option-chip
+          :data="optionChip"
+          :subTitle="theDate"
+          :height="height" />
     </div>
 
     <div class="table-responsive">
       <TXO :txo="txo" />
     </div>
-    
+
   </div>
 </template>
 
 <script>
-  import OptionMixins from 'mixins/option'
+  import OptionPageMixins from 'mixins/option/page'
+  import OptionWeekMixins from 'mixins/option/week'
 
 
   export default {
-    mixins: [OptionMixins],
+    mixins: [OptionPageMixins, OptionWeekMixins],
     components: {
+      OptionHistogram: () => import('@/OptionHistogram'),
       FuturesChip: () => import('@/FuturesChip'),
       OptionChip: () => import('@/OptionChip'),
       TXO: () => import('@/TXO')
@@ -48,15 +56,25 @@
       timer: null,
       timer2: null,
       txo: {},
-      height: '325px'
+      height: '325px',
+      futuresChip: [],
+      optionChip: []
     }),
     methods: {
       async getTXO()
       {
-        const res = await this.$api.data.getTXO({
-          key: 'TXO'
-        })
+        const res = await this.$api.data.getTXO()
         this.txo = res.data
+      },
+      async getFuturesChip()
+      {
+        const res = await this.$api.data.getFuturesChip()
+        this.futuresChip = res.data
+      },
+      async getOptionChip()
+      {
+        const res = await this.$api.data.getOptionChip()
+        this.optionChip = res.data
       },
       startCounter()
       {
@@ -64,11 +82,13 @@
         {
           this.getItemInformed()
           this.getTXO()
+          this.getFuturesChip()
+          this.getOptionChip()
         }, getenv('optionUpdateSecs', 30) * 1000)
         this.timer2 = setInterval(() =>
         {
           this.getChipAccumulation()
-        }, getenv('accumulationUpdateSecs', 30) * 1000)
+        }, getenv('accumulationUpdateSecs', 3600) * 1000)
       }
     },
     computed: {
@@ -100,7 +120,9 @@
       await axios.all([
         this.getTXO(),
         this.getItemInformed(),
-        this.getChipAccumulation()
+        this.getChipAccumulation(),
+        this.getFuturesChip(),
+        this.getOptionChip()
       ])
       this.startCounter()
       // this.height = Math.floor(($('.layout-content').height() - $('.txo').height()) / 2) + 'px'
