@@ -86,9 +86,14 @@ class DataRepo
 
   // ------------- option
 
+  async getInfoLastDate()
+  {
+    return moment(_.first(await DB.table('option_accumulation').max('date as last_date')).last_date).getDateTime()
+  }
+
   async getOptionItemInformed()
   {
-    return await DB.select('name', 'item', 'chip_valume', 'price', 'created_at').table('option_item_informed')
+    return await DB.table('option_item_informed').select('name', 'item', 'chip_valume', 'price', 'created_at')
   }
 
   async getOptionChipAccumulation()
@@ -125,6 +130,7 @@ class DataRepo
   }
 
   // ------------- history
+
   async getItemNamesByDate(date)
   {
     return await DB.table('option_accumulation').where('date', date).select('name')

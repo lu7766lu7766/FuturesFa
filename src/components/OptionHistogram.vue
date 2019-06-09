@@ -2,7 +2,7 @@
   <ve-histogram
       :data="data"
       :after-config="config"
-      :height="height ? height : 'auto'"></ve-histogram>
+      :height="height ? height : '400px'"></ve-histogram>
 </template>
 
 <script>

@@ -99,7 +99,7 @@
       showChipList()
       {
         let mustNeerItem = 0, neerIndex = 0
-        this.allItems.forEach((item, index) =>
+        this.allWeekItems.forEach((item, index) =>
         {
           if (Math.abs(this.centerPoint - item) < Math.abs(this.centerPoint - mustNeerItem))
           {
@@ -112,7 +112,7 @@
           : neerIndex - 5
 
         // 前5後5所以11
-        return _.cloneDeep(this.allItems).splice(startIndex, 11)
+        return _.cloneDeep(this.allWeekItems).splice(startIndex, 11)
       }
     },
     async mounted()

@@ -52,7 +52,17 @@ class DataService
 
   async getOptionItemInformed()
   {
-    return await dataRepo.getOptionItemInformed()
+    const res = await dataRepo.getOptionItemInformed()
+    if (!res.length)
+    {
+      const date = await dataRepo.getInfoLastDate()
+      const itemNames = _.map((await dataRepo.getItemNamesByDate(date)), 'name')
+      return dataRepo.getOptionHostory(date, moment(date).add(1, 'days').format('YYYY-MM-DD 15:00:00'), itemNames)
+    }
+    else
+    {
+      return res
+    }
   }
 
   async getOptionItemInformedByRedis()
@@ -62,7 +72,17 @@ class DataService
 
   async getOptionChipAccumulation()
   {
-    return await dataRepo.getOptionChipAccumulation()
+    const res = await dataRepo.getOptionChipAccumulation()
+    if (!res.length)
+    {
+      const date = await dataRepo.getInfoLastDate()
+      const itemNames = _.map((await dataRepo.getItemNamesByDate(date)), 'name')
+      return dataRepo.getOptionAccumulationHostory(date, itemNames)
+    }
+    else
+    {
+      return res
+    }
   }
 
   async getOptionChipAccumulationByRedis()
@@ -82,7 +102,18 @@ class DataService
 
   async getOptionChip()
   {
-    return await dataRepo.getOptionChip()
+    const res = await dataRepo.getOptionChip()
+    if (!res.length)
+    {
+      const date = await dataRepo.getInfoLastDate()
+      return dataRepo.getOptionChipHistory(
+        moment(date).format('YYYY-MM-DD 15:00:00'),
+        moment(date).add(1, 'days').format('YYYY-MM-DD 13:45:10'))
+    }
+    else
+    {
+      return res
+    }
   }
 
   async getOptionChipByRedis()
@@ -92,7 +123,18 @@ class DataService
 
   async getFuturesChip()
   {
-    return await dataRepo.getFuturesChip()
+    const res = await dataRepo.getFuturesChip()
+    if (!res.length)
+    {
+      const date = await dataRepo.getInfoLastDate()
+      return dataRepo.getFuturesChipHistory(
+        moment(date).format('YYYY-MM-DD 15:00:00'),
+        moment(date).add(1, 'days').format('YYYY-MM-DD 13:45:10'))
+    }
+    else
+    {
+      return res
+    }
   }
 
   async getFuturesChipByRedis()
