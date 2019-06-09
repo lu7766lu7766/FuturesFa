@@ -25,7 +25,7 @@
         <tbody>
         <tr v-for="(item, index) in allItemsOrderByValueDesc" :key="index">
           <td class="item-c">
-            <span v-for="(val, index) in [_.getVal(_.last(CGroupItemInformed[item]), 'price', 0)]"
+            <span v-for="(val, index) in [_.getVal(currentCGroupItemInformed, `${item}.0.price`, 0)]"
                   :key="index"
                   :class="getClassByValue(val)">
               {{ val }}
@@ -33,7 +33,7 @@
           </td>
           <td class="item">{{ item }}</td>
           <td class="item-p">
-            <span v-for="(val, index) in [_.getVal(_.last(PGroupItemInformed[item]), 'price', 0)]"
+            <span v-for="(val, index) in [_.getVal(currentPGroupItemInformed, `${item}.0.price`, 0)]"
                   :key="index"
                   :class="getClassByValue(val, '')">
               {{ val }}
@@ -48,10 +48,12 @@
 
 <script>
   import OptionPageMixins from 'mixins/option/page'
+  import OptionWeekMixins from 'mixins/option/week'
+  import OptionMonthMixins from 'mixins/option/month'
   import CSSMixins from 'mixins/css'
 
   export default {
-    mixins: [OptionPageMixins, CSSMixins],
+    mixins: [OptionPageMixins, OptionWeekMixins, OptionMonthMixins, CSSMixins],
     data: () => ({
       search: {
         tmpWeekItem: 'true'
@@ -86,7 +88,22 @@
       },
       allItemsOrderByValueDesc()
       {
-        return _.orderBy(_.map(this.allItems, x => +x), x => x, 'desc')
+        const allItems = this.isWeekItem
+          ? this.allWeekItems
+          : this.allMonthItems
+        return _.orderBy(_.map(allItems, x => +x), x => x, 'desc')
+      },
+      currentCGroupItemInformed()
+      {
+        return this.isWeekItem
+          ? this.CGroupWeekItemInformed
+          : this.CGroupMonthItemInformed
+      },
+      currentPGroupItemInformed()
+      {
+        return this.isWeekItem
+          ? this.PGroupWeekItemInformed
+          : this.PGroupMonthItemInformed
       }
     },
     created()
