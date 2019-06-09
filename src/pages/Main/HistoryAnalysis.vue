@@ -14,53 +14,66 @@
       <Button type="success" @click="doRefresh()">送出</Button>
     </div>
 
-    <Divider>週選</Divider>
-    <!-- 週選 -->
-    <!-- 當日籌碼 -->
-    <div class="col-md-7 col-xs-12">
-      <option-histogram
-          :data="WeekInformedChartData"
-          :config="getWeekTodayConfig"
-          :height="height"></option-histogram>
-    </div>
-    <div class="col-md-5 col-xs-12">
-      <futures-chip
-          :data="futuresChip"
-          :subTitle="theDate"
-          :height="height" />
-    </div>
-    <!-- 累計籌碼 -->
-    <div class="col-md-7 col-xs-12">
-      <option-histogram
-          :data="WeekChipAccumulationChartData"
-          :config="getWeekAccumulationConifg"
-          :height="height"></option-histogram>
-    </div>
-    <div class="col-md-5 col-xs-12">
-      <option-chip
-          :data="optionChip"
-          :subTitle="theDate"
-          :height="height" />
-    </div>
+    <div class="col-md-12"
+         :style="{visibility: !!itemInformedDatas.length? '' : 'hidden'}">
+      <Divider>週選</Divider>
+      <!-- 週選 -->
+      <!-- 當日籌碼 -->
+      <div class="row">
+        <div class="col-md-7 col-xs-12">
+          <option-histogram
+              :data="WeekInformedChartData"
+              :config="getWeekTodayConfig"
+              :height="height"></option-histogram>
+        </div>
+        <div class="col-md-5 col-xs-12">
+          <futures-chip
+              :data="futuresChip"
+              :subTitle="theDate"
+              :height="height" />
+        </div>
+      </div>
 
-    <Divider>月選</Divider>
+      <!-- 累計籌碼 -->
+      <div class="row">
+        <div class="col-md-7 col-xs-12">
+          <option-histogram
+              :data="WeekChipAccumulationChartData"
+              :config="getWeekAccumulationConifg"
+              :height="height"></option-histogram>
+        </div>
+        <div class="col-md-5 col-xs-12">
+          <option-chip
+              :data="optionChip"
+              :subTitle="theDate"
+              :height="height" />
+        </div>
+      </div>
 
-    <!-- 月選 -->
-    <!-- 當日籌碼 -->
-    <div class="col-md-12 col-xs-12">
-      <option-histogram
-          :data="MonthInformedChartData"
-          :config="getMonthTodayConfig"
-          :height="height"></option-histogram>
-    </div>
-    <!-- 累計籌碼 -->
-    <div class="col-md-12 col-xs-12">
-      <option-histogram
-          :data="MonthChipAccumulationChartData"
-          :config="getMonthAccumulationConifg"
-          :height="height"></option-histogram>
-    </div>
 
+      <Divider>月選</Divider>
+      <!-- 月選 -->
+      <!-- 當日籌碼 -->
+      <div class="row">
+        <div class="col-md-12 col-xs-12">
+          <option-histogram
+              :data="MonthInformedChartData"
+              :config="getMonthTodayConfig"
+              :height="height"></option-histogram>
+        </div>
+      </div>
+
+      <!-- 累計籌碼 -->
+      <div class="row">
+        <div class="col-md-12 col-xs-12">
+          <option-histogram
+              :data="MonthChipAccumulationChartData"
+              :config="getMonthAccumulationConifg"
+              :height="height"></option-histogram>
+        </div>
+      </div>
+    </div>
+    
   </div>
 </template>
 
