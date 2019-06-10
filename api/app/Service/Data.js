@@ -103,7 +103,7 @@ class DataService
   async getOptionChip()
   {
     const res = await dataRepo.getOptionChip()
-    if (!res.length)
+    if (!res.toJSON().length)
     {
       const date = await dataRepo.getInfoLastDate()
       return dataRepo.getOptionChipHistory(
@@ -124,7 +124,7 @@ class DataService
   async getFuturesChip()
   {
     const res = await dataRepo.getFuturesChip()
-    if (!res.length)
+    if (!res.toJSON().length)
     {
       const date = await dataRepo.getInfoLastDate()
       return dataRepo.getFuturesChipHistory(
