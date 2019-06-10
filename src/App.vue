@@ -76,8 +76,8 @@
     .rwd-table
       th, td
         display table-cell
-        //padding 0.25em 0.5em
-        padding 1em !important
+        padding 0.25em 0.5em
+      //padding 0.4em !important
       td:before
         display none
       th:first-child, td:first-child

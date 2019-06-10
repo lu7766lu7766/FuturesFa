@@ -4,6 +4,13 @@
       現在時間：{{ currentTime }} &nbsp;&nbsp;
       資料時間：{{ updateTime }}
     </div>
+
+    <div class="col-md-12 col-xs-12">
+      <div class="table-responsive">
+        <TXO :txo="txo" />
+      </div>
+    </div>
+
     <!-- 當日籌碼 -->
     <div class="col-md-3">
       <quotation :data="itemInformedDatas"
@@ -40,11 +47,7 @@
         </div>
       </div>
     </div>
-
-    <div class="table-responsive">
-      <TXO :txo="txo" />
-    </div>
-
+    
   </div>
 </template>
 
