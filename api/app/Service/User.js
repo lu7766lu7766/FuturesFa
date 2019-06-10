@@ -188,7 +188,7 @@ class UserService
    */
   async clearRedisOnlineMembers()
   {
-    redisService.set('DataCollect', {})
+    await redisService.set('DataCollect', {})
   }
 }
 
