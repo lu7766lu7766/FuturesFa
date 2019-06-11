@@ -11,14 +11,15 @@
       </div>
     </div>
 
-    <!-- 當日籌碼 -->
-    <div class="col-md-3">
+
+    <div class="col-md-2">
       <quotation :data="itemInformedDatas"
                  :showTime="false"
                  :centerPoint="centerPoint"
                  :showRange="8"></quotation>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-10">
+      <!-- 當日籌碼 -->
       <div class="row">
         <div class="col-md-7 col-xs-12">
           <option-histogram
@@ -47,7 +48,7 @@
         </div>
       </div>
     </div>
-    
+
   </div>
 </template>
 
