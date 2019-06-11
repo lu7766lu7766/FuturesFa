@@ -6,9 +6,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item-dropdown text="後台管理">
-            <b-dropdown-item>
-              在線人數：{{ _.keys($store.state.User.online).length }}
-            </b-dropdown-item>
+
             <b-dropdown-item :to="{ name: 'account-manage'}">
               帳號管理
             </b-dropdown-item>
@@ -34,6 +32,19 @@
             歷史分析
           </b-nav-item>
         </b-navbar-nav>
+
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item-dropdown right>
+            <template slot="button-content"><em>在線人數：{{ _.keys($store.state.User.online).length }}</em></template>
+            <b-dropdown-item href="#" v-for="(user, account) in $store.state.User.online" :key="account">
+              {{ account }}({{ user.nick_name }})
+            </b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item>
+
+          </b-nav-item>
+        </b-navbar-nav>
+
       </b-collapse>
     </b-navbar>
 
