@@ -103,10 +103,8 @@ class DataService
   async getOptionChip()
   {
     const res = await dataRepo.getOptionChip()
-    console.log('option_chip', res.toJSON().length)
     if (!res.toJSON().length)
     {
-      console.log(res.toJSON())
       const date = await dataRepo.getInfoLastDate()
       return dataRepo.getOptionChipHistory(
         moment(date).format('YYYY-MM-DD 15:00:00'),
@@ -126,10 +124,8 @@ class DataService
   async getFuturesChip()
   {
     const res = await dataRepo.getFuturesChip()
-    console.log('futures_chip', res.toJSON().length)
     if (!res.toJSON().length)
     {
-      console.log(res.toJSON())
       const date = await dataRepo.getInfoLastDate()
       return dataRepo.getFuturesChipHistory(
         moment(date).format('YYYY-MM-DD 15:00:00'),
