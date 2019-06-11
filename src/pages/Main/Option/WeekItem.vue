@@ -14,7 +14,6 @@
 
     <div class="col-md-2">
       <quotation :data="itemInformedDatas"
-                 :showTime="false"
                  :centerPoint="centerPoint"
                  :showRange="8"></quotation>
     </div>

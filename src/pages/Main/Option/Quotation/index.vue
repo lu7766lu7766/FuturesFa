@@ -1,7 +1,9 @@
 <template>
   <div class="row">
-    <div class="col-md-4 offset-md-4 col-xs-12">
-      <quotation :data="itemInformedDatas" :showTime="true"></quotation>
+    <div class="col-md-5 offset-md-4 col-xs-12">
+      <quotation :data="itemInformedDatas"
+                 :updateTime="updateTime"
+                 :currentTime="currentTime"></quotation>
     </div>
   </div>
 </template>

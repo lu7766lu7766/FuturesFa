@@ -1,13 +1,13 @@
 <template>
   <div class="row">
-    <div class="col-md-3 col-xs-12">
+    <div class="col-xs-12" :class="!!updateTime ? 'col-md-3' : 'col-md-6'">
       <Select v-model="search.tmpWeekItem">
         <Option v-for="(item, index) in option.isWeekItem" :key="index" :value="item.value">
           {{ item.name }}
         </Option>
       </Select>
     </div>
-    <div class="col-md-9 col-xs-12" v-if="showTime">
+    <div class="col-md-9 col-xs-12" v-if="updateTime">
       <div class="col-md-6 col-xs-12">現在時間：{{ currentTime }}</div>
       <div class="col-md-6 col-xs-12">資料時間：{{ updateTime }}</div>
     </div>
@@ -43,21 +43,22 @@
 </template>
 
 <script>
-  import OptionPageMixins from 'mixins/option/page'
   import OptionWeekMixins from 'mixins/option/week'
   import OptionMonthMixins from 'mixins/option/month'
   import CSSMixins from 'mixins/css'
 
   export default {
-    mixins: [OptionPageMixins, OptionWeekMixins, OptionMonthMixins, CSSMixins],
+    mixins: [OptionWeekMixins, OptionMonthMixins, CSSMixins],
     props: {
       data: {
         type: Array,
         required: true
       },
-      showTime: {
-        type: Boolean,
-        default: true
+      currentTime: {
+        type: String
+      },
+      updateTime: {
+        type: String
       },
       centerPoint: {
         type: Number
