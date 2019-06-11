@@ -33,7 +33,7 @@
           </b-nav-item>
         </b-navbar-nav>
 
-        <b-navbar-nav class="ml-auto">
+        <b-navbar-nav class="ml-auto" v-if="User.isAdmin">
           <b-nav-item-dropdown right>
             <template slot="button-content"><em>在線人數：{{ _.keys($store.state.User.online).length }}</em></template>
             <b-dropdown-item href="#" v-for="(user, account) in $store.state.User.online" :key="account">
@@ -115,7 +115,7 @@
       this.wsConnect()
       const res = await this.$api.user.getInfo()
       this.$store.commit(UserType.setInfo, res.data)
-      setInterval(() =>
+      User.isAdmin && setInterval(() =>
       {
         this.getOnlineMembers()
       }, 10 * 1000)
