@@ -2,5 +2,9 @@
   "version": {
     "uri": "version",
     "method": "get"
+  },
+  "isMonthEndWeek": {
+    "uri": "isMonthItemEndWeek",
+    "method": "get"
   }
 }

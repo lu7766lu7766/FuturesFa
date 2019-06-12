@@ -22,8 +22,14 @@
       <div class="row">
         <div class="col-md-7 col-xs-12">
           <option-histogram
+              v-if="isWeekItem"
               :data="WeekInformedChartData"
               :config="getWeekTodayConfig"
+              :height="height"></option-histogram>
+          <option-histogram
+              v-else
+              :data="MonthInformedChartData"
+              :config="getMonthTodayConfig"
               :height="height"></option-histogram>
         </div>
         <div class="col-md-5 col-xs-12">
@@ -35,8 +41,14 @@
         <!-- 累計籌碼 -->
         <div class="col-md-7 col-xs-12">
           <option-histogram
+              v-if="isWeekItem"
               :data="WeekChipAccumulationChartData"
               :config="getWeekAccumulationConifg"
+              :height="height"></option-histogram>
+          <option-histogram
+              v-else
+              :data="MonthChipAccumulationChartData"
+              :config="getMonthAccumulationConifg"
               :height="height"></option-histogram>
         </div>
         <div class="col-md-5 col-xs-12">
@@ -54,10 +66,11 @@
 <script>
   import OptionPageMixins from 'mixins/option/page'
   import OptionWeekMixins from 'mixins/option/week'
+  import OptionMonthMixins from 'mixins/option/month'
 
 
   export default {
-    mixins: [OptionPageMixins, OptionWeekMixins],
+    mixins: [OptionPageMixins, OptionWeekMixins, OptionMonthMixins],
     components: {
       OptionHistogram: () => import('@/OptionHistogram'),
       FuturesChip: () => import('@/FuturesChip'),
@@ -90,6 +103,11 @@
         const res = await this.$api.data.getOptionChip()
         this.optionChip = res.data
       },
+      async checkIsMonthEndWeek()
+      {
+        const res = await this.$api.sys.isMonthEndWeek()
+        this.isWeekItem = !res.data
+      },
       startCounter()
       {
         this.timer = setInterval(() =>
@@ -102,6 +120,7 @@
         this.timer2 = setInterval(() =>
         {
           this.getChipAccumulation()
+          this.checkIsMonthEndWeek()
         }, getenv('accumulationUpdateSecs', 3600) * 1000)
       }
     },
@@ -137,10 +156,10 @@
         this.getItemInformed(),
         this.getChipAccumulation(),
         this.getFuturesChip(),
-        this.getOptionChip()
+        this.getOptionChip(),
+        this.checkIsMonthEndWeek()
       ])
       this.startCounter()
-      // this.height = Math.floor(($('.layout-content').height() - $('.txo').height()) / 2) + 'px'
     },
     destroyed()
     {

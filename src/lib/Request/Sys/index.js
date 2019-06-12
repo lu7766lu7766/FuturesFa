@@ -15,4 +15,9 @@ export default class Sys extends BaseRequest
   {
     return await this.request('version')
   }
+
+  async isMonthEndWeek()
+  {
+    return await this.request('isMonthEndWeek')
+  }
 }

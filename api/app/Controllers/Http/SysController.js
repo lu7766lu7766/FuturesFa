@@ -5,11 +5,16 @@ const sysService = App.make('Service/Sys')
 class SysController {
   async version()
   {
-    return sysService.getVersion()
+    return await sysService.getVersion()
   }
 
   async updateVersion() {
     return await sysService.updateVersion()
+  }
+
+  async isMonthItemEndWeek()
+  {
+    return await sysService.getIsMonthItemEndWeek()
   }
 }
 
