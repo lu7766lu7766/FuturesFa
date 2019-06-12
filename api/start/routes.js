@@ -56,6 +56,9 @@ Route.group(() =>
   Route.get('updateVersion', 'SysController.updateVersion').middleware(['local'])
   Route.get('version', 'SysController.version')
   Route.get('isMonthItemEndWeek', 'SysController.isMonthItemEndWeek')
+  Route.put('updateMonthItemEndWeek', 'SysController.updateMonthItemEndWeek')
+    .validator('Sys/UpdateMonthEndWeek')
+    .middleware(['auth', 'admin'])
 }).prefix('api/sys').middleware(['api'])
 
 

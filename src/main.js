@@ -6,9 +6,11 @@ import store from './store'
 // import BootstrapVue from 'bootstrap-vue'
 //
 // Vue.use(BootstrapVue)
-import { NavbarPlugin } from 'bootstrap-vue/es/components'
+import { NavbarPlugin, FormGroupPlugin, FormCheckboxPlugin } from 'bootstrap-vue/es/components'
 
 Vue.use(NavbarPlugin)
+Vue.use(FormGroupPlugin)
+Vue.use(FormCheckboxPlugin)
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'

@@ -17,6 +17,13 @@ class SysService
   {
     return !!(await DB.table('sys').select('is_month_item_end_week').first()).is_month_item_end_week
   }
+
+  async updateMonthItemEndWeek({request})
+  {
+    return await DB.table('sys').update({
+      'is_month_item_end_week': request.input('data')
+    })
+  }
 }
 
 module.exports = SysService

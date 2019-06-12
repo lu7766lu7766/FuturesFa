@@ -24,6 +24,11 @@ export default new Router({
               path: '/account-manage',
               name: 'account-manage',
               component: () => import('pages/Main/Backend/AccountManage')
+            },
+            {
+              path: '/sys-manage',
+              name: 'sys-manage',
+              component: () => import('pages/Main/Backend/SysManage')
             }
           ]
         },

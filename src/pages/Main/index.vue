@@ -15,6 +15,11 @@
                 :to="{ name: 'user-manage'}">
               使用者管理
             </b-dropdown-item>
+            <b-dropdown-item
+                v-if="User.isAdmin"
+                :to="{ name: 'sys-manage'}">
+              系統管理
+            </b-dropdown-item>
             <b-dropdown-item @click="doLogout">
               登出
             </b-dropdown-item>

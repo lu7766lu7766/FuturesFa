@@ -6,5 +6,9 @@
   "isMonthEndWeek": {
     "uri": "isMonthItemEndWeek",
     "method": "get"
+  },
+  "updateMonthEndWeek": {
+    "uri": "updateMonthItemEndWeek",
+    "method": "put"
   }
 }
