@@ -2,6 +2,7 @@
 
 // const dataRepo = App.make('Repositories/Data')
 const dataService = App.make('Service/Data')
+const dateService = App.make('Service/Date')
 
 class DataController
 {
@@ -53,6 +54,12 @@ class DataController
   async deleteTheDateDatas(ctx)
   {
     return await dataService.deleteTheDateDatas(ctx)
+  }
+
+  // date info
+  async getInfo()
+  {
+    return dateService.getDateInfo()
   }
 }
 

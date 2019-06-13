@@ -43,6 +43,8 @@ Route.group(() =>
   Route.get('futures-chip', 'DataController.getFuturesChip')
 
   Route.get('history', 'DataController.getHistory').validator('Data/History')
+
+  Route.get('info', 'DataController.getInfo')
 }).prefix('api/data').middleware(['auth', 'api'])
 
 Route.group(() =>
