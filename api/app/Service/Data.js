@@ -175,7 +175,7 @@ class DataService
   async setOftenData()
   {
     if (!this.isDataTransferTime()) return
-    await redisService.set('OptionItemInformed', (await this.getOptionItemInformed()))
+    await redisService.set('OptionItemInformed', this.getItemInfo(await this.getOptionItemInformed()))
     await redisService.set('TXO', (await this.getTXO()))
     await redisService.set('OptionChip', (await this.getOptionChip()))
     await redisService.set('FuturesChip', (await this.getFuturesChip()))
@@ -184,7 +184,7 @@ class DataService
   async setOccasionallyData()
   {
     if (!this.isDataTransferTime()) return
-    await redisService.set('OptionChipAccumulation', (await this.getOptionChipAccumulation()))
+    await redisService.set('OptionChipAccumulation', this.getItemInfo(await this.getOptionChipAccumulation()))
   }
   /////// history
 
@@ -209,6 +209,20 @@ class DataService
     return moment(time).isBefore(moment(time).format('YYYY-MM-DD 14:00:00'))
       ? moment(time).subtract(1, 'days').getDate()
       : moment(time).getDate()
+  }
+
+  getItemInfo(datas)
+  {
+    return _.mapValues(datas, data =>
+    {
+      const {1: month, 2: week, 3: type} = data.name.match(/([01][0-9])W?([1-5])? ([CP])/)
+      return {
+        month,
+        week,
+        type,
+        ...data
+      }
+    })
   }
 }
 
