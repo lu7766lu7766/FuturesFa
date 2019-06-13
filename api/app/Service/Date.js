@@ -10,7 +10,10 @@ class DateService
     const weekSettleEndTime = moment().day(3).format('YYYY-MM-DD 13:45:00')
     const isMonthSettleTime = moment().isBetween(monthSettleStartTime, monthSettleEndTime, 'minute', '[]')
     const isWeekSettleTime = moment().isBetween(weekSettleStartTime, weekSettleEndTime, 'minute', '[]')
-    const weekOfMonth = this.getWeekOfMonth()
+    // 1號在周三之前，則不用多做扣除，若是超過週三，則週數進行扣一
+    const subCount = moment(moment().format('YYYY-MM-01')).day() <= 3
+      ? 0
+      : 1
 
     return {
       monthSettleStartTime,
@@ -25,10 +28,10 @@ class DateService
         ? moment().add(1, 'months').format('MM')
         : null,
       mainWeek: moment().isBefore(weekSettleEndTime, 'minute')
-        ? weekOfMonth - 1
-        : weekOfMonth,
+        ? this.getWeekOfMonth(moment().day(3)) - subCount
+        : this.getWeekOfMonth(moment().day(7)) - subCount,
       subWeek: isWeekSettleTime
-        ? weekOfMonth
+        ? this.getWeekOfMonth(moment().day(7)) - subCount
         : null
     }
   }
@@ -45,11 +48,11 @@ class DateService
     return moment(moment().format('YYYY-MM-01')).day(24)
   }
 
-  // 取得今天為第幾週
-  getWeekOfMonth()
+  // 取得日期為該月第幾週
+  getWeekOfMonth(date)
   {
     return Math.ceil(
-      (moment().date() - (7 - moment(moment().format('YYYY-MM-01')).day())) / 7) + 1
+      (moment(date).date() - (7 - moment(moment(date).format('YYYY-MM-01')).day())) / 7) + 1
   }
 }
 
