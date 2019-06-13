@@ -108,6 +108,11 @@
         const res = await this.$api.sys.isMonthEndWeek()
         this.isWeekItem = !res.data
       },
+      async getDataInfo()
+      {
+        const res = await this.$api.data.getDataInfo()
+        this.info = res.data
+      },
       startCounter()
       {
         this.timer = setInterval(() =>
@@ -121,6 +126,7 @@
         {
           this.getChipAccumulation()
           this.checkIsMonthEndWeek()
+          this.getDataInfo()
         }, getenv('accumulationUpdateSecs', 3600) * 1000)
       }
     },
@@ -160,7 +166,8 @@
         this.getChipAccumulation(),
         this.getFuturesChip(),
         this.getOptionChip(),
-        this.checkIsMonthEndWeek()
+        this.checkIsMonthEndWeek(),
+        this.getDataInfo()
       ])
       this.startCounter()
     },

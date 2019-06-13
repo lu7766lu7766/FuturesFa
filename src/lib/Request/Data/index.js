@@ -40,4 +40,9 @@ export default class Data extends BaseRequest
   {
     return await this.request('history', data)
   }
+
+  async getDataInfo()
+  {
+    return await this.request('info')
+  }
 }

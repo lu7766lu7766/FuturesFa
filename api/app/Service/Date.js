@@ -25,10 +25,10 @@ class DateService
         ? moment().add(1, 'months').format('MM')
         : null,
       mainWeek: moment().isBefore(weekSettleEndTime, 'minute')
-        ? weekOfMonth
-        : weekOfMonth + 1,
+        ? weekOfMonth - 1
+        : weekOfMonth,
       subWeek: isWeekSettleTime
-        ? weekOfMonth + 1
+        ? weekOfMonth
         : null
     }
   }
@@ -36,13 +36,13 @@ class DateService
   // 三週三
   getThirthWednesday()
   {
-    return moment(moment().format('YYYY-MM-01')).day(17).getDate()
+    return moment(moment().format('YYYY-MM-01')).day(17)
   }
 
   // 四週三
   getForthWednesday()
   {
-    return moment(moment().format('YYYY-MM-01')).day(24).getDate()
+    return moment(moment().format('YYYY-MM-01')).day(24)
   }
 
   // 取得今天為第幾週

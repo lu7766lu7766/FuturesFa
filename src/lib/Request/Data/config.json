@@ -22,5 +22,9 @@
   "history": {
     "uri": "history",
     "method": "get"
+  },
+  "info": {
+    "uri": "info",
+    "method": "get"
   }
 }
