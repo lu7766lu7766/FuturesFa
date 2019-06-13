@@ -133,7 +133,10 @@
       {
         const showRange = 5
         let mustNeerItem = 0, neerIndex = 0
-        this.allWeekItems.forEach((item, index) =>
+        const items = this.isWeekItem
+          ? this.allWeekItems
+          : this.allMonthItems
+        items.forEach((item, index) =>
         {
           if (Math.abs(this.centerPoint - item) < Math.abs(this.centerPoint - mustNeerItem))
           {
@@ -146,7 +149,7 @@
           : neerIndex - showRange
 
         // 前5後5所以11
-        return _.cloneDeep(this.allWeekItems).splice(startIndex, showRange * 2 + 1)
+        return _.cloneDeep(items).splice(startIndex, showRange * 2 + 1)
       }
     },
     async mounted()
