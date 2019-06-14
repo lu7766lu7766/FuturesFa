@@ -137,7 +137,7 @@ export default {
     },
     allItems()
     {
-      return _.orderBy(_.keys(_.keyBy(this.currentItemInformedDatas, 'item')))
+      return _.orderBy(_.keys(_.groupBy(this.currentItemInformedDatas, 'item')), x => +x.item)
     },
     groupItemTypeItemInformed()
     {
