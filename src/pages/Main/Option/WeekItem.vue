@@ -108,7 +108,14 @@
     computed: {
       centerPoint()
       {
-        return Math.floor(this.txo.mtx / 100) * 100
+        let mustNeer = 0
+        this.allItems.forEach(item =>
+        {
+          mustNeer = Math.abs(this.txo.mtx - item) < Math.abs(this.txo.mtx - mustNeer)
+            ? item
+            : mustNeer
+        })
+        return mustNeer
       },
       showChipList()
       {

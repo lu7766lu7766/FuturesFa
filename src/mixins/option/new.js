@@ -117,9 +117,7 @@ export default {
     {
       return _.filter(this.itemInformedDatas, data =>
       {
-        // this.isWeekItem for quotation
-        // this.info.isMonthSettleTime for option page
-        return this.isWeekItem || !this.info.isMonthSettleTime
+        return !this.info.isMonthSettleTime
           ? data.month == this.showMonth && data.week == this.showWeek
           : data.month == this.showMonth
       })
@@ -128,7 +126,7 @@ export default {
     {
       return _.filter(this.chipAccumulationDatas, data =>
       {
-        return this.isWeekItem || !this.info.isMonthSettleTime
+        return !this.info.isMonthSettleTime
           ? data.month == this.showMonth && data.week == this.showWeek
           : data.month == this.showMonth
       })

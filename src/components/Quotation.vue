@@ -108,13 +108,16 @@
       },
       showMonth()
       {
-        return this.info.mainMonth
+        // 顯示邏輯與周選月選頁相同
+        return this.isWeekItem || !this.info.isMonthSettleTime
+          ? this.info.mainMonth
+          : this.info.subMonth
       },
       showWeek()
       {
-        return this.isWeekItem
-          ? this.info.mainWeek
-          : ''
+        return this.info.isMonthSettleTime
+          ? ''
+          : this.info.mainWeek
       },
       allItemsOrderByValueDesc()
       {
