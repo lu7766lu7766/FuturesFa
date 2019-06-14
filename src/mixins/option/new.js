@@ -179,9 +179,9 @@ export default {
             result.push({
               item,
               C: _(this.groupItemTypeItemInformed).getVal(`${item}.C.chip_valume`, 0)
-                + _(this.groupItemTypeAccumulation).getVal(`${item}.C.chip_valume`, 0),
+                + _(this.groupItemTypeAccumulation).getVal(`${item}.C.total_chip`, 0),
               P: _(this.groupItemTypeItemInformed).getVal(`${item}.P.chip_valume`, 0)
-                + _(this.groupItemTypeAccumulation).getVal(`${item}.P.chip_valume`, 0)
+                + _(this.groupItemTypeAccumulation).getVal(`${item}.P.total_chip`, 0)
             })
           }
           return result
