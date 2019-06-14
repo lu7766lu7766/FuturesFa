@@ -11,10 +11,11 @@
       </div>
     </div>
 
-
     <div class="col-md-2">
-      <quotation v-if="false" :data="itemInformedDatas"
+      <quotation :data="itemInformedDatas"
+                 :info="info"
                  :centerPoint="centerPoint"
+                 :showTime="false"
                  :showRange="8"></quotation>
     </div>
     <div class="col-md-10">
@@ -111,24 +112,7 @@
       },
       showChipList()
       {
-        const showRange = 5
-        let mustNeerItem = 0, neerIndex = 0
-
-        this.allItems.forEach((item, index) =>
-        {
-          if (Math.abs(this.centerPoint - item) < Math.abs(this.centerPoint - mustNeerItem))
-          {
-            mustNeerItem = item
-            neerIndex = index
-          }
-        })
-        const startIndex = (neerIndex - showRange) < 0
-          ? 0
-          : neerIndex - showRange
-
-        //
-        // // 前5後5所以11
-        return _.cloneDeep(this.allItems).splice(startIndex, showRange * 2 + 1)
+        return this.getShowChipList(this.allItems, 5)
       },
       showMonth()
       {

@@ -93,26 +93,44 @@ export default {
         show: false
       }
       return options
-    }
+    },
+    getShowChipList(items, range = 100)
+    {
+      let mustNeerItem = 0, neerIndex = 0
+      items.forEach((item, index) =>
+      {
+        if (Math.abs(this.centerPoint - item) < Math.abs(this.centerPoint - mustNeerItem))
+        {
+          mustNeerItem = item
+          neerIndex = index
+        }
+      })
+      const startIndex = (neerIndex - range) < 0
+        ? 0
+        : neerIndex - range
 
+      return _.cloneDeep(items).splice(startIndex, range * 2 + 1)
+    }
   },
   computed: {
     currentItemInformedDatas()
     {
       return _.filter(this.itemInformedDatas, data =>
       {
-        return this.info.isMonthSettleTime
-          ? data.month == this.showMonth
-          : data.month == this.showMonth && data.week == this.showWeek
+        // this.isWeekItem for quotation
+        // this.info.isMonthSettleTime for option page
+        return this.isWeekItem || !this.info.isMonthSettleTime
+          ? data.month == this.showMonth && data.week == this.showWeek
+          : data.month == this.showMonth
       })
     },
     currentAccumulationDatas()
     {
       return _.filter(this.chipAccumulationDatas, data =>
       {
-        return this.info.isMonthSettleTime
-          ? data.month == this.showMonth
-          : data.month == this.showMonth && data.week == this.showWeek
+        return this.isWeekItem || !this.info.isMonthSettleTime
+          ? data.month == this.showMonth && data.week == this.showWeek
+          : data.month == this.showMonth
       })
     },
     updateTime()

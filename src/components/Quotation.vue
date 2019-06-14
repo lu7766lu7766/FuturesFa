@@ -1,13 +1,13 @@
 <template>
   <div class="row">
-    <div class="col-xs-12" :class="!!updateTime ? 'col-md-3' : 'col-md-6'">
-      <Select v-model="search.tmpWeekItem">
-        <Option v-for="(item, index) in option.isWeekItem" :key="index" :value="item.value">
+    <div class="col-xs-12" :class="showTime ? 'col-md-3' : 'col-md-6'">
+      <Select v-model="search.isWeekItem">
+        <Option v-for="(item, index) in options.isWeekItem" :key="index" :value="item.value">
           {{ item.name }}
         </Option>
       </Select>
     </div>
-    <div class="col-md-9 col-xs-12" v-if="updateTime">
+    <div class="col-md-9 col-xs-12" v-if="showTime">
       <div class="col-md-6 col-xs-12">現在時間：{{ currentTime }}</div>
       <div class="col-md-6 col-xs-12">資料時間：{{ updateTime }}</div>
     </div>
@@ -19,10 +19,12 @@
         <td>報價(P)</td>
       </tr>
       </thead>
-      <tbody>
-      <tr v-for="(item, index) in allItemsOrderByValueDesc" :key="index" v-if="showChipList.indexOf(item) > -1">
+      <tbody v-if="allItemsOrderByValueDesc.length">
+      <tr v-for="(item, index) in allItemsOrderByValueDesc"
+          :key="index"
+          v-if="showChipList.indexOf(item) > -1">
         <td class="item-c">
-          <span v-for="(val, index) in [_.getVal(currentCGroupItemInformed, `${item}.0.price`, 0)]"
+          <span v-for="(val, index) in [_.getVal(groupItemTypeItemInformed, `${item}.C.price`, 0)]"
                 :key="index"
                 :class="getClassByValue(val)">
             {{ val }}
@@ -30,11 +32,18 @@
         </td>
         <td class="item">{{ item }}</td>
         <td class="item-p">
-          <span v-for="(val, index) in [_.getVal(currentPGroupItemInformed, `${item}.0.price`, 0)]"
+          <span v-for="(val, index) in [_.getVal(groupItemTypeItemInformed, `${item}.P.price`, 0)]"
                 :key="index"
                 :class="getClassByValue(val, '')">
             {{ val }}
           </span>
+        </td>
+      </tr>
+      </tbody>
+      <tbody v-else>
+      <tr>
+        <td colspan="3">
+          <span class="text-danger">查無資料</span>
         </td>
       </tr>
       </tbody>
@@ -43,22 +52,23 @@
 </template>
 
 <script>
-  import OptionWeekMixins from 'mixins/option/week'
-  import OptionMonthMixins from 'mixins/option/month'
+  import OptionNewMixins from 'mixins/option/new'
   import CSSMixins from 'mixins/css'
 
   export default {
-    mixins: [OptionWeekMixins, OptionMonthMixins, CSSMixins],
+    mixins: [OptionNewMixins, CSSMixins],
     props: {
+      info: {
+        type: Object,
+        required: true
+      },
       data: {
         type: Array,
         required: true
       },
-      currentTime: {
-        type: String
-      },
-      updateTime: {
-        type: String
+      showTime: {
+        type: Boolean,
+        default: true
       },
       centerPoint: {
         type: Number
@@ -70,9 +80,9 @@
     },
     data: () => ({
       search: {
-        tmpWeekItem: 'true'
+        isWeekItem: 'true'
       },
-      option: {
+      options: {
         isWeekItem: [
           {
             name: '周選',
@@ -94,43 +104,25 @@
     computed: {
       isWeekItem()
       {
-        return this.search.tmpWeekItem === 'true'
+        return this.search.isWeekItem === 'true'
+      },
+      showMonth()
+      {
+        return this.info.mainMonth
+      },
+      showWeek()
+      {
+        return this.isWeekItem
+          ? this.info.mainWeek
+          : ''
       },
       allItemsOrderByValueDesc()
       {
-        const allItems = this.isWeekItem
-          ? this.allWeekItems
-          : this.allMonthItems
-        return _.orderBy(_.map(allItems, x => +x), x => x, 'desc')
-      },
-      currentCGroupItemInformed()
-      {
-        return this.isWeekItem
-          ? this.CGroupWeekItemInformed
-          : this.CGroupMonthItemInformed
-      },
-      currentPGroupItemInformed()
-      {
-        return this.isWeekItem
-          ? this.PGroupWeekItemInformed
-          : this.PGroupMonthItemInformed
+        return _.orderBy(this.allItems, x => +x, 'desc')
       },
       showChipList()
       {
-        let mustNeerItem = 0, neerIndex = 0
-        this.allItemsOrderByValueDesc.forEach((item, index) =>
-        {
-          if (Math.abs(this.centerPoint - item) < Math.abs(this.centerPoint - mustNeerItem))
-          {
-            mustNeerItem = item
-            neerIndex = index
-          }
-        })
-        const startIndex = (neerIndex - this.showRange) < 0
-          ? 0
-          : neerIndex - this.showRange
-
-        return _.cloneDeep(this.allItemsOrderByValueDesc).splice(startIndex, this.showRange * 2 + 1)
+        return this.getShowChipList(this.allItemsOrderByValueDesc, this.showRange)
       }
     },
     mounted()
