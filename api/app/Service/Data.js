@@ -213,7 +213,7 @@ class DataService
 
   getItemInfo(datas)
   {
-    return _.mapValues(datas, data =>
+    return _.map(_.mapValues(datas, data =>
     {
       const {1: month, 2: week, 3: type} = data.name.match(/([01][0-9])W?([1-5])? ([CP])/)
       return {
@@ -222,7 +222,7 @@ class DataService
         type,
         ...data
       }
-    })
+    }))
   }
 }
 

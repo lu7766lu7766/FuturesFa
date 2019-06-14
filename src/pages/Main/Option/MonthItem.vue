@@ -6,29 +6,27 @@
     </div>
     <div class="col-md-12 col-xs-12">
       <option-histogram
-          :data="MonthInformedChartData"
-          :config="getMonthTodayConfig"></option-histogram>
+          :data="itemChartData"
+          :config="getTodayConfig"></option-histogram>
     </div>
     <div class="col-md-12 col-xs-12">
       <option-histogram
-          :data="MonthChipAccumulationChartData"
-          :config="getMonthAccumulationConifg"></option-histogram>
+          :data="accumulationChartData"
+          :config="getAccumulationConifg"></option-histogram>
     </div>
   </div>
 </template>
 
 <script>
-  import OptionPageMixins from 'mixins/option/page'
-  import OptionMonthMixins from 'mixins/option/month'
+  import OptionNewMixins from 'mixins/option/new'
 
 
   export default {
-    mixins: [OptionPageMixins, OptionMonthMixins],
+    mixins: [OptionNewMixins],
     components: {
       OptionHistogram: () => import('@/OptionHistogram')
     },
     data: () => ({
-      isWeekItem: false,
       timer: null,
       timer2: null
     }),
@@ -37,16 +35,25 @@
       {
         this.timer = setInterval(() =>
         {
-          this.getItemInformed({
-            key: 'ItemInformed'
-          })
+          this.getItemInformed()
         }, getenv('optionUpdateSecs', 30) * 1000)
         this.timer2 = setInterval(() =>
         {
-          this.getChipAccumulation({
-            key: 'ChipAccumulation'
-          })
+          this.getChipAccumulation()
+          this.getDataInfo()
         }, getenv('accumulationUpdateSecs', 30) * 1000)
+      }
+    },
+    computed: {
+      showMonth()
+      {
+        return this.info.isMonthSettleTime
+          ? this.info.subMonth
+          : this.info.mainMonth
+      },
+      showWeek()
+      {
+        return ''
       }
     },
     created()
@@ -55,7 +62,8 @@
       {
         await axios.all([
           this.getItemInformed(),
-          this.getChipAccumulation()
+          this.getChipAccumulation(),
+          this.getDataInfo()
         ])
         this.startCounter()
       })

@@ -16,6 +16,9 @@ class DateService
       : 1
 
     return {
+      date: moment().isBefore(moment().format('YYYY-MM-DD 14:00:00'))
+        ? moment().subtract(1, 'days').getDate()
+        : moment().getDate(),
       monthSettleStartTime,
       monthSettleEndTime,
       isMonthSettleTime,

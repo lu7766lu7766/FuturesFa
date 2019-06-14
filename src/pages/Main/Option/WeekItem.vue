@@ -13,7 +13,7 @@
 
 
     <div class="col-md-2">
-      <quotation :data="itemInformedDatas"
+      <quotation v-if="false" :data="itemInformedDatas"
                  :centerPoint="centerPoint"
                  :showRange="8"></quotation>
     </div>
@@ -22,27 +22,27 @@
       <div class="row">
         <div class="col-md-7 col-xs-12">
           <option-histogram
-              :data="WeekInformedChartData"
-              :config="getWeekTodayConfig"
+              :data="itemChartData"
+              :config="getTodayConfig"
               :height="height"></option-histogram>
         </div>
         <div class="col-md-5 col-xs-12">
           <futures-chip
               :data="futuresChip"
-              :subTitle="theDate"
+              :subTitle="info.date"
               :height="height" />
         </div>
         <!-- 累計籌碼 -->
         <div class="col-md-7 col-xs-12">
           <option-histogram
-              :data="WeekChipAccumulationChartData"
-              :config="getWeekAccumulationConifg"
+              :data="accumulationChartData"
+              :config="getAccumulationConifg"
               :height="height"></option-histogram>
         </div>
         <div class="col-md-5 col-xs-12">
           <option-chip
               :data="optionChip"
-              :subTitle="theDate"
+              :subTitle="info.date"
               :height="height" />
         </div>
       </div>
@@ -52,10 +52,10 @@
 </template>
 
 <script>
-  import OptionPageMixins from 'mixins/option/page'
+  import OptionNewMixins from 'mixins/option/new'
 
   export default {
-    mixins: [OptionPageMixins],
+    mixins: [OptionNewMixins],
     components: {
       OptionHistogram: () => import('@/OptionHistogram'),
       FuturesChip: () => import('@/FuturesChip'),
@@ -69,8 +69,7 @@
       txo: {},
       height: '325px',
       futuresChip: [],
-      optionChip: [],
-      info: {}
+      optionChip: []
     }),
     methods: {
       async getTXO()
@@ -87,11 +86,6 @@
       {
         const res = await this.$api.data.getOptionChip()
         this.optionChip = res.data
-      },
-      async getDataInfo()
-      {
-        const res = await this.$api.data.getDataInfo()
-        this.info = res.data
       },
       startCounter()
       {
@@ -117,11 +111,10 @@
       },
       showChipList()
       {
-        const items = _.map(this.currentDatas, 'item')
         const showRange = 5
         let mustNeerItem = 0, neerIndex = 0
 
-        items.forEach((item, index) =>
+        this.allItems.forEach((item, index) =>
         {
           if (Math.abs(this.centerPoint - item) < Math.abs(this.centerPoint - mustNeerItem))
           {
@@ -132,12 +125,10 @@
         const startIndex = (neerIndex - showRange) < 0
           ? 0
           : neerIndex - showRange
-        const endIndex = (neerIndex + showRange) >= list.length
-          ? list.length - 1
-          : neerIndex + showRange
+
         //
         // // 前5後5所以11
-        return _.cloneDeep(items).splice(startIndex, endIndex)
+        return _.cloneDeep(this.allItems).splice(startIndex, showRange * 2 + 1)
       },
       showMonth()
       {
@@ -146,39 +137,8 @@
       showWeek()
       {
         return this.info.isMonthSettleTime
-          ? this.info.mainWeek
-          : ''
-      },
-      currentDatas()
-      {
-        return this.info.isMonthSettleTime
-          ? _.filter(itemInformedDatas, data =>
-          {
-            return data.month == this.showMonth
-          })
-          : _.filter(itemInformedDatas, data =>
-          {
-            return data.month == this.showMonth && data.week == this.showWeek
-          })
-      },
-      chartData()
-      {
-        return {
-          columns: ['item', 'C', 'P'],
-          rows: _.reduce(this.currentDatas, (result, item) =>
-          {
-            if (!this.showChipList || this.showChipList.indexOf(item) > -1)
-            {
-              // 新倉跟舊倉可能同時存在資料，所以取前者
-              result.push({
-                item,
-                C: _(this.CGroupWeekItemInformed).getVal(`${item}.0.chip_valume`, 0),
-                P: _(this.PGroupWeekItemInformed).getVal(`${item}.0.chip_valume`, 0)
-              })
-            }
-            return result
-          }, [])
-        }
+          ? ''
+          : this.info.mainWeek
       }
     },
     async mounted()
@@ -189,7 +149,6 @@
         this.getChipAccumulation(),
         this.getFuturesChip(),
         this.getOptionChip(),
-        this.checkIsMonthEndWeek(),
         this.getDataInfo()
       ])
       this.startCounter()
