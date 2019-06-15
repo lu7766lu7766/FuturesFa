@@ -45,7 +45,7 @@ class DataService
       moment().subtract(8, 'days').format('YYYY-MM-DD 14:00'),
       moment().subtract(365, 'days').format('YYYY-MM-DD 15:00')
     ]
-    return this.deleteDatas(async () =>
+    return this.deleteDatas(async (trx) =>
     {
       await dataRepo.deleteTheDateData(trx, 'option_log', dataStartAndEndTime)
       await dataRepo.deleteTheDateData(trx, 'futures_chip_log', dataStartAndEndTime)
@@ -58,7 +58,7 @@ class DataService
     const trx = await DB.beginTransaction()
     try
     {
-      await f()
+      await f(trx)
       return true
     } catch (e)
     {
