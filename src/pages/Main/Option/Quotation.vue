@@ -1,19 +1,20 @@
 <template>
   <div class="row">
     <div class="col-md-5 offset-md-4 col-xs-12">
-      <quotation :info=info
-                 :data="itemInformedDatas"></quotation>
+      <quotation
+          :itemInformedDatas="itemInformedDatas"
+          :info="info"></quotation>
     </div>
   </div>
 </template>
 
 <script>
-  import OptionDataMixins from 'mixins/option/data'
+  import OptionInitMixins from 'mixins/option/init'
 
   export default {
-    mixins: [OptionDataMixins],
+    mixins: [OptionInitMixins],
     components: {
-      Quotation: () => import('@/Quotation')
+      Quotation: () => import('@/QuotationTable')
     },
     data: () => ({
       timer: null,

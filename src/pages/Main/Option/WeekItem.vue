@@ -77,7 +77,7 @@
       FuturesChip: () => import('@/FuturesChip'),
       OptionChip: () => import('@/OptionChip'),
       TXO: () => import('@/TXO'),
-      Quotation: () => import('@/Quotation')
+      Quotation: () => import('@/QuotationTable')
     },
     data: () => ({
       timer: null,

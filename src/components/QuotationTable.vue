@@ -15,7 +15,7 @@
       <thead>
       <tr>
         <td>報價(C)</td>
-        <td>履約價</td>
+        <td>履約價({{ showMonth + showWeek }})</td>
         <td>報價(P)</td>
       </tr>
       </thead>
@@ -47,11 +47,12 @@
 </template>
 
 <script>
+  import CurrentTimeMixins from 'mixins/currentTime'
   import OptionDataMixins from 'mixins/option/data'
   import CSSMixins from 'mixins/css'
 
   export default {
-    mixins: [OptionDataMixins, CSSMixins],
+    mixins: [CurrentTimeMixins, OptionDataMixins, CSSMixins],
     props: {
       showTime: {
         type: Boolean,

@@ -16,17 +16,17 @@ export default new Router({
           component: () => import('pages/Main/Backend'),
           children: [
             {
-              path: '/user-manage',
+              path: 'user-manage',
               name: 'user-manage',
               component: () => import('pages/Main/Backend/UserManage')
             },
             {
-              path: '/account-manage',
+              path: 'account-manage',
               name: 'account-manage',
               component: () => import('pages/Main/Backend/AccountManage')
             },
             {
-              path: '/sys-manage',
+              path: 'sys-manage',
               name: 'sys-manage',
               component: () => import('pages/Main/Backend/SysManage')
             }
@@ -47,21 +47,21 @@ export default new Router({
               component: () => import('pages/Main/Option/MonthItem')
             },
             {
-              path: '/quotation',
+              path: 'quotation',
               name: 'quotation',
               component: () => import('pages/Main/Option/Quotation')
             }
           ]
         },
         {
-          path: '/history-analysis',
+          path: 'history-analysis',
           name: 'history-analysis',
           component: () => import('pages/Main/HistoryAnalysis')
         }
       ]
     },
     {
-      path: '/login',
+      path: 'login',
       name: 'login',
       component: () => import('pages/Login')
     },
