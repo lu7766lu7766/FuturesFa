@@ -1,12 +1,14 @@
 <template>
   <ve-histogram
-      :data="data"
-      :after-config="config"
-      :height="height ? height : '400px'"></ve-histogram>
+      :data="chartData"
+      :after-config="!chipAccumulationDatas.length ? getTodayConfig : getAccumulationConifg"
+      :height="height"></ve-histogram>
 </template>
 
 <script>
+  import OptionChartMixins from 'mixins/option/chart'
+
   export default {
-    props: ['data', 'config', 'height']
+    mixins: [OptionChartMixins]
   }
 </script>

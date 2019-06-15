@@ -20,22 +20,17 @@
       </tr>
       </thead>
       <tbody v-if="allItemsOrderByValueDesc.length">
-      <tr v-for="(item, index) in allItemsOrderByValueDesc"
-          :key="index"
-          v-if="showChipList.indexOf(item) > -1">
+      <tr v-for="(data, item) in quotationDatas"
+          :key="item">
         <td class="item-c">
-          <span v-for="(val, index) in [_.getVal(groupItemTypeItemInformed, `${item}.C.price`, 0)]"
-                :key="index"
-                :class="getClassByValue(val)">
-            {{ val }}
+          <span :class="getClassByValue(data.C.price)">
+            {{ data.C.price }}
           </span>
         </td>
         <td class="item">{{ item }}</td>
         <td class="item-p">
-          <span v-for="(val, index) in [_.getVal(groupItemTypeItemInformed, `${item}.P.price`, 0)]"
-                :key="index"
-                :class="getClassByValue(val, '')">
-            {{ val }}
+          <span :class="getClassByValue(data.P.price, '')">
+            {{ data.P.price }}
           </span>
         </td>
       </tr>
@@ -52,30 +47,15 @@
 </template>
 
 <script>
-  import OptionNewMixins from 'mixins/option/new'
+  import OptionDataMixins from 'mixins/option/data'
   import CSSMixins from 'mixins/css'
 
   export default {
-    mixins: [OptionNewMixins, CSSMixins],
+    mixins: [OptionDataMixins, CSSMixins],
     props: {
-      info: {
-        type: Object,
-        required: true
-      },
-      data: {
-        type: Array,
-        required: true
-      },
       showTime: {
         type: Boolean,
         default: true
-      },
-      centerPoint: {
-        type: Number
-      },
-      showRange: {
-        type: Number,
-        default: 100
       }
     },
     data: () => ({
@@ -95,12 +75,6 @@
         ]
       }
     }),
-    watch: {
-      data()
-      {
-        this.itemInformedDatas = this.data
-      }
-    },
     computed: {
       isWeekItem()
       {
@@ -123,14 +97,17 @@
       {
         return _.orderBy(this.allItems, x => +x, 'desc')
       },
-      showChipList()
+      quotationDatas()
       {
-        return this.getShowChipList(this.allItemsOrderByValueDesc, this.showRange)
+        return _.reduce(this.allItemsOrderByValueDesc, (result, item) =>
+        {
+          if (!this.showChipList || this.showChipList.indexOf(item) > -1)
+          {
+            result[item] = this.groupItemTypeItemInformed[item]
+          }
+          return result
+        }, {})
       }
-    },
-    mounted()
-    {
-      this.itemInformedDatas = this.data
     }
   }
 </script>

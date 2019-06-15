@@ -12,20 +12,27 @@
     </div>
 
     <div class="col-md-2">
-      <quotation :data="itemInformedDatas"
-                 :info="info"
-                 :centerPoint="centerPoint"
-                 :showTime="false"
-                 :showRange="8"></quotation>
+      <quotation
+          :itemInformedDatas="itemInformedDatas"
+          :info="info"
+          :txo="txo"
+          :showTime="false"
+          :range="8"></quotation>
     </div>
     <div class="col-md-10">
       <!-- 當日籌碼 -->
       <div class="row">
         <div class="col-md-7 col-xs-12">
           <option-histogram
-              :data="itemChartData"
-              :config="getTodayConfig"
-              :height="height"></option-histogram>
+              v-if="showMonth"
+              :itemInformedDatas="itemInformedDatas"
+              :info="info"
+              :showMonth="showMonth"
+              :showWeek="showWeek"
+              :txo="txo"
+              :range="5"
+              :height="height"
+              @update:updateTime="time => updateTime = time"></option-histogram>
         </div>
         <div class="col-md-5 col-xs-12">
           <futures-chip
@@ -36,8 +43,14 @@
         <!-- 累計籌碼 -->
         <div class="col-md-7 col-xs-12">
           <option-histogram
-              :data="accumulationChartData"
-              :config="getAccumulationConifg"
+              v-if="showMonth"
+              :itemInformedDatas="itemInformedDatas"
+              :chipAccumulationDatas="chipAccumulationDatas"
+              :info="info"
+              :showMonth="showMonth"
+              :showWeek="showWeek"
+              :txo="txo"
+              :range="5"
               :height="height"></option-histogram>
         </div>
         <div class="col-md-5 col-xs-12">
@@ -53,10 +66,12 @@
 </template>
 
 <script>
-  import OptionNewMixins from 'mixins/option/new'
+
+  import CurrentTimeMixins from 'mixins/currentTime'
+  import OptionInitMixins from 'mixins/option/init'
 
   export default {
-    mixins: [OptionNewMixins],
+    mixins: [CurrentTimeMixins, OptionInitMixins],
     components: {
       OptionHistogram: () => import('@/OptionHistogram'),
       FuturesChip: () => import('@/FuturesChip'),
@@ -67,10 +82,11 @@
     data: () => ({
       timer: null,
       timer2: null,
+      updateTime: '',
       txo: {},
-      height: '325px',
       futuresChip: [],
-      optionChip: []
+      optionChip: [],
+      height: '325px'
     }),
     methods: {
       async getTXO()
@@ -102,25 +118,9 @@
           this.getChipAccumulation()
           this.getDataInfo()
         }, getenv('accumulationUpdateSecs', 3600) * 1000)
-      },
-
+      }
     },
     computed: {
-      centerPoint()
-      {
-        let mustNeer = 0
-        this.allItems.forEach(item =>
-        {
-          mustNeer = Math.abs(this.txo.mtx - item) < Math.abs(this.txo.mtx - mustNeer)
-            ? item
-            : mustNeer
-        })
-        return mustNeer
-      },
-      showChipList()
-      {
-        return this.getShowChipList(this.allItems, 5)
-      },
       showMonth()
       {
         return this.info.mainMonth
@@ -132,17 +132,20 @@
           : this.info.mainWeek
       }
     },
-    async mounted()
+    async created()
     {
-      await axios.all([
-        this.getTXO(),
-        this.getItemInformed(),
-        this.getChipAccumulation(),
-        this.getFuturesChip(),
-        this.getOptionChip(),
-        this.getDataInfo()
-      ])
-      this.startCounter()
+      this.callApi(async () =>
+      {
+        await axios.all([
+          this.getTXO(),
+          this.getItemInformed(),
+          this.getChipAccumulation(),
+          this.getFuturesChip(),
+          this.getOptionChip(),
+          this.getDataInfo()
+        ])
+        this.startCounter()
+      })
     },
     destroyed()
     {

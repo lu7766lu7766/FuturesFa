@@ -8,10 +8,10 @@
 </template>
 
 <script>
-  import OptionNewMixins from 'mixins/option/new'
+  import OptionDataMixins from 'mixins/option/data'
 
   export default {
-    mixins: [OptionNewMixins],
+    mixins: [OptionDataMixins],
     components: {
       Quotation: () => import('@/Quotation')
     },

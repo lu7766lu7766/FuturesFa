@@ -6,27 +6,36 @@
     </div>
     <div class="col-md-12 col-xs-12">
       <option-histogram
-          :data="itemChartData"
-          :config="getTodayConfig"></option-histogram>
+          v-if="showMonth"
+          :itemInformedDatas="itemInformedDatas"
+          :info="info"
+          :showMonth="showMonth"
+          :showWeek="showWeek"
+          @update:updateTime="time => updateTime = time"></option-histogram>
     </div>
     <div class="col-md-12 col-xs-12">
       <option-histogram
-          :data="accumulationChartData"
-          :config="getAccumulationConifg"></option-histogram>
+          v-if="showMonth"
+          :itemInformedDatas="itemInformedDatas"
+          :chipAccumulationDatas="chipAccumulationDatas"
+          :info="info"
+          :showMonth="showMonth"
+          :showWeek="showWeek"></option-histogram>
     </div>
   </div>
 </template>
 
 <script>
-  import OptionNewMixins from 'mixins/option/new'
-
+  import CurrentTimeMixins from 'mixins/currentTime'
+  import OptionInitMixins from 'mixins/option/init'
 
   export default {
-    mixins: [OptionNewMixins],
+    mixins: [CurrentTimeMixins, OptionInitMixins],
     components: {
       OptionHistogram: () => import('@/OptionHistogram')
     },
     data: () => ({
+      updateTime: '',
       timer: null,
       timer2: null
     }),
