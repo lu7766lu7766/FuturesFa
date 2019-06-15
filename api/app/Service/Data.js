@@ -31,7 +31,7 @@ class DataService
   async deleteTheDateDatas({params})
   {
     const dataStartAndEndTime = dataRepo.getDateStartAndEndTime(params.date)
-    return this.deleteDatas(async () =>
+    return this.deleteDatas(async (trx) =>
     {
       await dataRepo.deleteTheDateData(trx, 'option', dataStartAndEndTime)
       await dataRepo.deleteTheDateData(trx, 'futures_chip', dataStartAndEndTime)
