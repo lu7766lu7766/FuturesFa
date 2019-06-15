@@ -30,14 +30,35 @@ class DataService
 
   async deleteTheDateDatas({params})
   {
-    const trx = await DB.beginTransaction()
     const dataStartAndEndTime = dataRepo.getDateStartAndEndTime(params.date)
-    try
+    return this.deleteDatas(async () =>
     {
       await dataRepo.deleteTheDateData(trx, 'option', dataStartAndEndTime)
       await dataRepo.deleteTheDateData(trx, 'futures_chip', dataStartAndEndTime)
       await dataRepo.deleteTheDateData(trx, 'option_chip', dataStartAndEndTime)
-      trx.commit()
+    })
+  }
+
+  async clearOlderDatas()
+  {
+    const dataStartAndEndTime = [
+      moment().subtract(8, 'days').format('YYYY-MM-DD 14:00'),
+      moment().subtract(365, 'days').format('YYYY-MM-DD 15:00')
+    ]
+    return this.deleteDatas(async () =>
+    {
+      await dataRepo.deleteTheDateData(trx, 'option_log', dataStartAndEndTime)
+      await dataRepo.deleteTheDateData(trx, 'futures_chip_log', dataStartAndEndTime)
+      await dataRepo.deleteTheDateData(trx, 'option_chip_log', dataStartAndEndTime)
+    })
+  }
+
+  async deleteDatas(f)
+  {
+    const trx = await DB.beginTransaction()
+    try
+    {
+      await f()
       return true
     } catch (e)
     {

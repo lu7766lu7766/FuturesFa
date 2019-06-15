@@ -14,6 +14,7 @@ class DataGeneralize extends Task {
   async handle () {
     console.log('Task DataGeneralize handle')
     await dataService.generalizeDatas()
+    await dataService.clearOlderDatas()
   }
 }
 
