@@ -57,9 +57,9 @@ class DataController
   }
 
   // date info
-  async getInfo()
+  async getInfo(ctx)
   {
-    return dateService.getDateInfo()
+    return dateService.getDateInfo(ctx)
   }
 }
 

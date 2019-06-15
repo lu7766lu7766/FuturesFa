@@ -20,9 +20,9 @@ export default {
       const res = await this.$api.data.getOptionChipAccumulation()
       this.chipAccumulationDatas = res.data
     },
-    async getDataInfo()
+    async getDataInfo(data)
     {
-      const res = await this.$api.data.getDataInfo()
+      const res = await this.$api.data.getDataInfo(data)
       this.info = res.data
     }
   }

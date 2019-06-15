@@ -44,7 +44,7 @@ Route.group(() =>
 
   Route.get('history', 'DataController.getHistory').validator('Data/History')
 
-  Route.get('info', 'DataController.getInfo')
+  Route.get('info', 'DataController.getInfo').validator('Data/Info')
 }).prefix('api/data').middleware(['auth', 'api'])
 
 Route.group(() =>

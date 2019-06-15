@@ -10,7 +10,6 @@
           :itemInformedDatas="itemInformedDatas"
           :info="info"
           :showMonth="showMonth"
-          :showWeek="showWeek"
           @update:updateTime="time => updateTime = time"></option-histogram>
     </div>
     <div class="col-md-12 col-xs-12">
@@ -19,8 +18,7 @@
           :itemInformedDatas="itemInformedDatas"
           :chipAccumulationDatas="chipAccumulationDatas"
           :info="info"
-          :showMonth="showMonth"
-          :showWeek="showWeek"></option-histogram>
+          :showMonth="showMonth"></option-histogram>
     </div>
   </div>
 </template>
@@ -59,10 +57,6 @@
         return this.info.isMonthSettleTime
           ? this.info.subMonth
           : this.info.mainMonth
-      },
-      showWeek()
-      {
-        return ''
       }
     },
     created()

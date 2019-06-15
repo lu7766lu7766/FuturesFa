@@ -22,14 +22,17 @@
       <div class="row">
         <div class="col-md-7 col-xs-12">
           <option-histogram
-              :data="WeekInformedChartData"
-              :config="getWeekTodayConfig"
-              :height="height"></option-histogram>
+              v-if="weekShowMonth"
+              :itemInformedDatas="itemInformedDatas"
+              :info="info"
+              :showMonth="weekShowMonth"
+              :showWeek="weekShowWeek"
+              :range="5"></option-histogram>
         </div>
         <div class="col-md-5 col-xs-12">
           <futures-chip
               :data="futuresChip"
-              :subTitle="theDate"
+              :subTitle="info.date"
               :height="height" />
         </div>
       </div>
@@ -38,18 +41,22 @@
       <div class="row">
         <div class="col-md-7 col-xs-12">
           <option-histogram
-              :data="WeekChipAccumulationChartData"
-              :config="getWeekAccumulationConifg"
+              v-if="weekShowMonth"
+              :itemInformedDatas="itemInformedDatas"
+              :chipAccumulationDatas="chipAccumulationDatas"
+              :info="info"
+              :showMonth="weekShowMonth"
+              :showWeek="weekShowWeek"
+              :range="5"
               :height="height"></option-histogram>
         </div>
         <div class="col-md-5 col-xs-12">
           <option-chip
               :data="optionChip"
-              :subTitle="theDate"
+              :subTitle="info.date"
               :height="height" />
         </div>
       </div>
-
 
       <Divider>月選</Divider>
       <!-- 月選 -->
@@ -57,9 +64,10 @@
       <div class="row">
         <div class="col-md-12 col-xs-12">
           <option-histogram
-              :data="MonthInformedChartData"
-              :config="getMonthTodayConfig"
-              :height="height"></option-histogram>
+              v-if="monthShowMonth"
+              :itemInformedDatas="itemInformedDatas"
+              :info="info"
+              :showMonth="monthShowMonth"></option-histogram>
         </div>
       </div>
 
@@ -67,9 +75,11 @@
       <div class="row">
         <div class="col-md-12 col-xs-12">
           <option-histogram
-              :data="MonthChipAccumulationChartData"
-              :config="getMonthAccumulationConifg"
-              :height="height"></option-histogram>
+              v-if="monthShowMonth"
+              :itemInformedDatas="itemInformedDatas"
+              :chipAccumulationDatas="chipAccumulationDatas"
+              :info="info"
+              :showMonth="monthShowMonth"></option-histogram>
         </div>
       </div>
     </div>
@@ -78,52 +88,62 @@
 </template>
 
 <script>
-  // import OptionWeekMixins from 'mixins/option/week'
-  // import OptionMonthMixins from 'mixins/option/month'
-  //
-  // export default {
-  //   mixins: [OptionWeekMixins, OptionMonthMixins],
-  //   components: {
-  //     OptionHistogram: () => import('@/OptionHistogram'),
-  //     FuturesChip: () => import('@/FuturesChip'),
-  //     OptionChip: () => import('@/OptionChip')
-  //   },
-  //   data: () => ({
-  //     search: {
-  //       date: moment().subtract(1, 'days').getDateTime(),
-  //       time: '00:00'
-  //     },
-  //     height: '325px',
-  //     futuresChip: [],
-  //     optionChip: []
-  //   }),
-  //   methods: {
-  //     getDatas()
-  //     {
-  //       this.callApi(async () =>
-  //       {
-  //         const res = await this.$api.data.getHistory({
-  //           dateTime: this.dateTime
-  //         })
-  //         this.itemInformedDatas = res.data.option
-  //         this.chipAccumulationDatas = res.data.option_accumulation
-  //         this.futuresChip = res.data.futures_chip
-  //         this.optionChip = res.data.option_chip
-  //         // this.data = res.data
-  //       })
-  //     }
-  //   },
-  //   computed: {
-  //     dateTime()
-  //     {
-  //       return moment(`${moment(this.search.date).getDate()} ${this.search.time}`).getDateTime()
-  //     },
-  //     theDate()
-  //     {
-  //       return moment(this.dateTime).isBefore(moment(this.dateTime).format('YYYY-MM-DD 14:00:00'))
-  //         ? moment(this.dateTime).subtract(1, 'days').getDate()
-  //         : moment(this.dateTime).getDate()
-  //     }
-  //   }
-  // }
+  import OptionInitMixins from 'mixins/option/init'
+
+  export default {
+    mixins: [OptionInitMixins],
+    components: {
+      OptionHistogram: () => import('@/OptionHistogram'),
+      FuturesChip: () => import('@/FuturesChip'),
+      OptionChip: () => import('@/OptionChip')
+    },
+    data: () => ({
+      search: {
+        date: moment().subtract(1, 'days').getDateTime(),
+        time: '00:00'
+      },
+      height: '325px',
+      itemInformedDatas: [],
+      chipAccumulationDatas: [],
+      futuresChip: [],
+      optionChip: []
+    }),
+    methods: {
+      getDatas()
+      {
+        this.callApi(async () =>
+        {
+          const reqBody = {dateTime: this.dateTime}
+          this.getDataInfo(reqBody)
+          const res = await this.$api.data.getHistory(reqBody)
+          this.itemInformedDatas = res.data.option
+          this.chipAccumulationDatas = res.data.option_accumulation
+          this.futuresChip = res.data.futures_chip
+          this.optionChip = res.data.option_chip
+        })
+      }
+    },
+    computed: {
+      dateTime()
+      {
+        return moment(`${moment(this.search.date).getDate()} ${this.search.time}`).getDateTime()
+      },
+      weekShowMonth()
+      {
+        return this.info.mainMonth
+      },
+      weekShowWeek()
+      {
+        return this.info.isMonthSettleTime
+          ? ''
+          : this.info.mainWeek
+      },
+      monthShowMonth()
+      {
+        return this.info.isMonthSettleTime
+          ? this.info.subMonth
+          : this.info.mainMonth
+      }
+    }
+  }
 </script>

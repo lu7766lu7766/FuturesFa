@@ -41,8 +41,8 @@ export default class Data extends BaseRequest
     return await this.request('history', data)
   }
 
-  async getDataInfo()
+  async getDataInfo(data)
   {
-    return await this.request('info')
+    return await this.request('info', data)
   }
 }

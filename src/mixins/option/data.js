@@ -80,15 +80,34 @@ export default {
     },
     centerPoint()
     {
-      if (!this.txo) return 0
-      let mustNeer = 0
-      this.allItems.forEach(item =>
+      if (!this.txo)
       {
-        mustNeer = Math.abs(this.txo.mtx - item) < Math.abs(this.txo.mtx - mustNeer)
-          ? item
-          : mustNeer
-      })
-      return mustNeer
+        let mustHigher = 0, mustNeer
+        this.allItems.forEach(item =>
+        {
+          const cValue = Math.abs(this.groupItemTypeItemInformed[item].C.chip_valume)
+          const pValue = Math.abs(this.groupItemTypeItemInformed[item].P.chip_valume)
+          if (cValue > mustHigher || pValue > mustHigher)
+          {
+            mustNeer = item
+            mustHigher = cValue > pValue
+              ? cValue
+              : pValue
+          }
+        })
+        return mustNeer
+      }
+      else
+      {
+        let mustNeer = 0
+        this.allItems.forEach(item =>
+        {
+          mustNeer = Math.abs(this.txo.mtx - item) < Math.abs(this.txo.mtx - mustNeer)
+            ? item
+            : mustNeer
+        })
+        return mustNeer
+      }
     },
     showChipList()
     {
