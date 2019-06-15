@@ -34,8 +34,11 @@ Route.group(() =>
   Route.delete('/', 'UserController.deleteUser').validator('User/Delete')
 }).prefix('api/user').middleware(['api', 'auth', 'admin'])
 
+
+Route.get('api/data/option-today-item', 'DataController.getOptionTodayItem').validator('User/TodayItem')
 Route.group(() =>
 {
+  // Route.get('option-today-item', 'DataController.getOptionTodayItem').validator('User/TodayItem')
   Route.get('option-item-informed', 'DataController.getOptionItemInformed')
   Route.get('option-chip-accumulation', 'DataController.getOptionChipAccumulation')
   Route.get('txo', 'DataController.getTXO')
