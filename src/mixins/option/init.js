@@ -8,7 +8,7 @@ export default {
     info: {}
   }),
   methods: {
-    // 當日籌碼資料取得
+    // 當日籌碼資料取得(最新資訊)
     async getItemInformed()
     {
       const res = await this.$api.data.getOptionItemInformed()
@@ -20,6 +20,7 @@ export default {
       const res = await this.$api.data.getOptionChipAccumulation()
       this.chipAccumulationDatas = res.data
     },
+    // 取得相關資訊
     async getDataInfo(data)
     {
       const res = await this.$api.data.getDataInfo(data)

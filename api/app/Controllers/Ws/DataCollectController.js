@@ -1,5 +1,6 @@
 'use strict'
 const redisService = App.make('Service/Redis')
+const dataService = App.make('Service/Data')
 
 class DataCollectController
 {
@@ -27,12 +28,41 @@ class DataCollectController
     this.socket.emitTo('getOnlineMembers', (await redisService.get('DataCollect') || {}), [this.socket.id])
   }
 
+  async onWatchingItem(name)
+  {
+    const redisKey = dataService.buildOptionTodayItemRedisKey(name)
+    const res = await dataService.getOptionTodayItem(name)
+    await redisService.set(redisKey, res)
+
+    this.socket.emitTo('itemInfoReady', res, [this.socket.id])
+
+    const collect = (await redisService.get('OptionTodayItemCollect'))
+    collect[this.auth.user.user_name] = collect[this.auth.user.user_name]
+      ? collect[this.auth.user.user_name]
+      : []
+    collect[this.auth.user.user_name].push(name)
+    await redisService.set('OptionTodayItemCollect', collect)
+  }
+
+  async onStopWatching(name)
+  {
+    const collect = (await redisService.get('OptionTodayItemCollect'))
+    collect[this.auth.user.user_name].splice(collect[this.auth.user.user_name].indexOf(name), 1)
+    await redisService.set('OptionTodayItemCollect', collect)
+  }
+
   async onClose(socket)
   {
-    const DataCollect = await redisService.get('DataCollect')
-    delete DataCollect[this.auth.user.user_name]
-    redisService.set('DataCollect', DataCollect)
+    await this.clearData('DataCollect', this.auth.user.user_name)
     // same as: socket.on('close')
+    // await this.clearData('OptionTodayItemCollect', this.auth.user.user_name)
+  }
+
+  async clearData(redisKey, key)
+  {
+    const Collect = (await redisService.get(redisKey))
+    delete Collect[key]
+    await redisService.set(redisKey, Collect)
   }
 
   onError({socket})

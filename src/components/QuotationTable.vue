@@ -23,15 +23,30 @@
       <tr v-for="(data, item) in quotationDatas"
           :key="item">
         <td class="item-c">
-          <span :class="getClassByValue(data.C.price)">
+          <router-link :to="{
+            name: 'volume-and-price',
+            query: {
+              name: data.C.name
+            }
+          }">
+            <span :class="getClassByValue(data.C.price)">
             {{ data.C.price }}
-          </span>
+            </span>
+          </router-link>
+
         </td>
         <td class="item">{{ item }}</td>
         <td class="item-p">
-          <span :class="getClassByValue(data.P.price, '')">
-            {{ data.P.price }}
-          </span>
+          <router-link :to="{
+            name: 'volume-and-price',
+            query: {
+              name: data.P.name
+            }
+          }">
+            <span :class="getClassByValue(data.P.price, '')">
+              {{ data.P.price }}
+            </span>
+          </router-link>
         </td>
       </tr>
       </tbody>

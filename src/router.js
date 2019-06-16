@@ -50,6 +50,11 @@ export default new Router({
               path: 'quotation',
               name: 'quotation',
               component: () => import('pages/Main/Option/Quotation')
+            },
+            {
+              path: 'volume-and-price',
+              name: 'volume-and-price',
+              component: () => import('pages/Main/Option/VolumeAndPrice')
             }
           ]
         },

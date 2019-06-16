@@ -71,6 +71,30 @@ class DataService
 
   // ------------- option
 
+  buildOptionTodayItemRedisKey(name)
+  {
+    return 'OptionTodayItem_' + name
+  }
+
+  async getOptionTodayItem(name)
+  {
+    const res = await dataRepo.getOptionTodayItem(name)
+    if (!res.length)
+    {
+      const date = await dataRepo.getInfoLastDate()
+      return await dataRepo.getOptionHostoryByDateName(moment(date).getDate(), name)
+    }
+    else
+    {
+      return res
+    }
+  }
+
+  async getOptionTodayItemByRedis({request})
+  {
+    return await redisService.get(this.buildOptionTodayItemRedisKey(request.input('name')))
+  }
+
   async getOptionItemInformed()
   {
     const res = await dataRepo.getOptionItemInformed()
@@ -200,6 +224,19 @@ class DataService
     await redisService.set('TXO', (await this.getTXO()))
     await redisService.set('OptionChip', (await this.getOptionChip()))
     await redisService.set('FuturesChip', (await this.getFuturesChip()))
+    await this.watchingItemsGetter()
+  }
+
+  async watchingItemsGetter()
+  {
+    const collect = await redisService.get('OptionTodayItemCollect')
+    const allItemName = _.uniq(_.flatten(_.map(collect)))
+    for (const name of allItemName)
+    {
+      const redisKey = this.buildOptionTodayItemRedisKey(name)
+      const res = await this.getOptionTodayItem(name)
+      await redisService.set(redisKey, res)
+    }
   }
 
   async setOccasionallyData()

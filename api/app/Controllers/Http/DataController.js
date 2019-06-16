@@ -8,6 +8,11 @@ class DataController
 {
   // ------------- option
 
+  async getOptionTodayItem(ctx)
+  {
+    return await dataService.getOptionTodayItemByRedis(ctx)
+  }
+
   async getOptionItemInformed()
   {
     return await dataService.getOptionItemInformedByRedis()

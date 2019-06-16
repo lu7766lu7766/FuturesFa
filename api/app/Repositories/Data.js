@@ -96,6 +96,11 @@ class DataRepo
     return await DB.table('option_item_informed').select('name', 'item', 'chip_valume', 'price', 'created_at')
   }
 
+  async getOptionTodayItem(name)
+  {
+    return await DB.table('option').select('name', 'item', 'chip_valume', 'price', 'created_at').where('name', name)
+  }
+
   async getOptionChipAccumulation()
   {
     // 防止選到去年同期商品
@@ -134,6 +139,14 @@ class DataRepo
   async getItemNamesByDate(date)
   {
     return await DB.table('option_accumulation').where('date', date).select('name')
+  }
+
+  async getOptionHostoryByDateName(date, name)
+  {
+    return await DB.table('option_log')
+      .select('name', 'item', 'chip_valume', 'price', 'created_at')
+      .where('date', date)
+      .where('name', name)
   }
 
   async getOptionHostory(date, endTime, itemNames)
