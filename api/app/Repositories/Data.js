@@ -139,7 +139,7 @@ class DataRepo
   async getOptionHostory(date, endTime, itemNames)
   {
     return await DB.table('option_log')
-      .select('name', 'item', 'chip_valume')
+      .select('name', 'item', 'price', 'chip_valume')
       .max('created_at as last_time')
       .where('date', date)
       .where('created_at', '<', endTime)
