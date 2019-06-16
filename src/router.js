@@ -52,7 +52,7 @@ export default new Router({
               component: () => import('pages/Main/Option/Quotation')
             },
             {
-              path: 'volume-and-price/:item/:type/:month/:week',
+              path: 'volume-and-price',
               name: 'volume-and-price',
               component: () => import('pages/Main/Option/VolumeAndPrice')
             }

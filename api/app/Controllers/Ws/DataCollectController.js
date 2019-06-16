@@ -34,7 +34,7 @@ class DataCollectController
     const res = await dataService.getOptionTodayItem(name)
     await redisService.set(redisKey, res)
 
-    this.socket.emitTo('todayItemReady', redisKey, [this.socket.id])
+    this.socket.emitTo('itemInfoReady', res, [this.socket.id])
 
     const collect = (await redisService.get('OptionTodayItemCollect'))
     collect[this.auth.user.user_name] = collect[this.auth.user.user_name]

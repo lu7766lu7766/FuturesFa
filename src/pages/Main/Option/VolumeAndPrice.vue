@@ -16,23 +16,34 @@
       VolumePriceLine: () => import('@/VolumePriceLine')
     },
     data: () => ({
+      datas: [],
       timer: null,
       timer2: null
     }),
     methods: {
       startCounter()
       {
-        this.timer = setInterval(() =>
+        this.timer = setInterval(async () =>
         {
-          this.getItemInformed()
+          const res = await this.$api.data.getTodayItem({name: this.name})
+          console.log('request', res)
+          this.datas = res.data
         }, getenv('optionUpdateSecs', 30) * 1000)
+      }
+    },
+    computed: {
+      name()
+      {
+        return this.$route.query.name
       }
     },
     created()
     {
-      this.callApi(async () =>
+      this.$bus.emit('watchingItem', this.name)
+      this.$bus.on('itemInfoReady', res =>
       {
-        await this.getItemInformed()
+        this.datas = res
+        console.log(typeof res, res)
         this.startCounter()
       })
     },

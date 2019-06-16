@@ -109,6 +109,17 @@
         {
           this.$store.commit(UserType.setOnline, members)
         })
+
+        this.dataCollect.on('itemInfoReady', res =>
+        {
+          this.$bus.emit('itemInfoReady', res)
+        })
+
+        // bus event
+        this.$bus.on('watchingItem', name =>
+        {
+          this.dataCollect.emit('watchingItem', name)
+        })
       },
       getOnlineMembers()
       {

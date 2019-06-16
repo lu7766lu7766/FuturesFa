@@ -26,5 +26,9 @@
   "info": {
     "uri": "info",
     "method": "get"
+  },
+  "today-item": {
+    "uri": "option-today-item",
+    "method": "get"
   }
 }

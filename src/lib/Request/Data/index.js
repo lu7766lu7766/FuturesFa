@@ -45,4 +45,9 @@ export default class Data extends BaseRequest
   {
     return await this.request('info', data)
   }
+
+  async getTodayItem(data)
+  {
+    return await this.request('today-item', data)
+  }
 }
