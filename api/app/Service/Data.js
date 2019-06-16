@@ -224,18 +224,19 @@ class DataService
     await redisService.set('TXO', (await this.getTXO()))
     await redisService.set('OptionChip', (await this.getOptionChip()))
     await redisService.set('FuturesChip', (await this.getFuturesChip()))
-    await this.todayItemProccess()
+    await this.watchingItemsGetter()
   }
 
-  async todayItemProccess()
+  async watchingItemsGetter()
   {
     const collect = await redisService.get('OptionTodayItemCollect')
-    const allItemName = _.map(collect)
-    _.forEach(allItemName, async name => {
+    const allItemName = _.uniq(_.flatten(_.map(collect)))
+    for (const name of allItemName)
+    {
       const redisKey = this.buildOptionTodayItemRedisKey(name)
       const res = await this.getOptionTodayItem(name)
       await redisService.set(redisKey, res)
-    })
+    }
   }
 
   async setOccasionallyData()

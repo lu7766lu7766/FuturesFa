@@ -36,16 +36,26 @@ class DataCollectController
 
     this.socket.emitTo('todayItemReady', redisKey, [this.socket.id])
 
-    const OptionTodayItemCollect = (await redisService.get('OptionTodayItemCollect'))
-    OptionTodayItemCollect[this.auth.user.user_name] = name
-    await redisService.set('OptionTodayItemCollect', OptionTodayItemCollect)
+    const collect = (await redisService.get('OptionTodayItemCollect'))
+    collect[this.auth.user.user_name] = collect[this.auth.user.user_name]
+      ? collect[this.auth.user.user_name]
+      : []
+    collect[this.auth.user.user_name].push(name)
+    await redisService.set('OptionTodayItemCollect', collect)
+  }
+
+  async onStopWatching(name)
+  {
+    const collect = (await redisService.get('OptionTodayItemCollect'))
+    collect[this.auth.user.user_name].splice(collect[this.auth.user.user_name].indexOf(name), 1)
+    await redisService.set('OptionTodayItemCollect', collect)
   }
 
   async onClose(socket)
   {
     await this.clearData('DataCollect', this.auth.user.user_name)
     // same as: socket.on('close')
-    await this.clearData('OptionTodayItemCollect', this.auth.user.user_name)
+    // await this.clearData('OptionTodayItemCollect', this.auth.user.user_name)
   }
 
   async clearData(redisKey, key)
