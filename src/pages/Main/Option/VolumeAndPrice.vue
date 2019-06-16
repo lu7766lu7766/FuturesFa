@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6 offset-md-3 col-xs-12">
       <volume-price-line
-          :itemInformedDatas="itemInformedDatas"></volume-price-line>
+          :datas="datas"></volume-price-line>
     </div>
   </div>
 </template>
@@ -26,7 +26,6 @@
         this.timer = setInterval(async () =>
         {
           const res = await this.$api.data.getTodayItem({name: this.name})
-          console.log('request', res)
           this.datas = res.data
         }, getenv('optionUpdateSecs', 30) * 1000)
       }
@@ -37,13 +36,21 @@
         return this.$route.query.name
       }
     },
-    created()
+    mounted()
     {
-      this.$bus.emit('watchingItem', this.name)
+      let loader = this.$loading.show({
+        container: this.$el,
+        canCancel: true
+      })
+      setTimeout(() =>
+      {
+        this.$bus.emit('watchingItem', this.name)
+      }, 200)
+
       this.$bus.on('itemInfoReady', res =>
       {
+        loader.hide()
         this.datas = res
-        console.log(typeof res, res)
         this.startCounter()
       })
     },
