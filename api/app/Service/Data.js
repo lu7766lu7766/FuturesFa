@@ -50,6 +50,7 @@ class DataService
     return this.deleteDatas(async (trx) =>
     {
       await dataRepo.deleteTheDateData(trx, 'option_log', dataStartAndEndTime)
+      await dataRepo.deleteTheDateData(trx, 'option_accumulation', dataStartAndEndTime)
       await dataRepo.deleteTheDateData(trx, 'futures_chip_log', dataStartAndEndTime)
       await dataRepo.deleteTheDateData(trx, 'option_chip_log', dataStartAndEndTime)
     })
