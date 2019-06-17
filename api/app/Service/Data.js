@@ -79,10 +79,25 @@ class DataService
   async getOptionTodayItem(name)
   {
     const res = await dataRepo.getOptionTodayItem(name)
+
     if (!res.length)
     {
       const date = await dataRepo.getInfoLastDate()
       return await dataRepo.getOptionHostoryByDateName(moment(date).getDate(), name)
+    }
+    else
+    {
+      return res
+    }
+  }
+
+  async getOptionTodayItemMustVolume(name)
+  {
+    const res = await dataRepo.getOptionTodayItemMustVolume(name)
+    if (!res.length)
+    {
+      const date = await dataRepo.getInfoLastDate()
+      return await dataRepo.getOptionHostoryMustVolumeByDateName(moment(date).getDate(), name)
     }
     else
     {

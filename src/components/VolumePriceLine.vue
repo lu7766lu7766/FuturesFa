@@ -23,19 +23,17 @@
       datas: {
         type: Array,
         required: true
+      },
+      mustVolume: {
+        type: Object,
+        required: true
       }
     },
     methods: {
-      mainCostCount(firstItem, secondItem)
+      getHundred(volume)
       {
-        if (firstItem.chip_valume === secondItem.chip_valume)
-        {
-          return firstItem.price
-        }
-        else
-        {
-          return firstItem.price * (secondItem.chip_valume - firstItem.chip_valume)
-        }
+        volume = '' + volume
+        return +(volume.substr(0, 1) + Array(volume.length - 1).fill(0).join(''))
       }
     },
     computed: {
@@ -51,25 +49,21 @@
       },
       volumePriceDatas()
       {
-        let mainCost = 0
-        return _.reduce(_.cloneDeep(this.datas), (result, data, index) =>
+        return _.reduce(_.cloneDeep(this.datas), (result, data) =>
         {
-          if ((index + 1) < this.length)
+          if (data.chip_valume > 0)
           {
-            mainCost = this.datas[index + 1].chip_valume === this.datas[index].chip_valume
-              ? mainCost
-              : this.datas[index].price / (this.datas[index + 1].chip_valume - this.datas[index].chip_valume)
+            data.mainCost = (this.mustVolume.max_volume * 1.1 - data.chip_valume)
+              / this.getHundred(Math.abs(this.mustVolume.max_volume))
+              * data.price
           }
           else
           {
-            mainCost = this.datas[index].chip_valume === this.datas[index - 1].chip_valume
-              ? mainCost
-              : this.datas[index].price / (this.datas[index].chip_valume - this.datas[index - 1].chip_valume)
+            data.mainCost = Math.abs(this.mustVolume.min_volume * 1.1 - data.chip_valume)
+              / this.getHundred(Math.abs(this.mustVolume.min_volume))
+              * data.price
           }
-          data.mainCost = mainCost
-          result.push({
-            ...data
-          })
+          result.push(data)
           return result
         }, [])
       },

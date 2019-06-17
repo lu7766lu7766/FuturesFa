@@ -30,5 +30,9 @@
   "today-item": {
     "uri": "option-today-item",
     "method": "get"
+  },
+  "today-item-must-volume": {
+    "uri": "option-today-item-must-volume",
+    "method": "get"
   }
 }

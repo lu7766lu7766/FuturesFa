@@ -31,10 +31,11 @@ class DataCollectController
   async onWatchingItem(name)
   {
     const redisKey = dataService.buildOptionTodayItemRedisKey(name)
-    const res = await dataService.getOptionTodayItem(name)
-    await redisService.set(redisKey, res)
+    const data = await dataService.getOptionTodayItem(name)
+    const mustVolume = await dataService.getOptionTodayItemMustVolume(name)
+    await redisService.set(redisKey, data)
 
-    this.socket.emitTo('itemInfoReady', res, [this.socket.id])
+    this.socket.emitTo('itemInfoReady', {data, mustVolume}, [this.socket.id])
 
     const collect = (await redisService.get('OptionTodayItemCollect'))
     collect[this.auth.user.user_name] = collect[this.auth.user.user_name]

@@ -2,7 +2,8 @@
   <div class="row">
     <div class="col-md-6 offset-md-3 col-xs-12">
       <volume-price-line
-          :datas="datas"></volume-price-line>
+          :datas="datas"
+          :mustVolume="mustVolume"></volume-price-line>
     </div>
   </div>
 </template>
@@ -17,16 +18,29 @@
     },
     data: () => ({
       datas: [],
+      mustVolume: {},
       timer: null,
       timer2: null
     }),
     methods: {
+      async getTodayItem()
+      {
+        const res = await this.$api.data.getTodayItem({name: this.name})
+        this.datas = res.data
+      },
+      async getTodayItemVolume()
+      {
+        const res = _.first((await this.$api.data.getTodayItemMustVolume({name: this.name})).data)
+        this.mustVolume = res
+      },
       startCounter()
       {
         this.timer = setInterval(async () =>
         {
-          const res = await this.$api.data.getTodayItem({name: this.name})
-          this.datas = res.data
+          await axios.all([
+            this.getTodayItem(),
+            this.getTodayItemVolume()
+          ])
         }, getenv('optionUpdateSecs', 30) * 1000)
       }
     },
@@ -50,7 +64,8 @@
       this.$bus.on('itemInfoReady', res =>
       {
         loader.hide()
-        this.datas = res
+        this.datas = res.data
+        this.mustVolume = _.first(res.mustVolume)
         this.startCounter()
       })
     },

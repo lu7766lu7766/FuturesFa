@@ -13,6 +13,11 @@ class DataController
     return await dataService.getOptionTodayItemByRedis(ctx)
   }
 
+  async getOptionTodayItemMustVolume(ctx)
+  {
+    return await dataService.getOptionTodayItemMustVolume(ctx.request.input('name'))
+  }
+
   async getOptionItemInformed()
   {
     return await dataService.getOptionItemInformedByRedis()

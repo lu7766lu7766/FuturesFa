@@ -38,6 +38,8 @@ Route.group(() =>
 Route.group(() =>
 {
   Route.get('option-today-item', 'DataController.getOptionTodayItem').validator('Data/TodayItem')
+  Route.get('option-today-item-must-volume', 'DataController.getOptionTodayItemMustVolume').validator('Data/TodayItem')
+
   Route.get('option-item-informed', 'DataController.getOptionItemInformed')
   Route.get('option-chip-accumulation', 'DataController.getOptionChipAccumulation')
   Route.get('txo', 'DataController.getTXO')

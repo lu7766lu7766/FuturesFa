@@ -50,4 +50,9 @@ export default class Data extends BaseRequest
   {
     return await this.request('today-item', data)
   }
+
+  async getTodayItemMustVolume(data)
+  {
+    return await this.request('today-item-must-volume', data)
+  }
 }

@@ -98,7 +98,17 @@ class DataRepo
 
   async getOptionTodayItem(name)
   {
-    return await DB.table('option').select('name', 'item', 'chip_valume', 'price', 'created_at').where('name', name)
+    return await DB.table('option')
+      .select('name', 'item', 'chip_valume', 'price', 'created_at')
+      .where('name', name)
+  }
+
+  async getOptionTodayItemMustVolume(name)
+  {
+    return await DB.table('option')
+      .max('chip_valume as max_volume')
+      .min('chip_valume as min_volume')
+      .where('name', name)
   }
 
   async getOptionChipAccumulation()
@@ -145,6 +155,15 @@ class DataRepo
   {
     return await DB.table('option_log')
       .select('name', 'item', 'chip_valume', 'price', 'created_at')
+      .where('date', date)
+      .where('name', name)
+  }
+
+  async getOptionHostoryMustVolumeByDateName(date, name)
+  {
+    return await DB.table('option_log')
+      .max('chip_valume as max_volume')
+      .min('chip_valume as min_volume')
       .where('date', date)
       .where('name', name)
   }
