@@ -2,13 +2,5 @@
   "version": {
     "uri": "version",
     "method": "get"
-  },
-  "isMonthEndWeek": {
-    "uri": "isMonthItemEndWeek",
-    "method": "get"
-  },
-  "updateMonthEndWeek": {
-    "uri": "updateMonthItemEndWeek",
-    "method": "put"
   }
 }
