@@ -55,6 +55,7 @@ Route.group(() =>
 {
   Route.get('generalize', 'DataController.generalizeDatas')
   Route.delete(':date', 'DataController.deleteTheDateDatas')
+  Route.delete('clear', 'DataController.clearDatas')
 }).prefix('data').middleware(['api', 'local'])
 
 Route.group(() =>

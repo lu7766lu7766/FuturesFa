@@ -11,9 +11,10 @@
     "db:refresh": "adonis migration:refresh --seed",
     "task:run": "node ace run:scheduler",
     "task:add": "node ace make:task",
-    "generalize": "curl -G http://127.0.0.1:3333/data/generalize",
-    "updateVersion": "curl -G http://127.0.0.1:3333/api/sys/updateVersion",
-    "deleteTheDateDatas": "curl -X delete http://127.0.0.1:3333/data/:date"
+    "generalize": "curl -X GET http://127.0.0.1:3333/data/generalize",
+    "updateVersion": "curl -X GET http://127.0.0.1:3333/api/sys/updateVersion",
+    "deleteTheDateDatas": "curl -X DELETE http://127.0.0.1:3333/data/:date",
+    "clearDatas": "curl -X DELETE http://127.0.0.1:3333/data/clear"
   },
   "keywords": [
     "adonisjs",

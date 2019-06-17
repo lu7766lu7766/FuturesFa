@@ -41,10 +41,12 @@ class DataService
 
   async clearOlderDatas()
   {
+    // dd(moment().getDateTime())
     const dataStartAndEndTime = [
-      moment().subtract(8, 'days').format('YYYY-MM-DD 14:00'),
-      moment().subtract(365, 'days').format('YYYY-MM-DD 15:00')
+      moment().subtract(365, 'days').format('YYYY-MM-DD 15:00:00'),
+      moment().subtract(8, 'days').format('YYYY-MM-DD 14:00:00')
     ]
+    // console.log(dataStartAndEndTime)
     return this.deleteDatas(async (trx) =>
     {
       await dataRepo.deleteTheDateData(trx, 'option_log', dataStartAndEndTime)
@@ -59,6 +61,7 @@ class DataService
     try
     {
       await f(trx)
+      trx.commit()
       return true
     } catch (e)
     {

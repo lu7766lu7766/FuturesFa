@@ -66,6 +66,11 @@ class DataController
     return await dataService.deleteTheDateDatas(ctx)
   }
 
+  async clearDatas()
+  {
+    return await dataService.clearOlderDatas()
+  }
+
   // date info
   async getInfo(ctx)
   {
