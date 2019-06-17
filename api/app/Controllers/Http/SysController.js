@@ -11,16 +11,6 @@ class SysController {
   async updateVersion() {
     return await sysService.updateVersion()
   }
-
-  async isMonthItemEndWeek()
-  {
-    return await sysService.getIsMonthItemEndWeek()
-  }
-
-  async updateMonthItemEndWeek(ctx)
-  {
-    return await sysService.updateMonthItemEndWeek(ctx)
-  }
 }
 
 module.exports = SysController
