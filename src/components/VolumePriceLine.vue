@@ -1,15 +1,20 @@
 <template>
   <div class="row">
     <div class="col-md-12 col-xs-12">
+      <div class="col-md-12 col-xs-12">
+        <h5>{{ name }}</h5>
+      </div>
+    </div>
+    <div class="col-md-12 col-xs-12">
       <div class="col-md-6 col-xs-12">現在時間：{{ currentTime }}</div>
       <div class="col-md-6 col-xs-12">資料時間：{{ updateTime }}</div>
     </div>
     <div class="col-md-12 col-xs-12">
-      <ve-line :data="priceDatas"></ve-line>
+      <ve-line :data="priceDatas" :colors="['#f00', '#00CF00']"></ve-line>
     </div>
 
     <div class="col-md-12 col-xs-12">
-      <ve-line :data="volumeDatas"></ve-line>
+      <ve-line :data="volumeDatas" :colors="['#150a98']"></ve-line>
     </div>
   </div>
 </template>
@@ -20,6 +25,9 @@
   export default {
     mixins: [CurrentTimeMixins],
     props: {
+      name: {
+        type: String
+      },
       datas: {
         type: Array,
         required: true

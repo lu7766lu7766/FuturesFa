@@ -2,6 +2,7 @@
   <div class="row">
     <div class="col-md-6 offset-md-3 col-xs-12">
       <volume-price-line
+          :name="name"
           :datas="datas"
           :mustVolume="mustVolume"></volume-price-line>
     </div>
