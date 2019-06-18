@@ -174,7 +174,7 @@ class DataRepo
       .select('name', 'item', 'price', 'chip_valume')
       .max('created_at as last_time')
       .where('date', date)
-      .where('created_at', '<', endTime)
+      .where('created_at', '<=', endTime)
       .whereIn('name', itemNames)
       .groupBy('name')
   }
