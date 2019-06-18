@@ -10,7 +10,7 @@
       <div class="col-md-6 col-xs-12">資料時間：{{ updateTime }}</div>
     </div>
     <div class="col-md-12 col-xs-12">
-      <ve-line :data="priceDatas" :colors="['#f00', '#00CF00']"></ve-line>
+      <ve-line :data="priceDatas" :colors="['#f00', '#150a98']"></ve-line>
     </div>
 
     <div class="col-md-12 col-xs-12">
