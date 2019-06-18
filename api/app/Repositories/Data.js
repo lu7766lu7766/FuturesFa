@@ -127,7 +127,7 @@ class DataRepo
 
   async getTXO()
   {
-    return await DB.table('txo').first()
+    return await DB.table('txo').orderBy('created_at', 'desc').first()
   }
 
   async getOptionChip()
