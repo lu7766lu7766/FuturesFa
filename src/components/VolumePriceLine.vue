@@ -59,18 +59,11 @@
       {
         return _.reduce(_.cloneDeep(this.datas), (result, data) =>
         {
-          if (data.chip_valume > 0)
-          {
-            data.mainCost = (this.mustVolume.max_volume * 1.1 - data.chip_valume)
-              / this.getHundred(Math.abs(this.mustVolume.max_volume))
-              * data.price
-          }
-          else
-          {
-            data.mainCost = Math.abs(this.mustVolume.min_volume * 1.1 - data.chip_valume)
-              / this.getHundred(Math.abs(this.mustVolume.min_volume))
-              * data.price
-          }
+          data.mainCost = data.price * Math.abs(data.chip_valume)
+            / Math.abs(data.chip_valume > 0
+              ? this.mustVolume.max_volume
+              : this.mustVolume.min_volume)
+
           result.push(data)
           return result
         }, [])
