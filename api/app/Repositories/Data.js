@@ -127,7 +127,7 @@ class DataRepo
 
   async getTXO()
   {
-    return await DB.table('txo').first()
+    return await DB.table('txo').orderBy('created_at', 'desc').first()
   }
 
   async getOptionChip()
@@ -174,7 +174,7 @@ class DataRepo
       .select('name', 'item', 'price', 'chip_valume')
       .max('created_at as last_time')
       .where('date', date)
-      .where('created_at', '<', endTime)
+      .where('created_at', '<=', endTime)
       .whereIn('name', itemNames)
       .groupBy('name')
   }
