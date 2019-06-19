@@ -54,9 +54,7 @@
     computed: {
       showMonth()
       {
-        return this.info.isMonthSettleTime
-          ? this.info.subMonth
-          : this.info.mainMonth
+        return this.info.subMonth
       }
     },
     created()

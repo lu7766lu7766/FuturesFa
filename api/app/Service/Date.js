@@ -27,12 +27,17 @@ class DateService
       isMonthSettleTime,
       weekSettleStartTime,
       weekSettleEndTime,
-      mainMonth: moment(dateTime).isBefore(monthSettleEndTime, 'minute')
+      // 周選頁的月份
+      mainMonth: moment(dateTime).day(3).format('MM') === moment(dateTime).add(1, 'weeks').day(3).format('MM')
         ? moment(dateTime).format('MM')
         : moment(dateTime).add(1, 'months').format('MM'),
-      subMonth: isMonthSettleTime
-        ? moment(dateTime).add(1, 'months').format('MM')
-        : null,
+      // moment(dateTime).isBefore(monthSettleEndTime, 'minute')
+      // ? moment(dateTime).format('MM')
+      // : moment(dateTime).add(1, 'months').format('MM'),
+      // 月選頁的月份
+      subMonth: moment(dateTime).isBefore(monthSettleEndTime, 'minute')
+        ? moment(dateTime).format('MM')
+        : moment(dateTime).add(1, 'months').format('MM'),
       mainWeek: moment(dateTime).isBefore(weekSettleEndTime, 'minute')
         ? (this.getWeekOfMonth(moment(dateTime).day(3)) - subCount) == 0
           ? Math.ceil(moment(dateTime).subtract(1, 'month').daysInMonth() / 7)

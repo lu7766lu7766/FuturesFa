@@ -56,18 +56,14 @@ export default {
     {
       return _.filter(this.itemInformedDatas, data =>
       {
-        return !this.info.isMonthSettleTime
-          ? data.month == this.showMonth && data.week == this.showWeek
-          : data.month == this.showMonth
+        return data.month == this.showMonth && (!data.week || data.week == this.showWeek)
       })
     },
     currentAccumulationDatas()
     {
       return _.filter(this.chipAccumulationDatas, data =>
       {
-        return !this.info.isMonthSettleTime
-          ? data.month == this.showMonth && data.week == this.showWeek
-          : data.month == this.showMonth
+        return data.month == this.showMonth && (!data.week || data.week == this.showWeek)
       })
     },
     updateTime()

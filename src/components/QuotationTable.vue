@@ -99,7 +99,7 @@
       showMonth()
       {
         // 顯示邏輯與周選月選頁相同
-        return this.isWeekItem || !this.info.isMonthSettleTime
+        return this.isWeekItem
           ? this.info.mainMonth
           : this.info.subMonth
       },
