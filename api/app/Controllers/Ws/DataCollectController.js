@@ -37,7 +37,7 @@ class DataCollectController
 
     this.socket.emitTo('itemInfoReady', {data, mustVolume}, [this.socket.id])
 
-    const collect = (await redisService.get('OptionTodayItemCollect'))
+    const collect = (await redisService.get('OptionTodayItemCollect')) || {}
     collect[this.auth.user.user_name] = collect[this.auth.user.user_name]
       ? collect[this.auth.user.user_name]
       : []
