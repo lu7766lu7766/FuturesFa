@@ -10,7 +10,7 @@
       <div class="col-md-6 col-xs-12">資料時間：{{ updateTime }}</div>
     </div>
     <div class="col-md-12 col-xs-12">
-      <ve-line :data="priceDatas" :colors="['#f00', '#150a98']"></ve-line>
+      <ve-line :data="priceDatas" :colors="['#f00', '#150a98']" :after-config="getConfig"></ve-line>
     </div>
 
     <div class="col-md-12 col-xs-12">
@@ -38,10 +38,27 @@
       }
     },
     methods: {
-      getHundred(volume)
+      getConfig(config)
       {
-        volume = '' + volume
-        return +(volume.substr(0, 1) + Array(volume.length - 1).fill(0).join(''))
+        config.series[0].smooth = true
+        let afterSecs = moment().diff(moment().format('YYYY-MM-DD 15:00:00'), 'seconds')
+        afterSecs = afterSecs > 0
+          ? afterSecs
+          : moment().diff(moment().subtract(1, 'days').format('YYYY-MM-DD 15:00:00'), 'seconds')
+        const smoothLevel = Math.floor(Math.ceil(afterSecs / 500))
+        // console.log(smoothLevel)
+        const len = config.series[0].data.length - 1
+        if (len > 0)
+        {
+          for (let index = len; index >= 0; index--)
+          {
+            if (Math.abs(index - len) % smoothLevel !== 0)
+            {
+              config.series[0].data.splice(index, 1)
+            }
+          }
+        }
+        return config
       }
     },
     computed: {
@@ -55,15 +72,17 @@
           ? moment(this.datas[0].created_at).getDateTime()
           : ''
       },
+      biggestMustVolume()
+      {
+        return Math.abs(this.mustVolume.max_volume) > Math.abs(this.mustVolume.min_volume)
+          ? Math.abs(this.mustVolume.max_volume)
+          : Math.abs(this.mustVolume.min_volume)
+      },
       volumePriceDatas()
       {
         return _.reduce(_.cloneDeep(this.datas), (result, data) =>
         {
-          data.mainCost = data.price * Math.abs(data.chip_valume)
-            / Math.abs(data.chip_valume > 0
-              ? this.mustVolume.max_volume
-              : this.mustVolume.min_volume)
-
+          data.mainCost = data.price * Math.abs(data.chip_valume) / this.biggestMustVolume
           result.push(data)
           return result
         }, [])
