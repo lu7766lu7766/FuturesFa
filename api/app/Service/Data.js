@@ -269,15 +269,15 @@ class DataService
 
   async getHistory({request})
   {
-    const startTime = moment(request.input('dateTime')).subtract(15, 'minutes').getDateTime()
+    // const startTime = moment(request.input('dateTime')).subtract(15, 'minutes').getDateTime()
     const endTime = moment(request.input('dateTime')).getDateTime()
     const date = this.getDateByTime(endTime)
 
     const itemNames = _.map((await dataRepo.getItemNamesByDate(date)), 'name')
     const option = this.getItemInfo(await dataRepo.getOptionHostory(date, endTime, itemNames))
     const option_accumulation = this.getItemInfo(await dataRepo.getOptionAccumulationHostory(date, itemNames))
-    const option_chip = await dataRepo.getOptionChipHistory(startTime, endTime)
-    const futures_chip = await dataRepo.getFuturesChipHistory(startTime, endTime)
+    const option_chip = await dataRepo.getOptionChipHistory(moment(date).format('YYYY-MM-DD 15:00:00'), endTime)
+    const futures_chip = await dataRepo.getFuturesChipHistory(moment(date).format('YYYY-MM-DD 15:00:00'), endTime)
     return {
       option, option_accumulation, option_chip, futures_chip
     }
