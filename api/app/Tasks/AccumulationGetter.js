@@ -11,6 +11,7 @@ class AccumulationGetter extends Task {
   }
 
   async handle () {
+    console.log('Task AccumulationGetter handle')
     // this.info('Task AccumulationGetter handle')
     // Redis.set('OptionChipAccumulation', JSON.stringify(await dataService.getOptionChipAccumulation()))
     dataService.setOccasionallyData()
