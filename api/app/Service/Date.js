@@ -35,7 +35,7 @@ class DateService
       // ? moment(dateTime).format('MM')
       // : moment(dateTime).add(1, 'months').format('MM'),
       // 月選頁的月份
-      subMonth: moment(dateTime).isBefore(monthSettleEndTime, 'minute')
+      subMonth: moment(dateTime).isBefore(monthSettleStartTime, 'minute')
         ? moment(dateTime).format('MM')
         : moment(dateTime).add(1, 'months').format('MM'),
       mainWeek: moment(dateTime).isBefore(weekSettleEndTime, 'minute')
