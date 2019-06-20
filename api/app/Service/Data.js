@@ -274,7 +274,7 @@ class DataService
     const date = this.getDateByTime(endTime)
 
     const itemNames = _.map((await dataRepo.getItemNamesByDate(date)), 'name')
-    const option = this.getItemInfo(await dataRepo.getOptionHostory(date, endTime, itemNames))
+    const option = this.getItemInfo(await dataRepo.getOptionHostory(date, endTime))
     const option_accumulation = this.getItemInfo(await dataRepo.getOptionAccumulationHostory(date, itemNames))
     const option_chip = await dataRepo.getOptionChipHistory(moment(date).format('YYYY-MM-DD 15:00:00'), endTime)
     const futures_chip = await dataRepo.getFuturesChipHistory(moment(date).format('YYYY-MM-DD 15:00:00'), endTime)

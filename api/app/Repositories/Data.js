@@ -168,15 +168,18 @@ class DataRepo
       .where('name', name)
   }
 
-  async getOptionHostory(date, endTime, itemNames)
+  async getOptionHostory(date, endTime)
   {
-    return await DB.table('option_log')
-      .select('name', 'item', 'price', 'chip_valume')
-      .max('created_at as last_time')
-      .where('date', date)
-      .where('created_at', '<=', endTime)
-      .whereIn('name', itemNames)
-      .groupBy('name')
+    return _.first(await DB.raw(`
+      select b.* from (
+        select name, max(created_at) as last_time 
+        from option_log 
+        where date = ? 
+        and created_at <= ?
+        group by name) as a
+      left join option_log as b
+      on a.name = b.name and a.last_time = b.created_at
+    `, [date, endTime]))
   }
 
   async getOptionAccumulationHostory(date, itemNames)
