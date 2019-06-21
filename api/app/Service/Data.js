@@ -137,6 +137,7 @@ class DataService
   async getOptionChipAccumulation()
   {
     const res = await dataRepo.getOptionChipAccumulation()
+    Log.info(JSON.stringify(res))
     if (!res.length)
     {
       const date = await dataRepo.getInfoLastDate()
