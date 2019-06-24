@@ -17,6 +17,9 @@ class DateService
       ? 0
       : 1
 
+    // const thisWeekMainMonth = moment(dateTime).format('MM')
+    // const nextWeekMainMonth = moment(dateTime).add(1, 'months').format('MM')
+
     return {
       dateTime: moment(dateTime).getDateTime(),
       date: moment(dateTime).isBefore(moment(dateTime).format('YYYY-MM-DD 14:00:00'))
@@ -28,7 +31,8 @@ class DateService
       weekSettleStartTime,
       weekSettleEndTime,
       // 周選頁的月份
-      mainMonth: moment(dateTime).day(3).format('MM') === moment(dateTime).add(1, 'weeks').day(3).format('MM')
+      mainMonth: moment().isBefore(weekSettleEndTime, 'minute') ||
+      (moment(dateTime).day(3).format('MM') === moment(dateTime).add(1, 'weeks').day(3).format('MM'))
         ? moment(dateTime).format('MM')
         : moment(dateTime).add(1, 'months').format('MM'),
       // moment(dateTime).isBefore(monthSettleEndTime, 'minute')
