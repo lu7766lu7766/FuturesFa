@@ -1,5 +1,7 @@
 'use strict'
 
+const dataService = App.make('Service/Data')
+
 class DateService
 {
   getDateInfo({request})
@@ -23,7 +25,7 @@ class DateService
     let date = moment(dateTime).isBefore(moment(dateTime).format('YYYY-MM-DD 14:00:00'))
       ? moment(dateTime).subtract(1, 'days')
       : moment(dateTime)
-    while (date.day() < 1 || date.day() > 5)
+    while (!dataService.isDataTransferTime() && (date.day() < 1 || date.day > 5))
     {
       date = date.subtract(1, 'days')
     }

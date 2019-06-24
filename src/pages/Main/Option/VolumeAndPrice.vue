@@ -20,8 +20,7 @@
     data: () => ({
       datas: [],
       mustVolume: {},
-      timer: null,
-      timer2: null
+      timer: null
     }),
     methods: {
       async getTodayItem()
@@ -73,7 +72,6 @@
     destroyed()
     {
       clearInterval(this.timer)
-      clearInterval(this.timer2)
     }
   }
 </script>

@@ -112,11 +112,11 @@
           this.getTXO()
           this.getFuturesChip()
           this.getOptionChip()
+          this.getDataInfo()
         }, getenv('optionUpdateSecs', 30) * 1000)
         this.timer2 = setInterval(() =>
         {
           this.getChipAccumulation()
-          this.getDataInfo()
         }, getenv('accumulationUpdateSecs', 3600) * 1000)
       }
     },

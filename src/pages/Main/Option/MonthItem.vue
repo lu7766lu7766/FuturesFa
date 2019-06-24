@@ -43,11 +43,11 @@
         this.timer = setInterval(() =>
         {
           this.getItemInformed()
+          this.getDataInfo()
         }, getenv('optionUpdateSecs', 30) * 1000)
         this.timer2 = setInterval(() =>
         {
           this.getChipAccumulation()
-          this.getDataInfo()
         }, getenv('accumulationUpdateSecs', 30) * 1000)
       }
     },

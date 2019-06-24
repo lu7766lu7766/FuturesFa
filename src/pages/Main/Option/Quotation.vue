@@ -17,8 +17,7 @@
       Quotation: () => import('@/QuotationTable')
     },
     data: () => ({
-      timer: null,
-      timer2: null
+      timer: null
     }),
     methods: {
       startCounter()
@@ -26,11 +25,8 @@
         this.timer = setInterval(() =>
         {
           this.getItemInformed()
-        }, getenv('optionUpdateSecs', 30) * 1000)
-        this.timer2 = setInterval(() =>
-        {
           this.getDataInfo()
-        }, getenv('accumulationUpdateSecs', 3600) * 1000)
+        }, getenv('optionUpdateSecs', 30) * 1000)
       }
     },
     created()
@@ -45,7 +41,6 @@
     destroyed()
     {
       clearInterval(this.timer)
-      clearInterval(this.timer2)
     }
   }
 </script>
