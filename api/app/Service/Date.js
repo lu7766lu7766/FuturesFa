@@ -20,11 +20,16 @@ class DateService
     // const thisWeekMainMonth = moment(dateTime).format('MM')
     // const nextWeekMainMonth = moment(dateTime).add(1, 'months').format('MM')
 
+    let date = moment(dateTime).isBefore(moment(dateTime).format('YYYY-MM-DD 14:00:00'))
+      ? moment(dateTime).subtract(1, 'days')
+      : moment(dateTime)
+    while (date.day() < 1 || date.day() > 5)
+    {
+      date = date.subtract(1, 'days')
+    }
     return {
-      dateTime: moment(dateTime).getDateTime(),
-      date: moment(dateTime).isBefore(moment(dateTime).format('YYYY-MM-DD 14:00:00'))
-        ? moment(dateTime).subtract(1, 'days').getDate()
-        : moment(dateTime).getDate(),
+      dateTime,
+      date: date.getDate(),
       monthSettleStartTime,
       monthSettleEndTime,
       isMonthSettleTime,
