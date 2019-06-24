@@ -81,7 +81,6 @@
     },
     data: () => ({
       timer: null,
-      timer2: null,
       updateTime: '',
       txo: {},
       futuresChip: [],
@@ -113,11 +112,8 @@
           this.getFuturesChip()
           this.getOptionChip()
           this.getDataInfo()
-        }, getenv('optionUpdateSecs', 30) * 1000)
-        this.timer2 = setInterval(() =>
-        {
           this.getChipAccumulation()
-        }, getenv('accumulationUpdateSecs', 3600) * 1000)
+        }, getenv('optionUpdateSecs', 30) * 1000)
       }
     },
     computed: {
@@ -150,7 +146,6 @@
     destroyed()
     {
       clearInterval(this.timer)
-      clearInterval(this.timer2)
     }
   }
 </script>

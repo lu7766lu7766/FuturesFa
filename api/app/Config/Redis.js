@@ -1,10 +1,8 @@
 const frondEnv = require('../../../env.json')
-const optionUpdateSecs = frondEnv.optionUpdateSecs,
-  accumulationUpdateSecs = frondEnv.accumulationUpdateSecs
+const optionUpdateSecs = frondEnv.optionUpdateSecs
 
 module.exports = {
   'OptionItemInformed': optionUpdateSecs,
-  'OptionChipAccumulation': accumulationUpdateSecs,
   'TXO': optionUpdateSecs,
   'FuturesChip': optionUpdateSecs,
   'OptionChip': optionUpdateSecs

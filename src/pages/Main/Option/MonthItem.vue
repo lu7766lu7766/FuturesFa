@@ -34,8 +34,7 @@
     },
     data: () => ({
       updateTime: '',
-      timer: null,
-      timer2: null
+      timer: null
     }),
     methods: {
       startCounter()
@@ -44,11 +43,8 @@
         {
           this.getItemInformed()
           this.getDataInfo()
-        }, getenv('optionUpdateSecs', 30) * 1000)
-        this.timer2 = setInterval(() =>
-        {
           this.getChipAccumulation()
-        }, getenv('accumulationUpdateSecs', 30) * 1000)
+        }, getenv('optionUpdateSecs', 30) * 1000)
       }
     },
     computed: {
@@ -72,7 +68,6 @@
     destroyed()
     {
       clearInterval(this.timer)
-      clearInterval(this.timer2)
     }
   }
 </script>
