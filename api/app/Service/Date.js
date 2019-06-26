@@ -25,7 +25,6 @@ class DateService
 
     const thisWednesday = moment(dateTime).day(3)
     const nextWednesday = moment(dateTime).day(10)
-    const prevWednewday = moment(dateTime).day(-4)
 
     return {
       dateTime,
@@ -50,9 +49,6 @@ class DateService
       mainWeek: moment(dateTime).isBefore(weekSettleEndTime, 'minute')
         ? this.getWeekOfMonth(thisWednesday)
         : this.getWeekOfMonth(nextWednesday),
-      // subWeek: isWeekSettleTime
-      //   ? this.getWeekOfMonth(moment(dateTime).day(10)) - subCount
-      //   : null
     }
   }
 
@@ -68,11 +64,13 @@ class DateService
     return moment(targetMoment.format('YYYY-MM-01')).day(24)
   }
 
-  // 取得日期為該月第幾週
+  // 取得該日期除以七無條件進位
   getWeekOfMonth(date)
   {
-    return Math.ceil(
-      (moment(date).date() - (7 - moment(moment(date).format('YYYY-MM-01')).day())) / 7) + 1
+    // 取得日期為該月第幾週
+    // return Math.ceil(
+    //   (moment(date).date() - (7 - moment(moment(date).format('YYYY-MM-01')).day())) / 7) + 1
+    return Math.ceil(date.date() / 7)
   }
 }
 
