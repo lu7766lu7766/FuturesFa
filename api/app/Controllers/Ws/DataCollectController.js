@@ -18,7 +18,7 @@ class DataCollectController
       nick_name: this.auth.user.nick_name
     }
 
-    const DataCollect = await redisService.get('DataCollect')
+    const DataCollect = (await redisService.get('DataCollect')) || {}
     DataCollect[user.user_name] = user
     redisService.set('DataCollect', DataCollect)
   }
