@@ -48,8 +48,8 @@ class DateService
         : moment(dateTime).add(1, 'months').format('MM'),
       // 週選的週數
       mainWeek: moment(dateTime).isBefore(weekSettleEndTime, 'minute')
-        ? this.getWeekOfMonth(prevWednewday)
-        : this.getWeekOfMonth(thisWednesday),
+        ? this.getWeekOfMonth(thisWednesday)
+        : this.getWeekOfMonth(nextWednesday),
       // subWeek: isWeekSettleTime
       //   ? this.getWeekOfMonth(moment(dateTime).day(10)) - subCount
       //   : null
