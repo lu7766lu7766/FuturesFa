@@ -55,6 +55,10 @@
         this.datas = []
         this.show = true
       })
+    },
+    destroyed()
+    {
+      this.$bus.off('UserManageAddTester.show')
     }
   }
 </script>

@@ -135,6 +135,10 @@
       {
         this.getOnlineMembers()
       }, 10 * 1000)
+    },
+    destroyed()
+    {
+      this.$bus.off('watchingItem')
     }
   }
 </script>

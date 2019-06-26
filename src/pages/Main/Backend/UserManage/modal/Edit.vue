@@ -65,6 +65,10 @@
         this.data = _.cloneDeep(data)
         this.show = true
       })
+    },
+    destroyed()
+    {
+      this.$bus.off('UserManageEdit.show')
     }
   }
 </script>

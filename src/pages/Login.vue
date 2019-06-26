@@ -3,9 +3,21 @@
     <section id="login" class="center-box">
       <form>
         <h2>系統登入</h2>
-        <input type="text" v-model="data.user_name" @keyup.13="doLogin()" placeholder="帳號" />
-        <input type="password" v-model="data.password" @keyup.13="doLogin()" placeholder="密碼" />
-        <button type="button" @click="doLogin">登入</button>
+        <input type="text"
+               name="user_name"
+               v-validate="'required'"
+               v-model="data.user_name"
+               @keyup.13="doLogin()"
+               placeholder="帳號" />
+        <span class="text-danger">{{ errorBags.first('user_name') }}</span>
+        <input type="password"
+               name="password"
+               v-validate="'required'"
+               v-model="data.password"
+               @keyup.13="doLogin()"
+               placeholder="密碼" />
+        <span class="text-danger">{{ errorBags.first('password') }}</span>
+        <button type="button" @click="doLogin" :disabled="errorBags.any()">登入</button>
       </form>
     </section>
   </div>
@@ -28,6 +40,12 @@
       {
         this.callApi(async () =>
         {
+          var validateResult = await this.$validator.validateAll()
+          if (!validateResult)
+          {
+            alert('資料未完整或有誤，請再次確認')
+            throw new Error('validate error')
+          }
           const res = await this.$api.user.login(this.data)
           await this.$store.commit(LoginType.setAccessToken, res.data)
           await this.$router.push({name: 'week-item'})

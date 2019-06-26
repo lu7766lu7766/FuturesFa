@@ -71,6 +71,7 @@
     },
     destroyed()
     {
+      this.$bus.off('itemInfoReady')
       clearInterval(this.timer)
     }
   }

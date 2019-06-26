@@ -69,6 +69,10 @@
         this.data = {}
         this.show = true
       })
+    },
+    destroyed()
+    {
+      this.$bus.off('UserManageAdd.show')
     }
   }
 </script>
