@@ -14,8 +14,11 @@ class DataGetter extends Task {
   async handle () {
     // console.log('Task DataGetter handle')
     // this.info('Task DataGetter handle')
-    dataService.setOftenData()
-    dataService.setOccasionallyData()
+    if (dataService.isDataTransferTime())
+    {
+      dataService.setOftenData()
+      dataService.setOccasionallyData()
+    }
   }
 }
 

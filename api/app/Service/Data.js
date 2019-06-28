@@ -117,6 +117,10 @@ class DataService
   async getOptionItemInformed()
   {
     const res = await dataRepo.getOptionItemInformed()
+    !res[0].mtx && Log.info({
+      status: 'dataGetter',
+      ...res
+    })
     if (!res.length)
     {
       const date = await dataRepo.getInfoLastDate()
@@ -131,7 +135,12 @@ class DataService
 
   async getOptionItemInformedByRedis()
   {
-    return await redisService.get('OptionItemInformed')
+    const res = await redisService.get('OptionItemInformed')
+    !res[0].mtx && Log.info({
+      status: 'redis',
+      ...res
+    })
+    return res
   }
 
   async getOptionChipAccumulation()
@@ -241,7 +250,6 @@ class DataService
 
   async setOftenData()
   {
-    if (!this.isDataTransferTime()) return
     await redisService.set('OptionItemInformed', this.getItemInfo(await this.getOptionItemInformed()))
     await redisService.set('TXO', (await this.getTXO()))
     await redisService.set('OptionChip', (await this.getOptionChip()))
@@ -263,7 +271,6 @@ class DataService
 
   async setOccasionallyData()
   {
-    if (!this.isDataTransferTime()) return
     await redisService.set('OptionChipAccumulation', this.getItemInfo(await this.getOptionChipAccumulation()))
   }
   /////// history
