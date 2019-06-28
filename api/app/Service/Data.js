@@ -132,11 +132,19 @@ class DataService
   async getOptionItemInformedByRedis()
   {
     const res = await redisService.get('OptionItemInformed')
-    !res[0].mtx && Log.info(JSON.stringify({
-      status: 'redis',
-      res
-    }))
-    return res
+    // !res[0].mtx && Log.info(JSON.stringify({
+    //   status: 'redis',
+    //   res
+    // }))
+    return !res[0].mtx
+      ? new Promise(resolve =>
+      {
+        setTimeout(async () =>
+        {
+          resolve(await this.getOptionItemInformedByRedis())
+        }, 500)
+      })
+      : res
   }
 
   async getOptionChipAccumulation()
@@ -247,10 +255,10 @@ class DataService
   async setOftenData()
   {
     const res = this.getItemInfo(await this.getOptionItemInformed())
-    Log.info(JSON.stringify({
-      status: 'dataGetter',
-      res
-    }))
+    // Log.info(JSON.stringify({
+    //   status: 'dataGetter',
+    //   res
+    // }))
     await redisService.set('OptionItemInformed', res)
     await redisService.set('TXO', (await this.getTXO()))
     await redisService.set('OptionChip', (await this.getOptionChip()))
