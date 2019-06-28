@@ -117,10 +117,6 @@ class DataService
   async getOptionItemInformed()
   {
     const res = await dataRepo.getOptionItemInformed()
-    Log.info(JSON.stringify({
-      status: 'dataGetter',
-      res
-    }))
     if (!res.length)
     {
       const date = await dataRepo.getInfoLastDate()
@@ -250,7 +246,12 @@ class DataService
 
   async setOftenData()
   {
-    await redisService.set('OptionItemInformed', this.getItemInfo(await this.getOptionItemInformed()))
+    const res = this.getItemInfo(await this.getOptionItemInformed())
+    Log.info(JSON.stringify({
+      status: 'dataGetter',
+      res
+    }))
+    await redisService.set('OptionItemInformed', res)
     await redisService.set('TXO', (await this.getTXO()))
     await redisService.set('OptionChip', (await this.getOptionChip()))
     await redisService.set('FuturesChip', (await this.getFuturesChip()))
