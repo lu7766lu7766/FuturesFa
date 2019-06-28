@@ -119,7 +119,7 @@ class DataService
     const res = await dataRepo.getOptionItemInformed()
     !res[0].mtx && Log.info(JSON.stringify({
       status: 'dataGetter',
-      ...res
+      res
     }))
     if (!res.length)
     {
@@ -138,7 +138,7 @@ class DataService
     const res = await redisService.get('OptionItemInformed')
     !res[0].mtx && Log.info(JSON.stringify({
       status: 'redis',
-      ...res
+      res
     }))
     return res
   }
