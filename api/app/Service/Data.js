@@ -117,10 +117,10 @@ class DataService
   async getOptionItemInformed()
   {
     const res = await dataRepo.getOptionItemInformed()
-    !res[0].mtx && Log.info({
+    !res[0].mtx && Log.info(JSON.stringify({
       status: 'dataGetter',
       ...res
-    })
+    }))
     if (!res.length)
     {
       const date = await dataRepo.getInfoLastDate()
@@ -136,10 +136,10 @@ class DataService
   async getOptionItemInformedByRedis()
   {
     const res = await redisService.get('OptionItemInformed')
-    !res[0].mtx && Log.info({
+    !res[0].mtx && Log.info(JSON.stringify({
       status: 'redis',
       ...res
-    })
+    }))
     return res
   }
 
