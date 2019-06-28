@@ -117,6 +117,7 @@ class DataService
   async getOptionItemInformed()
   {
     const res = await dataRepo.getOptionItemInformed()
+    console.log(res)
     if (!res.length)
     {
       const date = await dataRepo.getInfoLastDate()
