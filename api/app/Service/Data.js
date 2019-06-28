@@ -117,7 +117,7 @@ class DataService
   async getOptionItemInformed()
   {
     const res = await dataRepo.getOptionItemInformed()
-    !res[0].mtx && Log.info(JSON.stringify({
+    Log.info(JSON.stringify({
       status: 'dataGetter',
       res
     }))
