@@ -1,14 +1,13 @@
 'use strict'
 
 const Task = use('Task')
-const frondEnv = require('../../../env')
 const dataService = App.make('Service/Data')
 
 // const Redis = use('Redis')
 
 class DataGetter extends Task {
   static get schedule () {
-    return `*/${frondEnv.optionUpdateSecs - 2} * * * * *`
+    return `*/5 * * * * *`
   }
 
   async handle () {

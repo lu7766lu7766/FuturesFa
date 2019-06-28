@@ -96,7 +96,7 @@ class AppProvider extends ServiceProvider
 
     // action
     const dataService = App.make('Service/Data')
-    dataService.setAllOptionData()
+    await dataService.setAllOptionData()
     const userService = App.make('Service/User')
     userService.clearRedisOnlineMembers()
   }
