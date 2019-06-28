@@ -117,7 +117,6 @@ class DataService
   async getOptionItemInformed()
   {
     const res = await dataRepo.getOptionItemInformed()
-    console.log(res)
     if (!res.length)
     {
       const date = await dataRepo.getInfoLastDate()
@@ -132,7 +131,9 @@ class DataService
 
   async getOptionItemInformedByRedis()
   {
-    return await redisService.get('OptionItemInformed')
+    const res = await redisService.get('OptionItemInformed')
+    console.log(res)
+    return res
   }
 
   async getOptionChipAccumulation()
