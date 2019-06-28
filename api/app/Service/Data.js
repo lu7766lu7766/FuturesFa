@@ -131,9 +131,7 @@ class DataService
 
   async getOptionItemInformedByRedis()
   {
-    const res = await redisService.get('OptionItemInformed')
-    console.log(res)
-    return res
+    return await redisService.get('OptionItemInformed')
   }
 
   async getOptionChipAccumulation()

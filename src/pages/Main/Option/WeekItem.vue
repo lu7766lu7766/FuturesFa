@@ -29,7 +29,6 @@
               :info="info"
               :showMonth="showMonth"
               :showWeek="showWeek"
-              :txo="txo"
               :range="5"
               :height="height"
               @update:updateTime="time => updateTime = time"></option-histogram>
@@ -49,7 +48,6 @@
               :info="info"
               :showMonth="showMonth"
               :showWeek="showWeek"
-              :txo="txo"
               :range="5"
               :height="height"></option-histogram>
         </div>
