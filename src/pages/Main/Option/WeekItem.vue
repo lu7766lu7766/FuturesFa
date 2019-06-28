@@ -15,7 +15,6 @@
       <quotation
           :itemInformedDatas="itemInformedDatas"
           :info="info"
-          :txo="txo"
           :showTime="false"
           :range="8"></quotation>
     </div>
