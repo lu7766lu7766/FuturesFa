@@ -131,20 +131,7 @@ class DataService
 
   async getOptionItemInformedByRedis()
   {
-    const res = await redisService.get('OptionItemInformed')
-    // !res[0].mtx && Log.info(JSON.stringify({
-    //   status: 'redis',
-    //   res
-    // }))
-    return !res[0].mtx
-      ? new Promise(resolve =>
-      {
-        setTimeout(async () =>
-        {
-          resolve(await this.getOptionItemInformedByRedis())
-        }, 500)
-      })
-      : res
+    return await redisService.get('OptionItemInformed')
   }
 
   async getOptionChipAccumulation()

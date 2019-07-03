@@ -54,14 +54,18 @@ export default {
     {
       return _.filter(this.itemInformedDatas, data =>
       {
-        return data.month == this.showMonth && (!data.week || data.week == this.showWeek)
+        return this.showWeek === ''
+          ? data.month == this.showMonth
+          : data.month == this.showMonth && data.week == this.showWeek
       })
     },
     currentAccumulationDatas()
     {
       return _.filter(this.chipAccumulationDatas, data =>
       {
-        return data.month == this.showMonth && (!data.week || data.week == this.showWeek)
+        return this.showWeek === ''
+          ? data.month == this.showMonth
+          : data.month == this.showMonth && data.week == this.showWeek
       })
     },
     updateTime()
