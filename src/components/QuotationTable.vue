@@ -105,7 +105,7 @@
       },
       showWeek()
       {
-        return this.info.isMonthSettleTime
+        return this.info.isMonthSettleTime || !this.isWeekItem
           ? ''
           : this.info.mainWeek
       },
