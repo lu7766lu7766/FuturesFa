@@ -55,7 +55,7 @@ export default {
       return _.filter(this.itemInformedDatas, data =>
       {
         return this.showWeek === ''
-          ? data.month == this.showMonth
+          ? data.month == this.showMonth && _.isUndefined(data.week)
           : data.month == this.showMonth && data.week == this.showWeek
       })
     },
@@ -64,7 +64,7 @@ export default {
       return _.filter(this.chipAccumulationDatas, data =>
       {
         return this.showWeek === ''
-          ? data.month == this.showMonth
+          ? data.month == this.showMonth && _.isUndefined(data.week)
           : data.month == this.showMonth && data.week == this.showWeek
       })
     },
