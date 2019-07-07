@@ -1,7 +1,7 @@
 'use strict'
 
 const Task = use('Task')
-const dateService = App.make('Service/Date')
+const dataService = App.make('Service/Data')
 
 // const Redis = use('Redis')
 
@@ -13,11 +13,10 @@ class DataGetter extends Task {
   async handle () {
     // console.log('Task DataGetter handle')
     // this.info('Task DataGetter handle')
-    if (dateService.isDataTransferTime())
-    {
-      dataService.setOftenData()
-      dataService.setOccasionallyData()
-    }
+
+    dataService.setOftenData()
+    dataService.setOccasionallyData()
+
   }
 }
 
