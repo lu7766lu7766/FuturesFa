@@ -1,7 +1,5 @@
 'use strict'
 
-const dataService = App.make('Service/Data')
-
 class DateService
 {
   getDateInfo({request})
@@ -18,7 +16,7 @@ class DateService
     let date = moment(dateTime).isBefore(moment(dateTime).format('YYYY-MM-DD 14:00:00'))
       ? moment(dateTime).subtract(1, 'days')
       : moment(dateTime)
-    while (!dataService.isDataTransferTime() && (date.day() < 1 || date.day > 5))
+    while (!this.isDataTransferTime() && (date.day() < 1 || date.day > 5))
     {
       date = date.subtract(1, 'days')
     }
@@ -71,6 +69,59 @@ class DateService
     // return Math.ceil(
     //   (moment(date).date() - (7 - moment(moment(date).format('YYYY-MM-01')).day())) / 7) + 1
     return Math.ceil(date.date() / 7)
+  }
+
+  isDataTransferTime()
+  {
+    const now = moment()
+    switch (now.format('e'))
+    {
+      case '1':
+        return now.isBetween(now.format('YYYY-MM-DD 08:45:00'), now.format('YYYY-MM-DD 13:45:10')) ||
+          now.isBetween(now.format('YYYY-MM-DD 15:00:00'), now.format('YYYY-MM-DD 23:59:59'))
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+        return now.isBetween(now.format('YYYY-MM-DD 00:00:00'), now.format('YYYY-MM-DD 05:00:10')) ||
+          now.isBetween(now.format('YYYY-MM-DD 08:45:00'), now.format('YYYY-MM-DD 13:45:10')) ||
+          now.isBetween(now.format('YYYY-MM-DD 15:00:00'), now.format('YYYY-MM-DD 23:59:59'))
+        break
+      case '6':
+        return now.isBetween(now.format('YYYY-MM-DD 00:00:00'), now.format('YYYY-MM-DD 05:00:10'))
+        break
+      default:
+        return false
+        break
+    }
+  }
+
+  getTransferEndTime(time)
+  {
+    const now = moment(time)
+    switch (now.format('e'))
+    {
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+        return now.isBefore(now.format('YYYY-MM-DD 13:45:00'))
+          ? now.format('YYYY-MM-DD 13:45:00')
+          : now.add(1, 'days').format('YYYY-MM-DD 13:45:00')
+        return
+        break
+      case '5':
+        return now.isBefore(now.format('YYYY-MM-DD 13:45:00'))
+          ? now.format('YYYY-MM-DD 13:45:00')
+          : now.add(1, 'days').format('YYYY-MM-DD 05:00:00')
+        break
+      case '6':
+        return now.format('YYYY-MM-DD 05:00:00')
+        break
+      default:
+        return now.getDateTime()
+        break
+    }
   }
 }
 
