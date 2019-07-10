@@ -131,16 +131,20 @@ class DataRepo
     return await DB.table('txo').orderBy('created_at', 'desc').first()
   }
 
-  async getOptionChip()
+  async getOptionChip(endTime)
   {
-    return await OptionChipModel.query().select('total_c', 'total_p', 'differ_cp', 'created_at').fetch()
+    return await OptionChipModel.query()
+      .select('total_c', 'total_p', 'differ_cp', 'created_at')
+      .where('created_at', '<=', endTime)
+      .fetch()
     // return await DB.table('option_chip').select('total_c', 'total_p', 'differ_cp', 'created_at')
   }
 
-  async getFuturesChip()
+  async getFuturesChip(endTime)
   {
     return await FuturesChipModel.query()
       .select('major_chip_valume', 'retail_chip_valume', 'differ', 'created_at')
+      .where('created_at', '<=', endTime)
       .fetch()
     // return await DB.table('futures_chip').select('major_chip_valume', 'retail_chip_valume', 'differ', 'created_at')
   }

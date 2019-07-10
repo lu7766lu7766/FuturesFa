@@ -3,6 +3,7 @@
 const dataRepo = App.make('Repositories/Data')
 const redisService = App.make('Service/Redis')
 const CommonCodes = use('ApiCodes/Common')
+const dateService = App.make('Service/Date')
 
 class DataService
 {
@@ -167,13 +168,16 @@ class DataService
 
   async getOptionChip()
   {
-    const res = await dataRepo.getOptionChip()
+    const endTime = dateService.getTransferEndTime(moment())
+    const res = await dataRepo.getOptionChip(endTime)
     if (!res.toJSON().length)
     {
       const date = await dataRepo.getInfoLastDate()
       return dataRepo.getOptionChipHistory(
         moment(date).format('YYYY-MM-DD 15:00:00'),
-        moment(date).add(1, 'days').format('YYYY-MM-DD 13:45:10'))
+        //moment(date).add(1, 'days').format('YYYY-MM-DD 13:45:10'))
+        dateService.getTransferEndTime(moment(date).format('YYYY-MM-DD 15:00:00'))
+      )
     }
     else
     {
@@ -188,13 +192,16 @@ class DataService
 
   async getFuturesChip()
   {
-    const res = await dataRepo.getFuturesChip()
+    const endTime = dateService.getTransferEndTime(moment())
+    const res = await dataRepo.getFuturesChip(endTime)
     if (!res.toJSON().length)
     {
       const date = await dataRepo.getInfoLastDate()
       return dataRepo.getFuturesChipHistory(
         moment(date).format('YYYY-MM-DD 15:00:00'),
-        moment(date).add(1, 'days').format('YYYY-MM-DD 13:45:10'))
+        // moment(date).add(1, 'days').format('YYYY-MM-DD 13:45:10'))
+        dateService.getTransferEndTime(moment(date).format('YYYY-MM-DD 15:00:00'))
+      )
     }
     else
     {
@@ -208,30 +215,7 @@ class DataService
   }
 
   // ------------- data setting
-  isDataTransferTime()
-  {
-    const now = moment()
-    switch (now.format('e'))
-    {
-      case '1':
-        return now.isBetween(now.format('YYYY-MM-DD 08:45:00'), now.format('YYYY-MM-DD 13:45:10')) ||
-          now.isBetween(now.format('YYYY-MM-DD 15:00:00'), now.format('YYYY-MM-DD 23:59:59'))
-      case '2':
-      case '3':
-      case '4':
-      case '5':
-        return now.isBetween(now.format('YYYY-MM-DD 00:00:00'), now.format('YYYY-MM-DD 05:00:10')) ||
-          now.isBetween(now.format('YYYY-MM-DD 08:45:00'), now.format('YYYY-MM-DD 13:45:10')) ||
-          now.isBetween(now.format('YYYY-MM-DD 15:00:00'), now.format('YYYY-MM-DD 23:59:59'))
-        break
-      case '6':
-        return now.isBetween(now.format('YYYY-MM-DD 00:00:00'), now.format('YYYY-MM-DD 05:00:10'))
-        break
-      default:
-        return false
-        break
-    }
-  }
+
 
   async setAllOptionData()
   {
