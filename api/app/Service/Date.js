@@ -8,8 +8,8 @@ class DateService
   {
     const dateTime = request.input('dateTime')
 
-    const monthSettleStartTime = this.getThirthWednesday(moment(dateTime)).format('YYYY-MM-DD 15:00:00')
-    const monthSettleEndTime = this.getForthWednesday(moment(dateTime)).format('YYYY-MM-DD 13:45:00')
+    const monthSettleStartTime = this.getSecondWednesday(moment(dateTime)).format('YYYY-MM-DD 15:00:00')
+    const monthSettleEndTime = this.getThirdWednesday(moment(dateTime)).format('YYYY-MM-DD 13:45:00')
     const weekSettleStartTime = moment(dateTime).day(3).format('YYYY-MM-DD 08:45:00')
     const weekSettleEndTime = moment(dateTime).day(3).format('YYYY-MM-DD 13:45:00')
     const isMonthSettleTime = moment(dateTime).isBetween(monthSettleStartTime, monthSettleEndTime, 'minute', '[]')
@@ -52,16 +52,16 @@ class DateService
     }
   }
 
-  // 三週三
-  getThirthWednesday(targetMoment)
+  // 二週三
+  getSecondWednesday(targetMoment)
   {
-    return moment(targetMoment.format('YYYY-MM-01')).day(17)
+    return moment(targetMoment.format('YYYY-MM-01')).day(10)
   }
 
-  // 四週三
-  getForthWednesday(targetMoment)
+  // 三週三
+  getThirdWednesday(targetMoment)
   {
-    return moment(targetMoment.format('YYYY-MM-01')).day(24)
+    return moment(targetMoment.format('YYYY-MM-01')).day(17)
   }
 
   // 取得該日期除以七無條件進位
