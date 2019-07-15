@@ -71,9 +71,9 @@ class DateService
     return Math.ceil(date.date() / 7)
   }
 
-  isDataTransferTime()
+  isDataTransferTime(time)
   {
-    const now = moment()
+    const now = moment(time)
     switch (now.format('e'))
     {
       case '1':
@@ -118,10 +118,56 @@ class DateService
       case '6':
         return now.format('YYYY-MM-DD 05:00:00')
         break
-      default:
-        return now.getDateTime()
+      case '0':
+      case '7':
+        return now.subtract(1, 'days').format('YYYY-MM-DD 05:00:00')
         break
     }
+  }
+
+  getTransferStartTime(time)
+  {
+    const now = moment(time)
+    switch (now.format('e'))
+    {
+      case '1':
+        return now.isBefore(now.format('YYYY-MM-DD 13:45:00'))
+          ? now.format('YYYY-MM-DD 08:45:00')
+          : now.format('YYYY-MM-DD 15:00:00')
+        break
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+        return now.isBefore(now.format('YYYY-MM-DD 13:45:00'))
+          ? now.subtract(1, 'days').format('YYYY-MM-DD 15:00:00')
+          : now.format('YYYY-MM-DD 15:00:00')
+        break
+      case '6':
+        return now.subtract(1, 'days').format('YYYY-MM-DD 15:00:00')
+        break
+      case '0':
+      case '7':
+        return now.subtract(2, 'days').format('YYYY-MM-DD 05:00:00')
+        break
+    }
+  }
+
+  isRestTime(time)
+  {
+    const now = moment(time)
+    switch (now.format('e'))
+    {
+      case '6':
+        return now.isAfter(now.format('YYYY-MM-DD 13:45:00'))
+      case '0':
+      case '7':
+        return true
+      case '1':
+        now.isBefore(now.format('YYYY-MM-DD 08:45:00'))
+        break
+    }
+
   }
 }
 

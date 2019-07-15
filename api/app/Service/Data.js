@@ -168,9 +168,10 @@ class DataService
 
   async getOptionChip()
   {
+    const startTime = dateService.getTransferStartTime(moment())
     const endTime = dateService.getTransferEndTime(moment())
-    const res = await dataRepo.getOptionChip(endTime)
-    if (!res.toJSON().length)
+    const res = await dataRepo.getOptionChip(startTime, endTime)
+    if (!res.toJSON().length || dateService.isRestTime())
     {
       const date = await dataRepo.getInfoLastDate()
       return dataRepo.getOptionChipHistory(
@@ -192,9 +193,10 @@ class DataService
 
   async getFuturesChip()
   {
+    const startTime = dateService.getTransferStartTime(moment())
     const endTime = dateService.getTransferEndTime(moment())
-    const res = await dataRepo.getFuturesChip(endTime)
-    if (!res.toJSON().length)
+    const res = await dataRepo.getFuturesChip(startTime, endTime)
+    if (!res.toJSON().length || dateService.isRestTime())
     {
       const date = await dataRepo.getInfoLastDate()
       return dataRepo.getFuturesChipHistory(
