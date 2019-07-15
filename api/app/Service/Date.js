@@ -120,7 +120,9 @@ class DateService
         break
       case '0':
       case '7':
-        return now.subtract(1, 'days').format('YYYY-MM-DD 05:00:00')
+        return now.add(1, 'days').format('YYYY-MM-DD 13:45:00')
+        // default:
+        //   return now.getDateTime()
         break
     }
   }
@@ -148,7 +150,8 @@ class DateService
         break
       case '0':
       case '7':
-        return now.subtract(2, 'days').format('YYYY-MM-DD 05:00:00')
+        // return now.subtract(2, 'days').format('YYYY-MM-DD 05:00:00')
+        return now.getDateTime()
         break
     }
   }
