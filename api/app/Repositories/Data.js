@@ -52,7 +52,8 @@ class DataRepo
             from (select name, max(created_at) as last_time from option where created_at between ? and ? group by name) as a 
             left join option as b on a.name = b.name and a.last_time = b.created_at) `, dataStartAndEndTime)
       await trx.raw(`insert into option_log select * from option where created_at between ? and ?`, dataStartAndEndTime)
-      await this.deleteTheDateData(trx, 'option', dataStartAndEndTime)
+      await trx.table('option').delete()
+      // await this.deleteTheDateData(trx, 'option', dataStartAndEndTime)
       trx.commit()
       return true
     } catch (e)
