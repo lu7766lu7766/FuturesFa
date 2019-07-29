@@ -199,7 +199,7 @@ class DataService
     if (!res.toJSON().length || dateService.isRestTime())
     {
       const date = await dataRepo.getInfoLastDate()
-      console.log(dateService.getTransferEndTime(moment(date).format('YYYY-MM-DD 15:00:00')))
+      // console.log(dateService.getTransferEndTime(moment(date).format('YYYY-MM-DD 15:00:00')))
       return dataRepo.getFuturesChipHistory(
         moment(date).format('YYYY-MM-DD 15:00:00'),
         // moment(date).add(1, 'days').format('YYYY-MM-DD 13:45:10'))
