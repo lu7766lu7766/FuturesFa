@@ -47,11 +47,15 @@ class DataService
       moment().subtract(365, 'days').format('YYYY-MM-DD 15:00:00'),
       moment().subtract(8, 'days').format('YYYY-MM-DD 14:00:00')
     ]
+    const dataStartAndEndTime2 = [
+      moment().subtract(365, 'days').format('YYYY-MM-DD 15:00:00'),
+      moment().subtract(31, 'days').format('YYYY-MM-DD 14:00:00')
+    ]
     // console.log(dataStartAndEndTime)
     return this.deleteDatas(async (trx) =>
     {
       await dataRepo.deleteTheDateData(trx, 'option_log', dataStartAndEndTime)
-      await dataRepo.deleteTheDateData(trx, 'option_accumulation', dataStartAndEndTime)
+      await dataRepo.deleteTheDateData(trx, 'option_accumulation', dataStartAndEndTime2)
       await dataRepo.deleteTheDateData(trx, 'futures_chip_log', dataStartAndEndTime)
       await dataRepo.deleteTheDateData(trx, 'option_chip_log', dataStartAndEndTime)
     })
