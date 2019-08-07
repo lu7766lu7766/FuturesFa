@@ -6,8 +6,17 @@ class DateService
   {
     const dateTime = request.input('dateTime')
 
-    const monthSettleStartTime = this.getSecondWednesday(moment(dateTime)).format('YYYY-MM-DD 15:00:00')
-    const monthSettleEndTime = this.getThirdWednesday(moment(dateTime)).format('YYYY-MM-DD 13:45:00')
+    let monthSettleStartTime, monthSettleEndTime
+    if (Math.ceil(this.getThirdWednesday(moment(dateTime)).day() / 7) > 2)
+    {
+      monthSettleStartTime = this.getSecondWednesday(moment(dateTime)).format('YYYY-MM-DD 15:00:00')
+      monthSettleEndTime = this.getThirdWednesday(moment(dateTime)).format('YYYY-MM-DD 13:45:00')
+    }
+    else
+    {
+      monthSettleStartTime = this.getThirdWednesday(moment(dateTime)).format('YYYY-MM-DD 15:00:00')
+      monthSettleEndTime = this.getFourthWednesday(moment(dateTime)).format('YYYY-MM-DD 13:45:00')
+    }
     const weekSettleStartTime = moment(dateTime).day(3).format('YYYY-MM-DD 08:45:00')
     const weekSettleEndTime = moment(dateTime).day(3).format('YYYY-MM-DD 13:45:00')
     const isMonthSettleTime = moment(dateTime).isBetween(monthSettleStartTime, monthSettleEndTime, 'minute', '[]')
@@ -60,6 +69,12 @@ class DateService
   getThirdWednesday(targetMoment)
   {
     return moment(targetMoment.format('YYYY-MM-01')).day(17)
+  }
+
+  // 四週三
+  getFourthWednesday(targetMoment)
+  {
+    return moment(targetMoment.format('YYYY-MM-01')).day(24)
   }
 
   // 取得該日期除以七無條件進位
