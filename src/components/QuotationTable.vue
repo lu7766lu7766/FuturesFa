@@ -22,7 +22,7 @@
       <tbody v-if="allItemsOrderByValueDesc.length">
       <tr v-for="(data, item) in quotationDatas"
           :key="item">
-        <td class="item-c">
+        <td class="item-c" :class="data.C.is_big_volume ? 'big-volume' : ''">
           <router-link :to="{
             name: 'volume-and-price',
             query: {
@@ -36,7 +36,7 @@
 
         </td>
         <td class="item">{{ item }}</td>
-        <td class="item-p">
+        <td class="item-p" :class="data.C.is_big_volume ? 'big-volume' : ''">
           <router-link :to="{
             name: 'volume-and-price',
             query: {
@@ -140,4 +140,9 @@
       font-weight 900
       font-size 1.3em
 
+  .item-c.big-volume
+    background #6effaa
+
+  .item-p.big-volume
+    background #e864a5
 </style>

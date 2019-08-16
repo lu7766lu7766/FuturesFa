@@ -19,6 +19,7 @@ class OptionSchema extends Schema
       table.datetime('created_at').notNullable().comment('傳送時間')
       table.integer('week_mtx', 10).default(0).comment('週小台')
       table.integer('mtx', 10).default(0).comment('小台')
+      table.integer('is_big_volume', 1).default(0).comment('是否大成交量')
     })
   }
 

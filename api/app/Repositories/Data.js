@@ -95,13 +95,13 @@ class DataRepo
   async getOptionItemInformed()
   {
     return await DB.table('option_item_informed')
-      .select('name', 'item', 'chip_valume', 'price', 'created_at', 'week_mtx', 'mtx')
+      .select('name', 'item', 'chip_valume', 'price', 'created_at', 'week_mtx', 'mtx', 'is_big_volume')
   }
 
   async getOptionTodayItem(name)
   {
     return await DB.table('option')
-      .select('name', 'item', 'chip_valume', 'price', 'created_at', 'week_mtx', 'mtx')
+      .select('name', 'item', 'chip_valume', 'price', 'created_at', 'week_mtx', 'mtx', 'is_big_volume')
       .where('name', name)
   }
 
