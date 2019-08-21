@@ -36,7 +36,7 @@
 
         </td>
         <td class="item">{{ item }}</td>
-        <td class="item-p" :class="data.C.is_big_volume ? 'big-volume' : ''">
+        <td class="item-p" :class="data.P.is_big_volume ? 'big-volume' : ''">
           <router-link :to="{
             name: 'volume-and-price',
             query: {
@@ -140,9 +140,9 @@
       font-weight 900
       font-size 1.3em
 
-  .item-c.big-volume
-    background #6effaa
+  .item-c.big-volume, .item-p.big-volume
+    background #f6ff82
+    span
+      color #111
 
-  .item-p.big-volume
-    background #e864a5
 </style>
