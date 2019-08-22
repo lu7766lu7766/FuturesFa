@@ -29,7 +29,8 @@
               name: data.C.name
             }
           }">
-            <span :class="getClassByValue(data.C.price)">
+            <span>
+              <!--:class="getClassByValue(data.C.price)"-->
             {{ data.C.price }}
             </span>
           </router-link>
@@ -43,7 +44,8 @@
               name: data.P.name
             }
           }">
-            <span :class="getClassByValue(data.P.price, '')">
+            <span>
+              <!--:class="getClassByValue(data.P.price, '')"-->
               {{ data.P.price }}
             </span>
           </router-link>
@@ -140,9 +142,10 @@
       font-weight 900
       font-size 1.3em
 
-  .item-c.big-volume, .item-p.big-volume
-    background #f6ff82
+  .item-c, .item-p
     span
-      color #111
+      color #333
+    &.big-volume
+      background #f6ff82
 
 </style>
