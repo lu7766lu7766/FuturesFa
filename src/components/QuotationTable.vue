@@ -67,6 +67,7 @@
   import CurrentTimeMixins from 'mixins/currentTime'
   import OptionDataMixins from 'mixins/option/data'
   import CSSMixins from 'mixins/css'
+  import BigVolumeAudio from 'src/assets/audio/big_volume.mp3'
 
   export default {
     mixins: [CurrentTimeMixins, OptionDataMixins, CSSMixins],
@@ -93,6 +94,15 @@
         ]
       }
     }),
+    watch: {
+      quotationDatas()
+      {
+        if (_.some(this.quotationDatas, data => data.C.is_big_volume || data.P.is_big_volume))
+        {
+          new Audio(BigVolumeAudio).play()
+        }
+      }
+    },
     computed: {
       isWeekItem()
       {
@@ -122,6 +132,7 @@
           if (!this.showChipList || this.showChipList.indexOf(item) > -1)
           {
             result[item] = this.groupItemTypeItemInformed[item]
+            result[item].C.is_big_volume = 1
           }
           return result
         }, {})
