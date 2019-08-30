@@ -92,14 +92,20 @@
             value: 'false'
           }
         ]
-      }
+      },
+      lastPlayedAudioTime: null
     }),
     watch: {
       quotationDatas()
       {
         if (_.some(this.quotationDatas, data => data.C.is_big_volume || data.P.is_big_volume))
         {
+          // if (moment().diff(moment(this.lastPlayedAudioTime), 'seconds') >= 60)
+          // {
+          //
+          // }
           new Audio(BigVolumeAudio).play()
+          this.lastPlayedAudioTime = moment()
         }
       }
     },
@@ -132,7 +138,7 @@
           if (!this.showChipList || this.showChipList.indexOf(item) > -1)
           {
             result[item] = this.groupItemTypeItemInformed[item]
-            result[item].C.is_big_volume = 1
+            // result[item].C.is_big_volume = 1
           }
           return result
         }, {})
