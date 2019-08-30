@@ -100,12 +100,11 @@
       {
         if (_.some(this.quotationDatas, data => data.C.is_big_volume || data.P.is_big_volume))
         {
-          // if (moment().diff(moment(this.lastPlayedAudioTime), 'seconds') >= 60)
-          // {
-          //
-          // }
-          new Audio(BigVolumeAudio).play()
-          this.lastPlayedAudioTime = moment()
+          if (!this.lastPlayedAudioTime || moment().diff(this.lastPlayedAudioTime, 'minutes') >= 15)
+          {
+            new Audio(BigVolumeAudio).play()
+            this.lastPlayedAudioTime = moment()
+          }
         }
       }
     },
