@@ -7,7 +7,7 @@ class DateService
     const dateTime = request.input('dateTime')
 
     let monthSettleStartTime, monthSettleEndTime
-    if (Math.ceil(this.getThirdWednesday(moment(dateTime)).day() / 7) > 2)
+    if (Math.ceil(this.getThirdWednesday(moment(dateTime)).date() / 7) > 2)
     {
       monthSettleStartTime = this.getSecondWednesday(moment(dateTime)).format('YYYY-MM-DD 15:00:00')
       monthSettleEndTime = this.getThirdWednesday(moment(dateTime)).format('YYYY-MM-DD 13:45:00')
