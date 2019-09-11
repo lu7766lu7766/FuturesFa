@@ -12,6 +12,11 @@ class DataRepo
   getDateStartAndEndTime(date)
   {
     return [moment(date).format('YYYY-MM-DD 15:00:00'), moment(date).add(1, 'days').format('YYYY-MM-DD 14:00:00')]
+    // return [moment(date).format('YYYY-MM-DD 15:00:00'), moment(date).add(1, 'days').format('YYYY-MM-DD 00:00:00')]
+    // return [
+    //   moment(date).add(1, 'days').format('YYYY-MM-DD 00:00:00'),
+    //   moment(date).add(1, 'days').format('YYYY-MM-DD 14:00:00')
+    // ]
   }
 
   async setDate(trx, table, date)
