@@ -9,6 +9,11 @@ class DataRepo
 {
   // ------------- data generalize
 
+  /**
+   * 計算日節開始與結束日
+   * @param date
+   * @returns {string[]}
+   */
   getDateStartAndEndTime(date)
   {
     return [moment(date).format('YYYY-MM-DD 15:00:00'), moment(date).add(1, 'days').format('YYYY-MM-DD 14:00:00')]
@@ -19,6 +24,13 @@ class DataRepo
     // ]
   }
 
+  /**
+   * 寫入結算日期
+   * @param trx
+   * @param table
+   * @param date
+   * @returns {Promise<void>}
+   */
   async setDate(trx, table, date)
   {
     const dataStartAndEndTime = this.getDateStartAndEndTime(date)
@@ -32,6 +44,13 @@ class DataRepo
     }
   }
 
+  /**
+   * 刪除時間範圍內的資料
+   * @param trx
+   * @param table
+   * @param dataStartAndEndTime
+   * @returns {Promise<void>}
+   */
   async deleteTheDateData(trx, table, dataStartAndEndTime)
   {
     if (trx && typeof trx === 'function')
@@ -44,19 +63,31 @@ class DataRepo
     }
   }
 
+  /**
+   * option資料整理
+   * @param date
+   * @returns {Promise<boolean>}
+   */
   async transferOptionData(date)
   {
     const dataStartAndEndTime = this.getDateStartAndEndTime(date)
     const trx = await DB.beginTransaction()
     try
     {
+      // 寫入日期
       await this.setDate(trx, 'option', date)
-      await trx.raw(`
+      // 日結才會算累計籌碼
+      if (moment().hours() === 14)
+      {
+        await trx.raw(`
         insert into option_accumulation
           (select b.* 
             from (select name, max(created_at) as last_time from option where created_at between ? and ? group by name) as a 
             left join option as b on a.name = b.name and a.last_time = b.created_at) `, dataStartAndEndTime)
+      }
+      // 轉移資料
       await trx.raw(`insert into option_log select * from option where created_at between ? and ?`, dataStartAndEndTime)
+      // 刪除舊資料
       await trx.table('option').delete()
       // await this.deleteTheDateData(trx, 'option', dataStartAndEndTime)
       trx.commit()
@@ -70,6 +101,13 @@ class DataRepo
     }
   }
 
+  /**
+   * 通用的資料表整理方法，for futures_chip, option_chip
+   * @param source
+   * @param target
+   * @param date
+   * @returns {Promise<boolean>}
+   */
   async transferTheDateData(source, target, date)
   {
     const dataStartAndEndTime = this.getDateStartAndEndTime(date)
@@ -78,7 +116,8 @@ class DataRepo
     {
       await this.setDate(trx, source, date)
       await trx.raw(`insert into ${target} select * from ${source} where created_at between ? and ?`, dataStartAndEndTime)
-      await this.deleteTheDateData(trx, source, dataStartAndEndTime)
+      await trx.table(source).delete()
+      // await this.deleteTheDateData(trx, source, dataStartAndEndTime)
       trx.commit()
       return true
     } catch (e)
