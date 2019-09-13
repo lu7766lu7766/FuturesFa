@@ -13,12 +13,18 @@ class DataService
   async generalizeDatas(ctx)
   {
     let res = true
+    const isSettle = moment().hours() === 14
     const date = ctx
       ? ctx.request.input('date', moment().subtract(1, 'days').getDate())
       : moment().subtract(1, 'days').getDate()
-    res = res && await dataRepo.transferOptionData(date)
-    res = res && await dataRepo.transferTheDateData('futures_chip', 'futures_chip_log', date)
-    res = res && await dataRepo.transferTheDateData('option_chip', 'option_chip_log', date)
+    // 結算才要統計累計，其他舊資料可以先整理
+    res = res && await dataRepo.transferOptionData(date, isSettle)
+    // 一天只能結算一次～不然表的顯示會不正確
+    if (isSettle)
+    {
+      res = res && await dataRepo.transferTheDateData('futures_chip', 'futures_chip_log', date)
+      res = res && await dataRepo.transferTheDateData('option_chip', 'option_chip_log', date)
+    }
     if (res)
     {
       return res

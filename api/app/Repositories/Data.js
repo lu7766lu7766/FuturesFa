@@ -68,7 +68,7 @@ class DataRepo
    * @param date
    * @returns {Promise<boolean>}
    */
-  async transferOptionData(date)
+  async transferOptionData(date, isSettle)
   {
     const dataStartAndEndTime = this.getDateStartAndEndTime(date)
     const trx = await DB.beginTransaction()
@@ -77,7 +77,7 @@ class DataRepo
       // 寫入日期
       await this.setDate(trx, 'option', date)
       // 日結才會算累計籌碼
-      if (moment().hours() === 14)
+      if (isSettle)
       {
         await trx.raw(`
         insert into option_accumulation
