@@ -141,5 +141,8 @@ export default {
         }, [])
       }
     }
+  },
+  mounted() {
+    this.$emit('update:updateTime', this.updateTime)
   }
 }
