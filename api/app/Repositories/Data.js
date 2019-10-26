@@ -136,6 +136,11 @@ class DataRepo
     return moment(_.first(await DB.table('option_accumulation').max('date as last_date')).last_date).getDateTime()
   }
 
+  async getInfoHistoryLastDate()
+  {
+    return moment(_.first(await DB.table('option_history').max('date as last_date')).last_date).getDateTime()
+  }
+
   async getOptionItemInformed()
   {
     return await DB.table('option_item_informed')

@@ -97,7 +97,8 @@ class DataService
 
     if (!res.length)
     {
-      const date = await dataRepo.getInfoLastDate()
+      // const date = await dataRepo.getInfoLastDate()
+      const date = await dataRepo.getInfoHistoryLastDate()
       return await dataRepo.getOptionHostoryByDateName(moment(date).getDate(), name)
     }
     else
@@ -130,7 +131,8 @@ class DataService
     const res = await dataRepo.getOptionItemInformed()
     if (!res.length)
     {
-      const date = await dataRepo.getInfoLastDate()
+      // const date = await dataRepo.getInfoLastDate()
+      const date = await dataRepo.getInfoHistoryLastDate()
       const itemNames = _.map((await dataRepo.getItemNamesByDate(date)), 'name')
       return dataRepo.getOptionHostory(date, moment(date).add(1, 'days').format('YYYY-MM-DD 15:00:00'), itemNames)
     }
