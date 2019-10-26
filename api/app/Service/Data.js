@@ -51,7 +51,7 @@ class DataService
     // dd(moment().getDateTime())
     const dataStartAndEndTime = [
       moment().subtract(365, 'days').format('YYYY-MM-DD 15:00:00'),
-      moment().subtract(8, 'days').format('YYYY-MM-DD 14:00:00')
+      moment().subtract(31, 'days').format('YYYY-MM-DD 14:00:00')
     ]
     const dataStartAndEndTime2 = [
       moment().subtract(365, 'days').format('YYYY-MM-DD 15:00:00'),
