@@ -138,7 +138,7 @@ class DataRepo
 
   async getInfoHistoryLastDate()
   {
-    return moment(_.first(await DB.table('option_history').max('date as last_date')).last_date).getDateTime()
+    return moment(_.first(await DB.table('option_log').max('date as last_date')).last_date).getDateTime()
   }
 
   async getOptionItemInformed()
