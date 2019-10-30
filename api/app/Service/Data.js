@@ -185,7 +185,8 @@ class DataService
     const res = await dataRepo.getOptionChip(startTime, endTime)
     if (!res.toJSON().length || dateService.isRestTime())
     {
-      const date = await dataRepo.getInfoLastDate()
+      // const date = await dataRepo.getInfoLastDate()
+      const date = await dataRepo.getInfoHistoryLastDate()
       return dataRepo.getOptionChipHistory(
         moment(date).format('YYYY-MM-DD 15:00:00'),
         //moment(date).add(1, 'days').format('YYYY-MM-DD 13:45:10'))
