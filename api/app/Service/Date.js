@@ -11,7 +11,7 @@ class DateService
     ]
   }
 
-  static inHoliday(dateTime, date)
+  static inTheseDay(dateTime, date)
   {
     return _.reduce(date, (result, holiday) =>
     {
@@ -26,7 +26,7 @@ class DateService
     let dateTime = moment(request.input('dateTime'))
 
     // 若遇到週三為休市，會改週四結算，所以會多扣除一天
-    if (DateService.inHoliday(dateTime, DateService.thirdHoliday))
+    if (DateService.inTheseDay(dateTime, DateService.thirdHoliday))
     {
       dateTime = moment(dateTime).subtract(1, 'days').getDateTime()
     }
