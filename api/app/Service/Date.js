@@ -2,21 +2,29 @@
 
 class DateService
 {
-  static get holiday()
+  static get thirdHoliday()
   {
-    return []
+    return [
+      // '2019-01-01',
+      '2020-01-01',
+      '2020-01-29'
+    ]
   }
 
   getDateInfo({request})
   {
     let dateTime = moment(request.input('dateTime'))
-    // todo holiday sub
-    if (moment(dateTime).isBetween(moment('2020-01-01 15:00:00'), moment('2020-01-02 14:00')))
+
+    // 若遇到週三為休市，會改週四結算，所以會多扣除一天
+    if (_.reduce(DateService.thirdHoliday, (result, holiday) =>
+    {
+      return result || moment(dateTime).isBetween(
+        moment(holiday).format('YYYY-MM-DD 14:00:00'),
+        moment(holiday).add(1, 'days').format('YYYY-MM-DD 15:00:00'))
+    }, false))
     {
       dateTime = moment(dateTime).subtract(1, 'days').getDateTime()
-      // '2019-12-31 ' + moment(dateTime).format('hh:mm:ss')//
     }
-    //console.log(moment(dateTime).isBetween(moment('2019-01-01 15:00:00'), moment('2019-01-02 14:00')))
 
     let monthSettleStartTime, monthSettleEndTime
     if (Math.ceil(this.getThirdWednesday(moment(dateTime)).date() / 7) > 2)
