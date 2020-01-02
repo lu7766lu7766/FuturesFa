@@ -2,9 +2,21 @@
 
 class DateService
 {
+  static get holiday()
+  {
+    return []
+  }
+
   getDateInfo({request})
   {
-    const dateTime = request.input('dateTime')
+    let dateTime = moment(request.input('dateTime'))
+    // todo holiday sub
+    if (moment(dateTime).isBetween(moment('2020-01-01 15:00:00'), moment('2020-01-02 14:00')))
+    {
+      dateTime = moment(dateTime).subtract(1, 'days').getDateTime()
+      // '2019-12-31 ' + moment(dateTime).format('hh:mm:ss')//
+    }
+    //console.log(moment(dateTime).isBetween(moment('2019-01-01 15:00:00'), moment('2019-01-02 14:00')))
 
     let monthSettleStartTime, monthSettleEndTime
     if (Math.ceil(this.getThirdWednesday(moment(dateTime)).date() / 7) > 2)
@@ -20,7 +32,7 @@ class DateService
     const weekSettleStartTime = moment(dateTime).day(3).format('YYYY-MM-DD 08:45:00')
     const weekSettleEndTime = moment(dateTime).day(3).format('YYYY-MM-DD 13:45:00')
     const isMonthSettleTime = moment(dateTime).isBetween(monthSettleStartTime, monthSettleEndTime, 'minute', '[]')
-    // const isWeekSettleTime = moment(dateTime).isBetween(weekSettleStartTime, weekSettleEndTime, 'minute', '[]')
+    // const isWeekSettleTime = moment(moment(dateTime)).isBetween(weekSettleStartTime, weekSettleEndTime, 'minute', '[]')
     // 開盤日
     let date = moment(dateTime).isBefore(moment(dateTime).format('YYYY-MM-DD 14:00:00'))
       ? moment(dateTime).subtract(1, 'days')
@@ -34,7 +46,7 @@ class DateService
     const nextWednesday = moment(dateTime).day(10)
 
     return {
-      dateTime,
+      dateTime: moment(dateTime).getDateTime(),
       date: date.getDate(),
       monthSettleStartTime,
       monthSettleEndTime,
