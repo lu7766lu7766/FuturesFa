@@ -11,17 +11,22 @@ class DateService
     ]
   }
 
+  static inHoliday(dateTime, date)
+  {
+    return _.reduce(date, (result, holiday) =>
+    {
+      return result || moment(dateTime).isBetween(
+        moment(holiday).format('YYYY-MM-DD 14:00:00'),
+        moment(holiday).add(1, 'days').format('YYYY-MM-DD 15:00:00'))
+    }, false)
+  }
+
   getDateInfo({request})
   {
     let dateTime = moment(request.input('dateTime'))
 
     // 若遇到週三為休市，會改週四結算，所以會多扣除一天
-    if (_.reduce(DateService.thirdHoliday, (result, holiday) =>
-    {
-      return result || moment(dateTime).isBetween(
-        moment(holiday).format('YYYY-MM-DD 14:00:00'),
-        moment(holiday).add(1, 'days').format('YYYY-MM-DD 15:00:00'))
-    }, false))
+    if (DateService.inHoliday(dateTime, DateService.thirdHoliday))
     {
       dateTime = moment(dateTime).subtract(1, 'days').getDateTime()
     }
