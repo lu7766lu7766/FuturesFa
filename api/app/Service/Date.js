@@ -2,31 +2,37 @@
 
 class DateService
 {
-  static get thirdHoliday()
+  static get specialHoliday()
   {
     return [
-      // '2019-01-01',
-      '2020-01-01',
+      '2020-01-21',
+      '2020-01-22',
+      '2020-01-23',
+      '2020-01-24',
+      '2020-01-25',
+      '2020-01-26',
+      '2020-01-27',
+      '2020-01-28',
       '2020-01-29'
     ]
   }
 
   static inTheseDay(dateTime, date)
   {
-    return _.reduce(date, (result, holiday) =>
+    return _.some(date, (holiday) =>
     {
-      return result || moment(dateTime).isBetween(
+      return moment(dateTime).isBetween(
         moment(holiday).format('YYYY-MM-DD 14:00:00'),
         moment(holiday).add(1, 'days').format('YYYY-MM-DD 15:00:00'))
-    }, false)
+    })
   }
 
   getDateInfo({request})
   {
     let dateTime = moment(request.input('dateTime'))
 
-    // 若遇到週三為休市，會改週四結算，所以會多扣除一天
-    if (DateService.inTheseDay(dateTime, DateService.thirdHoliday))
+    // 若遇到週三為休市，會改延遲結算，所以會持續扣除天數
+    while (DateService.inTheseDay(dateTime, DateService.specialHoliday))
     {
       dateTime = moment(dateTime).subtract(1, 'days').getDateTime()
     }
