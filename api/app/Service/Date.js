@@ -2,21 +2,6 @@
 
 class DateService
 {
-  static get specialHoliday()
-  {
-    return [
-      '2020-01-21',
-      '2020-01-22',
-      '2020-01-23',
-      '2020-01-24',
-      '2020-01-25',
-      '2020-01-26',
-      '2020-01-27',
-      '2020-01-28',
-      '2020-01-29'
-    ]
-  }
-
   static inTheseDay(dateTime, date)
   {
     return _.some(date, (holiday) =>
@@ -27,12 +12,17 @@ class DateService
     })
   }
 
+  static async getWednesdayContinueHoliday()
+  {
+    return _.map(await DB.table('wednesday_continue_holiday').select('date'), 'date')
+  }
+
   getDateInfo({request})
   {
     let dateTime = moment(request.input('dateTime'))
 
     // 若遇到週三為休市，會改延遲結算，所以會持續扣除天數
-    while (DateService.inTheseDay(dateTime, DateService.specialHoliday))
+    while (DateService.inTheseDay(dateTime, DateService.getWednesdayContinueHoliday()))
     {
       dateTime = moment(dateTime).subtract(1, 'days').getDateTime()
     }
