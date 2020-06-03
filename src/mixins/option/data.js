@@ -70,7 +70,7 @@ export default {
     },
     updateTime()
     {
-      return moment(_(this.currentItemInformedDatas).getVal('0.created_at')).getDateTime()
+      return moment(_.max(_.map(this.currentItemInformedDatas, x => x.created_at))).getDateTime() 
     },
     allItems()
     {
