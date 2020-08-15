@@ -27,4 +27,6 @@ adonis migration:reset
 adonis migration:run
 ```
 
+### node 須為 10 版，可用 10.22.0
 
+### 所有 log 必須至少一筆資料
