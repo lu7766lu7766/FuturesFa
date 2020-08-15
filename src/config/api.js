@@ -9,7 +9,7 @@ export const UnLoginCode = 401
  * 取得符合目前domain的 host config
  */
 export const apiHosts = {
-  local: 'localhost:3333',
-  test: 'fa16888.cc:3333',
-  stable: 'fa16888.cc:3333'
+	local: 'localhost:3333',
+	test: 'fa16888.cc:3333',
+	king: 'king16888.cc:3333',
 }
