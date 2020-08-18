@@ -2,7 +2,11 @@
   <div class="row">
     <div class="col-xs-12" :class="showTime ? 'col-md-3' : 'col-md-6'">
       <Select v-model="search.isWeekItem">
-        <Option v-for="(item, index) in options.isWeekItem" :key="index" :value="item.value">
+        <Option
+          v-for="(item, index) in options.isWeekItem"
+          :key="index"
+          :value="item.value"
+        >
           {{ item.name }}
         </Option>
       </Select>
@@ -13,155 +17,149 @@
     </div>
     <table class="table col-md-12 col-xs-12 quotation">
       <thead>
-      <tr>
-        <td>報價(C)</td>
-        <td>履約價({{ showMonth + showWeek }})</td>
-        <td>報價(P)</td>
-      </tr>
+        <tr>
+          <td>報價(C)</td>
+          <td>履約價({{ showMonth + showWeek }})</td>
+          <td>報價(P)</td>
+        </tr>
       </thead>
       <tbody v-if="allItemsOrderByValueDesc.length">
-      <tr v-for="(data, item) in quotationDatas"
-          :key="item">
-        <td class="item-c" :class="data.C.is_big_volume ? 'big-volume' : ''">
-          <router-link :to="{
-            name: 'volume-and-price',
-            query: {
-              name: data.C.name
-            }
-          }">
-            <span>
-              <!--:class="getClassByValue(data.C.price)"-->
-            {{ data.C.price }}
-            </span>
-          </router-link>
-
-        </td>
-        <td class="item">{{ item }}</td>
-        <td class="item-p" :class="data.P.is_big_volume ? 'big-volume' : ''">
-          <router-link :to="{
-            name: 'volume-and-price',
-            query: {
-              name: data.P.name
-            }
-          }">
-            <span>
-              <!--:class="getClassByValue(data.P.price, '')"-->
-              {{ data.P.price }}
-            </span>
-          </router-link>
-        </td>
-      </tr>
+        <tr v-for="(data, item) in quotationDatas" :key="item">
+          <td class="item-c" :class="data.C.is_big_volume ? 'big-volume' : ''">
+            <router-link
+              :to="{
+                name: 'volume-and-price',
+                query: {
+                  name: data.C.name,
+                },
+              }"
+            >
+              <span>
+                <!--:class="getClassByValue(data.C.price)"-->
+                {{ data.C.price }}
+              </span>
+            </router-link>
+          </td>
+          <td class="item">{{ item }}</td>
+          <td class="item-p" :class="data.P.is_big_volume ? 'big-volume' : ''">
+            <router-link
+              :to="{
+                name: 'volume-and-price',
+                query: {
+                  name: data.P.name,
+                },
+              }"
+            >
+              <span>
+                <!--:class="getClassByValue(data.P.price, '')"-->
+                {{ data.P.price }}
+              </span>
+            </router-link>
+          </td>
+        </tr>
       </tbody>
       <tbody v-else>
-      <tr>
-        <td colspan="3">
-          <span class="text-danger">查無資料</span>
-        </td>
-      </tr>
+        <tr>
+          <td colspan="3">
+            <span class="text-danger">查無資料</span>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
 </template>
 
 <script>
-  import CurrentTimeMixins from 'mixins/currentTime'
-  import OptionDataMixins from 'mixins/option/data'
-  import CSSMixins from 'mixins/css'
-  import BigVolumeAudio from 'src/assets/audio/big_volume.mp3'
+import CurrentTimeMixins from 'mixins/currentTime'
+import OptionDataMixins from 'mixins/option/data'
+import CSSMixins from 'mixins/css'
+import BigVolumeAudio from 'src/assets/audio/big_volume.mp3'
 
-  export default {
-    mixins: [CurrentTimeMixins, OptionDataMixins, CSSMixins],
-    props: {
-      showTime: {
-        type: Boolean,
-        default: true
-      }
+export default {
+  mixins: [CurrentTimeMixins, OptionDataMixins, CSSMixins],
+  props: {
+    showTime: {
+      type: Boolean,
+      default: true
+    }
+  },
+  data: () => ({
+    search: {
+      isWeekItem: 'true'
     },
-    data: () => ({
-      search: {
-        isWeekItem: 'true'
-      },
-      options: {
-        isWeekItem: [
-          {
-            name: '周選',
-            value: 'true'
-          },
-          {
-            name: '月選',
-            value: 'false'
-          }
-        ]
-      },
-      lastPlayedAudioTime: null
-    }),
-    watch: {
-      quotationDatas()
-      {
-        if (_.some(this.quotationDatas, data => data.C.is_big_volume || data.P.is_big_volume))
+    options: {
+      isWeekItem: [
         {
-          if (!this.lastPlayedAudioTime || moment().diff(this.lastPlayedAudioTime, 'minutes') >= 15)
-          {
-            new Audio(BigVolumeAudio).play()
-            this.lastPlayedAudioTime = moment()
-          }
+          name: '周選',
+          value: 'true'
+        },
+        {
+          name: '月選',
+          value: 'false'
+        }
+      ]
+    },
+    lastPlayedAudioTime: null
+  }),
+  watch: {
+    quotationDatas() {
+      if (!this.isMobile() && _.some(this.quotationDatas, data => data.C.is_big_volume || data.P.is_big_volume)) {
+        if (!this.lastPlayedAudioTime || moment().diff(this.lastPlayedAudioTime, 'minutes') >= 15) {
+          new Audio(BigVolumeAudio).play()
+          this.lastPlayedAudioTime = moment()
         }
       }
-    },
-    computed: {
-      isWeekItem()
-      {
-        return this.search.isWeekItem === 'true'
-      },
-      showMonth()
-      {
-        // 顯示邏輯與周選月選頁相同
-        return this.isWeekItem
-          ? this.info.mainMonth
-          : this.info.subMonth
-      },
-      showWeek()
-      {
-        return this.info.isMonthSettleTime || !this.isWeekItem
-          ? ''
-          : this.info.mainWeek
-      },
-      allItemsOrderByValueDesc()
-      {
-        return _.orderBy(this.allItems, x => +x, 'desc')
-      },
-      quotationDatas()
-      {
-        return _.reduce(this.allItemsOrderByValueDesc, (result, item) =>
-        {
-          if (!this.showChipList || this.showChipList.indexOf(item) > -1)
-          {
-            result[item] = this.groupItemTypeItemInformed[item]
-            // result[item].C.is_big_volume = 1
-          }
-          return result
-        }, {})
-      }
     }
-  }
+  },
+  computed: {
+    isWeekItem() {
+      return this.search.isWeekItem === 'true'
+    },
+    showMonth() {
+      // 顯示邏輯與周選月選頁相同
+      return this.isWeekItem
+        ? this.info.mainMonth
+        : this.info.subMonth
+    },
+    showWeek() {
+      return this.info.isMonthSettleTime || !this.isWeekItem
+        ? ''
+        : this.info.mainWeek
+    },
+    allItemsOrderByValueDesc() {
+      return _.orderBy(this.allItems, x => +x, 'desc')
+    },
+    quotationDatas() {
+      return _.reduce(this.allItemsOrderByValueDesc, (result, item) => {
+        if (!this.showChipList || this.showChipList.indexOf(item) > -1) {
+          result[item] = this.groupItemTypeItemInformed[item]
+          // result[item].C.is_big_volume = 1
+        }
+        return result
+      }, {})
+    }
+  },
+}
 </script>
 
 <style lang="stylus" scoped>
-  .quotation tr
-    td
-      width 33.3%
-      text-align center
-    .item-c, .item-p
-      font-weight 900
-      font-size 1.8em
-    .item
-      font-weight 900
-      font-size 1.3em
+.quotation tr
+  td
+    width 33.3%
+    text-align center
 
   .item-c, .item-p
-    span
-      color #333
-    &.big-volume
-      background #f6ff82
+    font-weight 900
+    font-size 1.8em
 
+  .item
+    font-weight 900
+    font-size 1.3em
+
+.item-c, .item-p
+  span
+    color #333
+
+  &.big-volume
+    background #f6ff82
 </style>
