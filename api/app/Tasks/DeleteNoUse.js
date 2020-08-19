@@ -8,17 +8,16 @@ class DeleteNoUse extends Task {
   }
 
   async handle() {
-    console.log("start clear no use data, let system  be faster");
+    const start_at = moment()
+      .subtract(1, "minutes")
+      .add(5, "seconds")
+      .getDateTime();
+    const end_at = moment()
+      .subtract(15, "seconds")
+      .getDateTime();
+    console.log(`clear ${start_at}~${end_at} data`);
     await DB.table("option")
-      .whereBetween("created_at", [
-        moment()
-          .subtract(1, "minutes")
-          .add(5, "seconds")
-          .getDateTime(),
-        moment()
-          .subtract(15, "seconds")
-          .getDateTime()
-      ])
+      .whereBetween("created_at", [start_at, end_at])
       .delete();
   }
 }
