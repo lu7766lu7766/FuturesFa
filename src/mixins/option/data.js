@@ -65,10 +65,14 @@ export default {
 		allItems() {
 			return _.orderBy(_.keys(_.groupBy(this.currentItemInformedDatas, 'item')), (x) => +x.item)
 		},
+		centerProp() {
+			return !this.showWeek ? 'mtx' : 'week_mtx'
+		},
+		centerFilterItems() {
+			return this.currentItemInformedDatas.filter((x) => x[this.centerProp])
+		},
 		centerPoint() {
-			const prop = !this.showWeek ? 'mtx' : 'week_mtx'
-			const items = this.currentItemInformedDatas.filter((x) => x[prop])
-			const refPoint = items.length ? items[0][prop] : 0
+			const refPoint = this.centerFilterItems.length ? this.centerFilterItems[0][this.centerProp] : 0
 			// if (!refPoint)
 			// {
 			//   let mustHigher = 0, mustNeer
