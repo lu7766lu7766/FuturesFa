@@ -17,7 +17,7 @@ class DateService
     return _.map(await DB.table('wednesday_continue_holiday').select('date'), 'date')
   }
 
-  getDateInfo({request})
+  async getDateInfo({request})
   {
     let dateTime = moment(request.input('dateTime'))
 
