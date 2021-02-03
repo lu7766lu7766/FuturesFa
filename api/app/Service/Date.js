@@ -28,7 +28,28 @@ class DateService
     }
 
     let monthSettleStartTime, monthSettleEndTime
-    if (Math.ceil(this.getThirdWednesday(moment(dateTime)).date() / 7) > 2)
+    const is_month_item_end_week = (await DB.table('sys').select('is_month_item_end_week').first()).is_month_item_end_week
+    if (is_month_item_end_week != 0)
+    {
+      let startMethod, endMethod
+      switch(is_month_item_end_week) {
+        case 1:
+          startMethod = this.getFirstWednesday
+          endMethod = this.getSecondWednesday
+          break
+        case 2:
+          startMethod = this.getSecondWednesday
+          endMethod = this.getThirdWednesday
+          break
+        case 3:
+          startMethod = this.getThirdWednesday
+          endMethod = this.getFourthWednesday
+          break
+      }
+      monthSettleStartTime = startMethod(moment(dateTime)).format('YYYY-MM-DD 15:00:00')
+      monthSettleEndTime = endMethod(moment(dateTime)).format('YYYY-MM-DD 13:45:00')
+    }
+    else if (Math.ceil(this.getThirdWednesday(moment(dateTime)).date() / 7) > 2)
     {
       monthSettleStartTime = this.getSecondWednesday(moment(dateTime)).format('YYYY-MM-DD 15:00:00')
       monthSettleEndTime = this.getThirdWednesday(moment(dateTime)).format('YYYY-MM-DD 13:45:00')
@@ -78,6 +99,12 @@ class DateService
         ? this.getWeekOfMonth(thisWednesday)
         : this.getWeekOfMonth(nextWednesday),
     }
+  }
+
+  // 一週三
+  getFirstWednesday(targetMoment)
+  {
+    return moment(targetMoment.format('YYYY-MM-01')).day(3)
   }
 
   // 二週三
