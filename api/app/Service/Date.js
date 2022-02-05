@@ -22,7 +22,8 @@ class DateService
     let dateTime = moment(request.input('dateTime'))
 
     // 若遇到週三為休市，會改延遲結算，所以會持續扣除天數
-    while (DateService.inTheseDay(dateTime, DateService.getWednesdayContinueHoliday()))
+    const holidays = await DateService.getWednesdayContinueHoliday()
+    while (DateService.inTheseDay(dateTime, holidays))
     {
       dateTime = moment(dateTime).subtract(1, 'days').getDateTime()
     }
@@ -60,7 +61,11 @@ class DateService
       monthSettleEndTime = this.getFourthWednesday(moment(dateTime)).format('YYYY-MM-DD 13:45:00')
     }
     const weekSettleStartTime = moment(dateTime).day(3).format('YYYY-MM-DD 08:45:00')
-    const weekSettleEndTime = moment(dateTime).day(3).format('YYYY-MM-DD 13:45:00')
+    let weekSettleEndTime = moment(dateTime).day(3).format('YYYY-MM-DD 13:45:00')
+    // 假期延後結算日
+    while(holidays.includes(moment(weekSettleEndTime).getDate())) {
+      weekSettleEndTime = moment(weekSettleEndTime).add(1, "days").format('YYYY-MM-DD 13:45:00')
+    }
     const isMonthSettleTime = moment(dateTime).isBetween(monthSettleStartTime, monthSettleEndTime, 'minute', '[]')
     // const isWeekSettleTime = moment(moment(dateTime)).isBetween(weekSettleStartTime, weekSettleEndTime, 'minute', '[]')
     // 開盤日
