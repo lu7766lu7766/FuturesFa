@@ -17,13 +17,17 @@ class DateService
     return _.map(await DB.table('wednesday_continue_holiday').select('date'), 'date')
   }
 
+  static async getSpecialHolidays()
+  {
+    return _.map(await DB.table('holidays').select('date'), 'date')
+  }
+
   async getDateInfo({request})
   {
     let dateTime = moment(request.input('dateTime'))
 
     // 若遇到週三為休市，會改延遲結算，所以會持續扣除天數
-    const holidays = await DateService.getWednesdayContinueHoliday()
-    while (DateService.inTheseDay(dateTime, holidays))
+    while (DateService.inTheseDay(dateTime, await DateService.getWednesdayContinueHoliday()))
     {
       dateTime = moment(dateTime).subtract(1, 'days').getDateTime()
     }
@@ -63,6 +67,7 @@ class DateService
     const weekSettleStartTime = moment(dateTime).day(3).format('YYYY-MM-DD 08:45:00')
     let weekSettleEndTime = moment(dateTime).day(3).format('YYYY-MM-DD 13:45:00')
     // 假期延後結算日
+    const holidays = await DateService.getSpecialHolidays()
     while(holidays.includes(moment(weekSettleEndTime).getDate())) {
       weekSettleEndTime = moment(weekSettleEndTime).add(1, "days").format('YYYY-MM-DD 13:45:00')
     }
