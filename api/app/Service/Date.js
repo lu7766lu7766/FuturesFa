@@ -64,11 +64,12 @@ class DateService
       monthSettleStartTime = this.getThirdWednesday(moment(dateTime)).format('YYYY-MM-DD 15:00:00')
       monthSettleEndTime = this.getFourthWednesday(moment(dateTime)).format('YYYY-MM-DD 13:45:00')
     }
-    const weekSettleStartTime = moment(dateTime).day(3).format('YYYY-MM-DD 08:45:00')
+    let weekSettleStartTime = moment(dateTime).day(3).format('YYYY-MM-DD 08:45:00')
     let weekSettleEndTime = moment(dateTime).day(3).format('YYYY-MM-DD 13:45:00')
     // 假期延後結算日
     const holidays = await DateService.getSpecialHolidays()
     while(holidays.includes(moment(weekSettleEndTime).getDate())) {
+      weekSettleStartTime = moment(weekSettleStartTime).add(1, "days").format('YYYY-MM-DD 08:45:00')
       weekSettleEndTime = moment(weekSettleEndTime).add(1, "days").format('YYYY-MM-DD 13:45:00')
     }
     const isMonthSettleTime = moment(dateTime).isBetween(monthSettleStartTime, monthSettleEndTime, 'minute', '[]')
