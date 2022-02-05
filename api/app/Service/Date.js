@@ -19,7 +19,7 @@ class DateService
 
   static async getSpecialHolidays()
   {
-    return _.map(await DB.table('holidays').select('date'), 'date')
+    return _.map(await DB.table('week_settle_delay_holidays').select('date'), 'date')
   }
 
   async getDateInfo({request})

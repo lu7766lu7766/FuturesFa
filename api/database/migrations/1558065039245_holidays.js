@@ -3,17 +3,17 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use("Schema");
 
-class Holiday extends Schema {
+class WeekSettleDelayHoliday extends Schema {
   up() {
-    this.dropTableIfExists("holidays");
-    this.create("holidays", table => {
+    this.dropTableIfExists("week_settle_delay_holidays");
+    this.create("week_settle_delay_holidays", table => {
       table.string("date", 10).comment("日期");
     });
   }
 
   down() {
-    this.dropTableIfExists("holidays");
+    this.dropTableIfExists("week_settle_delay_holidays");
   }
 }
 
-module.exports = Holiday;
+module.exports = WeekSettleDelayHoliday;
