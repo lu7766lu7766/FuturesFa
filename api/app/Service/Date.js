@@ -68,7 +68,7 @@ class DateService
     let weekSettleEndTime
     // 特殊週結日
     const specialWeekSettleDate = await DateService.getSpecialWeekSettleDate()
-    if (specialWeekSettleDate && moment(dateTime).isBefore(moment(specialWeekSettleDate).getNormalEndTime())) {
+    if (specialWeekSettleDate) { // && moment(dateTime).isBefore(moment(specialWeekSettleDate).getNormalEndTime())
       weekSettleStartTime = moment(specialWeekSettleDate).getMorningStartTime()
       weekSettleEndTime = moment(specialWeekSettleDate).getNormalEndTime()
     } else {
