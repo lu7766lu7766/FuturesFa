@@ -70,10 +70,10 @@ class DateService
     const specialWeekSettleDate = await DateService.getSpecialWeekSettleDate()
     if (specialWeekSettleDate && moment(dateTime).isBefore(moment(specialWeekSettleDate).getNormalEndTime())) {
       weekSettleStartTime = moment(specialWeekSettleDate).getMorningStartTime()
-      weekSettleEndTime = moment(specialWeekSettleDate).getnormalEndTime()
+      weekSettleEndTime = moment(specialWeekSettleDate).getNormalEndTime()
     } else {
       weekSettleStartTime = moment(dateTime).day(3).getMorningStartTime() //.format('YYYY-MM-DD 08:45:00')
-      weekSettleEndTime = moment(dateTime).day(3).getnormalEndTime() //.format('YYYY-MM-DD 13:45:00')
+      weekSettleEndTime = moment(dateTime).day(3).getNormalEndTime() //.format('YYYY-MM-DD 13:45:00')
     }
     
     const isMonthSettleTime = moment(dateTime).isBetween(monthSettleStartTime, monthSettleEndTime, 'minute', '[]')
