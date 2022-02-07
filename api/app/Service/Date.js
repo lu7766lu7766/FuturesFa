@@ -22,6 +22,11 @@ class DateService
     return (await DB.table('sys').select('special_week_settle_date').first()).special_week_settle_date
   }
 
+  static async getSpecialMainWeek()
+  {
+    return (await DB.table('sys').select('special_main_week').first()).special_main_week
+  }
+
   async getDateInfo({request})
   {
     let dateTime = moment(request.input('dateTime'))
@@ -67,15 +72,15 @@ class DateService
     let weekSettleStartTime 
     let weekSettleEndTime
     // 特殊週結日
-    const specialWeekSettleDate = await DateService.getSpecialWeekSettleDate()
-    const isSpeicalWeekSettleDate = specialWeekSettleDate && moment(dateTime).isBefore(moment(specialWeekSettleDate).getNormalEndTime())
-    if (isSpeicalWeekSettleDate) { // 
-      weekSettleStartTime = moment(specialWeekSettleDate).getMorningStartTime()
-      weekSettleEndTime = moment(specialWeekSettleDate).getNormalEndTime()
-    } else {
+    // const specialWeekSettleDate = await DateService.getSpecialWeekSettleDate()
+    // const isSpeicalWeekSettleDate = specialWeekSettleDate && moment(dateTime).isBefore(moment(specialWeekSettleDate).getNormalEndTime())
+    // if (isSpeicalWeekSettleDate) { // 
+    //   weekSettleStartTime = moment(specialWeekSettleDate).getMorningStartTime()
+    //   weekSettleEndTime = moment(specialWeekSettleDate).getNormalEndTime()
+    // } else {
       weekSettleStartTime = moment(dateTime).day(3).getMorningStartTime() //.format('YYYY-MM-DD 08:45:00')
       weekSettleEndTime = moment(dateTime).day(3).getNormalEndTime() //.format('YYYY-MM-DD 13:45:00')
-    }
+    // }
     
     const isMonthSettleTime = moment(dateTime).isBetween(monthSettleStartTime, monthSettleEndTime, 'minute', '[]')
     // const isWeekSettleTime = moment(moment(dateTime)).isBetween(weekSettleStartTime, weekSettleEndTime, 'minute', '[]')
@@ -88,7 +93,7 @@ class DateService
       date = date.subtract(1, 'days')
     }
 
-    const prevWednesday = moment(dateTime).day(-4)
+    const speicalMainWeek = await DateService.getSpecialMainWeek()
     const thisWednesday = moment(dateTime).day(3)
     const nextWednesday = moment(dateTime).day(10)
 
@@ -112,11 +117,11 @@ class DateService
         ? moment(dateTime).format('MM')
         : moment(dateTime).add(1, 'months').format('MM'),
       // 週選的週數
-      mainWeek: moment(dateTime).isBefore(weekSettleEndTime, 'minute')
-        ? isSpeicalWeekSettleDate
-          ? this.getWeekOfMonth(prevWednesday)
-          : this.getWeekOfMonth(thisWednesday)
-        : this.getWeekOfMonth(nextWednesday),
+      mainWeek: speicalMainWeek
+        ? speicalMainWeek
+        : moment(dateTime).isBefore(weekSettleEndTime, 'minute')
+          ? this.getWeekOfMonth(thisWednesday)
+          : this.getWeekOfMonth(nextWednesday),
     }
   }
 
