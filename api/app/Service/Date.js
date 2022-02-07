@@ -68,7 +68,8 @@ class DateService
     let weekSettleEndTime
     // 特殊週結日
     const specialWeekSettleDate = await DateService.getSpecialWeekSettleDate()
-    if (specialWeekSettleDate) { // && moment(dateTime).isBefore(moment(specialWeekSettleDate).getNormalEndTime())
+    const isSpeicalWeekSettleDate = specialWeekSettleDate && moment(dateTime).isBefore(moment(specialWeekSettleDate).getNormalEndTime())
+    if (isSpeicalWeekSettleDate) { // 
       weekSettleStartTime = moment(specialWeekSettleDate).getMorningStartTime()
       weekSettleEndTime = moment(specialWeekSettleDate).getNormalEndTime()
     } else {
@@ -87,6 +88,7 @@ class DateService
       date = date.subtract(1, 'days')
     }
 
+    const prevWednesday = moment(dateTime).day(-4)
     const thisWednesday = moment(dateTime).day(3)
     const nextWednesday = moment(dateTime).day(10)
 
@@ -111,7 +113,9 @@ class DateService
         : moment(dateTime).add(1, 'months').format('MM'),
       // 週選的週數
       mainWeek: moment(dateTime).isBefore(weekSettleEndTime, 'minute')
-        ? this.getWeekOfMonth(thisWednesday)
+        ? isSpeicalWeekSettleDate
+          ? this.getWeekOfMonth(prevWednesday)
+          : this.getWeekOfMonth(thisWednesday)
         : this.getWeekOfMonth(nextWednesday),
     }
   }
