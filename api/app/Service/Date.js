@@ -19,7 +19,7 @@ class DateService
 
   static async getSpecialWeekSettleDate()
   {
-    return _.map(await DB.table('sys').select('special_week_settle_date'), 'special_week_settle_date')
+    return (await DB.table('sys').select('special_week_settle_date').first()).special_week_settle_date
   }
 
   async getDateInfo({request})
