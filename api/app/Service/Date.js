@@ -17,10 +17,10 @@ class DateService
     return _.map(await DB.table('wednesday_continue_holiday').select('date'), 'date')
   }
 
-  static async getSpecialWeekSettleDate()
-  {
-    return (await DB.table('sys').select('special_week_settle_date').first()).special_week_settle_date
-  }
+  // static async getSpecialWeekSettleDate()
+  // {
+  //   return (await DB.table('sys').select('special_week_settle_date').first()).special_week_settle_date
+  // }
 
   static async getSpecialMainWeek()
   {
