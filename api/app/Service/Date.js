@@ -7,8 +7,8 @@ class DateService
     return _.some(date, (holiday) =>
     {
       return moment(dateTime).isBetween(
-        moment(holiday).format('YYYY-MM-DD 14:00:00'),
-        moment(holiday).add(1, 'days').format('YYYY-MM-DD 15:00:00'))
+        moment(holiday).getNormalSettleTime(), //.format('YYYY-MM-DD 14:00:00'),
+        moment(holiday).add(1, 'days').getNormalStartTime()) //.format('YYYY-MM-DD 15:00:00'))
     })
   }
 
@@ -17,9 +17,9 @@ class DateService
     return _.map(await DB.table('wednesday_continue_holiday').select('date'), 'date')
   }
 
-  static async getSpecialHolidays()
+  static async getSpecialWeekSettleDate()
   {
-    return _.map(await DB.table('week_settle_delay_holidays').select('date'), 'date')
+    return _.map(await DB.table('sys').select('special_week_settle_date'), 'special_week_settle_date')
   }
 
   async getDateInfo({request})
@@ -51,31 +51,35 @@ class DateService
           endMethod = this.getFourthWednesday
           break
       }
-      monthSettleStartTime = startMethod(moment(dateTime)).format('YYYY-MM-DD 15:00:00')
-      monthSettleEndTime = endMethod(moment(dateTime)).format('YYYY-MM-DD 13:45:00')
+      monthSettleStartTime = startMethod(moment(dateTime)).getNormalStartTime() //.format('YYYY-MM-DD 15:00:00')
+      monthSettleEndTime = endMethod(moment(dateTime)).getNormalEndTime() //.format('YYYY-MM-DD 13:45:00')
     }
     else if (Math.ceil(this.getThirdWednesday(moment(dateTime)).date() / 7) > 2)
     {
-      monthSettleStartTime = this.getSecondWednesday(moment(dateTime)).format('YYYY-MM-DD 15:00:00')
-      monthSettleEndTime = this.getThirdWednesday(moment(dateTime)).format('YYYY-MM-DD 13:45:00')
+      monthSettleStartTime = this.getSecondWednesday(moment(dateTime)).getNormalStartTime() //.format('YYYY-MM-DD 15:00:00')
+      monthSettleEndTime = this.getThirdWednesday(moment(dateTime)).getNormalEndTime() //.format('YYYY-MM-DD 13:45:00')
     }
     else
     {
-      monthSettleStartTime = this.getThirdWednesday(moment(dateTime)).format('YYYY-MM-DD 15:00:00')
-      monthSettleEndTime = this.getFourthWednesday(moment(dateTime)).format('YYYY-MM-DD 13:45:00')
+      monthSettleStartTime = this.getThirdWednesday(moment(dateTime)).getNormalStartTime() //.format('YYYY-MM-DD 15:00:00')
+      monthSettleEndTime = this.getFourthWednesday(moment(dateTime)).getNormalEndTime() //.format('YYYY-MM-DD 13:45:00')
     }
-    let weekSettleStartTime = moment(dateTime).day(3).format('YYYY-MM-DD 08:45:00')
-    let weekSettleEndTime = moment(dateTime).day(3).format('YYYY-MM-DD 13:45:00')
-    // 假期延後結算日
-    const holidays = await DateService.getSpecialHolidays()
-    while(holidays.includes(moment(weekSettleEndTime).getDate())) {
-      weekSettleStartTime = moment(weekSettleStartTime).add(1, "days").format('YYYY-MM-DD 08:45:00')
-      weekSettleEndTime = moment(weekSettleEndTime).add(1, "days").format('YYYY-MM-DD 13:45:00')
+    let weekSettleStartTime 
+    let weekSettleEndTime
+    // 特殊週結日
+    const specialWeekSettleDate = await DateService.getSpecialWeekSettleDate()
+    if (specialWeekSettleDate && moment(dateTime).isBefore(moment(specialWeekSettleDate).getNormalEndTime())) {
+      weekSettleStartTime = moment(specialWeekSettleDate).getMorningStartTime()
+      weekSettleEndTime = moment(specialWeekSettleDate).getnormalEndTime()
+    } else {
+      weekSettleStartTime = moment(dateTime).day(3).getMorningStartTime() //.format('YYYY-MM-DD 08:45:00')
+      weekSettleEndTime = moment(dateTime).day(3).getnormalEndTime() //.format('YYYY-MM-DD 13:45:00')
     }
+    
     const isMonthSettleTime = moment(dateTime).isBetween(monthSettleStartTime, monthSettleEndTime, 'minute', '[]')
     // const isWeekSettleTime = moment(moment(dateTime)).isBetween(weekSettleStartTime, weekSettleEndTime, 'minute', '[]')
     // 開盤日
-    let date = moment(dateTime).isBefore(moment(dateTime).format('YYYY-MM-DD 14:00:00'))
+    let date = moment(dateTime).isBefore(moment(dateTime).getNormalSettleTime()) //.format('YYYY-MM-DD 14:00:00'))
       ? moment(dateTime).subtract(1, 'days')
       : moment(dateTime)
     while (!this.isDataTransferTime() && (date.day() < 1 || date.day > 5))

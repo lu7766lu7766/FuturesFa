@@ -30,6 +30,22 @@ class AppProvider extends ServiceProvider
     {
       return this.format('YYYY-MM-DD')
     }
+    moment.fn.getMorningStartTime = function ()
+    {
+      return this.format('YYYY-MM-DD 08:45:00')
+    }
+    moment.fn.getNormalEndTime = function ()
+    {
+      return this.format('YYYY-MM-DD 13:45:00')
+    }
+    moment.fn.getNormalSettleTime = function ()
+    {
+      return this.format('YYYY-MM-DD 14:00:00')
+    }
+    moment.fn.getNormalStartTime = function ()
+    {
+      return this.format('YYYY-MM-DD 15:00:00')
+    }
     
     // 全域DB物件
     global.DB = use('Database')
