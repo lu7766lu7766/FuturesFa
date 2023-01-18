@@ -1,7 +1,7 @@
-'use strict'
+"use strict";
 
-const { test } = use('Test/Suite')('Jac')
-const dataService = App.make('Service/Data')
+const { test } = use("Test/Suite")("Jac");
+const dataService = App.make("Service/Data");
 // test('make sure 2 + 2 is 4', async ({ assert }) => {
 //   assert.equal(2 + 2, 4)
 // })
