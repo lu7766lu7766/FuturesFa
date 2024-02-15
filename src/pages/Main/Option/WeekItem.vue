@@ -63,87 +63,73 @@
 </template>
 
 <script>
+import CurrentTimeMixins from "mixins/currentTime"
+import OptionInitMixins from "mixins/option/init"
 
-  import CurrentTimeMixins from 'mixins/currentTime'
-  import OptionInitMixins from 'mixins/option/init'
-
-  export default {
-    mixins: [CurrentTimeMixins, OptionInitMixins],
-    components: {
-      OptionHistogram: () => import('@/OptionHistogram'),
-      FuturesChip: () => import('@/FuturesChip'),
-      OptionChip: () => import('@/OptionChip'),
-      TXO: () => import('@/TXO'),
-      Quotation: () => import('@/QuotationTable')
+export default {
+  mixins: [CurrentTimeMixins, OptionInitMixins],
+  components: {
+    OptionHistogram: () => import("@/OptionHistogram"),
+    FuturesChip: () => import("@/FuturesChip"),
+    OptionChip: () => import("@/OptionChip"),
+    TXO: () => import("@/TXO"),
+    Quotation: () => import("@/QuotationTable"),
+  },
+  data: () => ({
+    timer: null,
+    updateTime: "",
+    txo: {},
+    futuresChip: [],
+    optionChip: [],
+    height: "325px",
+  }),
+  methods: {
+    async getTXO() {
+      const res = await this.$api.data.getTXO()
+      this.txo = res.data
     },
-    data: () => ({
-      timer: null,
-      updateTime: '',
-      txo: {},
-      futuresChip: [],
-      optionChip: [],
-      height: '325px'
-    }),
-    methods: {
-      async getTXO()
-      {
-        const res = await this.$api.data.getTXO()
-        this.txo = res.data
-      },
-      async getFuturesChip()
-      {
-        const res = await this.$api.data.getFuturesChip()
-        this.futuresChip = res.data
-      },
-      async getOptionChip()
-      {
-        const res = await this.$api.data.getOptionChip()
-        this.optionChip = res.data
-      },
-      startCounter()
-      {
-        this.timer = setInterval(() =>
-        {
-          this.getItemInformed()
-          this.getTXO()
-          this.getFuturesChip()
-          this.getOptionChip()
-          this.getDataInfo()
-          this.getChipAccumulation()
-        }, getenv('optionUpdateSecs', 30) * 1000)
-      }
+    async getFuturesChip() {
+      const res = await this.$api.data.getFuturesChip()
+      this.futuresChip = res.data
     },
-    computed: {
-      showMonth()
-      {
-        return this.info.mainMonth
-      },
-      showWeek()
-      {
-        return this.info.isMonthSettleTime
-          ? ''
-          : this.info.mainWeek
-      }
+    async getOptionChip() {
+      const res = await this.$api.data.getOptionChip()
+      this.optionChip = res.data
     },
-    async created()
-    {
-      this.callApi(async () =>
-      {
-        await axios.all([
-          this.getTXO(),
-          this.getItemInformed(),
-          this.getChipAccumulation(),
-          this.getFuturesChip(),
-          this.getOptionChip(),
-          this.getDataInfo()
-        ])
-        this.startCounter()
-      })
+    startCounter() {
+      this.timer = setInterval(() => {
+        this.getItemInformed()
+        this.getTXO()
+        this.getFuturesChip()
+        this.getOptionChip()
+        this.getDataInfo()
+        this.getChipAccumulation()
+      }, getenv("optionUpdateSecs", 30) * 1000)
     },
-    destroyed()
-    {
-      clearInterval(this.timer)
-    }
-  }
+  },
+  computed: {
+    showMonth() {
+      return this.info.mainMonth
+    },
+    showWeek() {
+      return this.info.forceShowMainWeek ? this.info.mainWeek : this.info.isMonthSettleTime ? "" : this.info.mainWeek
+    },
+  },
+  async created() {
+    this.callApi(async () => {
+      await axios.all([
+        this.getTXO(),
+        this.getItemInformed(),
+        this.getChipAccumulation(),
+        this.getFuturesChip(),
+        this.getOptionChip(),
+        this.getDataInfo(),
+      ])
+      this.startCounter()
+    })
+  },
+  destroyed() {
+    clearInterval(this.timer)
+  },
+}
 </script>
-

@@ -149,8 +149,9 @@ class DateService {
       mainWeek: speicalMainWeek
         ? speicalMainWeek
         : moment(dateTime).isBefore(weekSettleEndTime, "minute")
-        ? this.getWeekOfMonth(thisWednesday)
-        : this.getWeekOfMonth(nextWednesday)
+          ? this.getWeekOfMonth(thisWednesday)
+          : this.getWeekOfMonth(nextWednesday),
+      forceShowMainWeek: !!speicalMainWeek
     };
   }
 
