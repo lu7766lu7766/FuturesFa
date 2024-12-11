@@ -1,0 +1,14 @@
+FROM nginx:alpine
+RUN mkdir /app
+RUN mkdir /ssl
+
+WORKDIR /app
+COPY . .
+
+RUN apk add --update nodejs npm
+RUN npm i -g yarn
+
+RUN yarn
+RUN yarn build
+
+EXPOSE 80

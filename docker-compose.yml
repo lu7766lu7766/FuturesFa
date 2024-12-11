@@ -1,0 +1,52 @@
+version: "3.6"
+
+services:
+  api:
+    build:
+      context: api
+      dockerfile: Dockerfile.api
+    container_name: node_api
+    volumes:
+      - ./app/tmp:/app/tmp
+    working_dir: /app
+    command: sh -c "yarn dev"
+    ports:
+      - 3333:3333
+    depends_on:
+      - db
+      - redis
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    ports:
+      - "8099:80"
+      # - "443:443"
+      # - "3333:3333"
+    container_name: nginx
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./dock/nginx:/etc/nginx/conf.d
+    depends_on:
+      - api
+
+  db:
+    image: mariadb:10.6.20
+    ports:
+      - ${DB_PORT}:3306
+    volumes:
+      - ./dock/db/:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=${MARIADB_DATABASE}
+      - MYSQL_USER=${MARIADB_USER}
+      - MYSQL_PASSWORD=${MARIADB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./dock/redis:/data
+
