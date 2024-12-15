@@ -1,4 +1,4 @@
-version: "3.6"
+version: "3.8"
 
 services:
   api:
@@ -16,10 +16,20 @@ services:
       - db
       - redis
 
-  nginx:
+  task:
     build:
-      context: .
-      dockerfile: Dockerfile.web
+      context: api
+      dockerfile: Dockerfile.api
+    container_name: node_task
+    volumes:
+      - ./app/tmp:/app/tmp
+    working_dir: /app
+    command: sh -c "yarn task:run"
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:alpine
     ports:
       - "8099:80"
       # - "443:443"
@@ -28,8 +38,9 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./dock/nginx:/etc/nginx/conf.d
-    depends_on:
-      - api
+      - ./www:/app
+    # depends_on:
+    #   - api
 
   db:
     image: mariadb:10.6.20

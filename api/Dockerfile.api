@@ -1,15 +1,16 @@
-FROM node:14-buster-slim
+FROM node:10-buster-slim
 RUN mkdir /app
 
 WORKDIR /app
 COPY . .
 
 RUN npm i
+RUN npm i -g @adonisjs/cli
 # RUN yarn build
 # RUN cd build
 # RUN yarn install --production
 # RUN yarn apidoc
-RUN node ace migration:run --force
+# RUN node ace migration:run --force
 # RUN yarn db:seed
 
 EXPOSE 3333
