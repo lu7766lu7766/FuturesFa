@@ -5,9 +5,11 @@ services:
     build:
       context: api
       dockerfile: Dockerfile.api
+    # image: node:10-buster-slim
+    restart: unless-stopped
     container_name: node_api
     volumes:
-      - ./app/tmp:/app/tmp
+      - ./api/tmp:/app/tmp
     working_dir: /app
     command: sh -c "yarn dev"
     ports:
@@ -20,9 +22,11 @@ services:
     build:
       context: api
       dockerfile: Dockerfile.api
+    # image: node:10-buster-slim
+    restart: unless-stopped
     container_name: node_task
     volumes:
-      - ./app/tmp:/app/tmp
+      - ./api/tmp:/app/tmp
     working_dir: /app
     command: sh -c "yarn task:run"
     depends_on:
@@ -30,6 +34,7 @@ services:
 
   nginx:
     image: nginx:alpine
+    restart: unless-stopped
     ports:
       - "8099:80"
       # - "443:443"
@@ -44,6 +49,7 @@ services:
 
   db:
     image: mariadb:10.6.20
+    restart: unless-stopped
     ports:
       - ${DB_PORT}:3306
     volumes:
@@ -56,6 +62,7 @@ services:
       
   redis:
     image: redis:latest
+    restart: unless-stopped
     ports:
       - "6379:6379"
     volumes:
