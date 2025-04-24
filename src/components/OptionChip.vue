@@ -20,7 +20,7 @@ export default {
   computed: {
     chipChartData() {
       return {
-        columns: ["時間", "總Ｃ", "總Ｐ", "ＣＰ差額"],
+        columns: ["時間", "總Ｃ", "總Ｐ", "選擇權多空力道"],
         rows: _.reduce(
           this.data,
           (result, val) => {
@@ -28,7 +28,7 @@ export default {
               時間: val.created_at.split(" ")[1],
               總Ｃ: val.total_c,
               總Ｐ: val.total_p,
-              ＣＰ差額: val.differ_cp,
+              選擇權多空力道: val.differ_cp,
             })
             return result
           },

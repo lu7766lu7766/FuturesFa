@@ -14,11 +14,11 @@ export default {
     },
     min: {
       type: Number,
-      default: -5000,
+      default: -10000,
     },
     max: {
       type: Number,
-      default: 5000,
+      default: 10000,
     },
   },
   data() {
@@ -117,8 +117,8 @@ export default {
 
       // 定義數值範圍
       const ranges = [
-        { start: this.min, end: -500 }, // 綠色：-5000 到 -500
-        { start: -500, end: 500 }, // 黃色：-500 到 500
+        { start: this.min, end: -1000 }, // 綠色：-5000 到 -500
+        { start: -1000, end: 1000 }, // 黃色：-500 到 500
         { start: 500, end: this.max }, // 紅色：500 到 5000
       ]
 
@@ -127,19 +127,19 @@ export default {
       const normalizedValue = Math.min(Math.max(value, this.min), this.max)
 
       if (normalizedValue <= ranges[0].end) {
-        // 綠色區塊：線性映射 -5000 到 -500 到第一段角度
+        // 綠色區塊：線性映射 -10000 到 -1000 到第一段角度
         const rangeLength = ranges[0].end - ranges[0].start
         const valueInRange = normalizedValue - ranges[0].start
         const ratio = valueInRange / rangeLength
         angle = startAngle + ratio * sectionAngle
       } else if (normalizedValue <= ranges[1].end) {
-        // 黃色區塊：線性映射 -500 到 500 到第二段角度
+        // 黃色區塊：線性映射 -1000 到 1000 到第二段角度
         const rangeLength = ranges[1].end - ranges[1].start
         const valueInRange = normalizedValue - ranges[1].start
         const ratio = valueInRange / rangeLength
         angle = startAngle + sectionAngle + ratio * sectionAngle
       } else {
-        // 紅色區塊：線性映射 500 到 5000 到第三段角度
+        // 紅色區塊：線性映射 1000 到 10000 到第三段角度
         const rangeLength = ranges[2].end - ranges[2].start
         const valueInRange = normalizedValue - ranges[2].start
         const ratio = valueInRange / rangeLength

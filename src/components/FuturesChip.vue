@@ -20,7 +20,7 @@ export default {
   computed: {
     chipChartData() {
       return {
-        columns: ["時間", "大戶籌碼量", "散戶籌碼量量", "筆差"],
+        columns: ["時間", "大戶籌碼量", "散戶籌碼量量", "台指多空力道"],
         rows: _.reduce(
           this.data,
           (result, val) => {
@@ -28,7 +28,7 @@ export default {
               時間: val.created_at.split(" ")[1],
               大戶籌碼量: val.major_chip_valume,
               散戶籌碼量量: val.retail_chip_valume,
-              筆差: val.differ,
+              台指多空力道: val.differ,
             })
             return result
           },
