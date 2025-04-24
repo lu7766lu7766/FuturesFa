@@ -5,10 +5,13 @@
       資料時間：{{ updateTime }}
     </div>
 
-    <div class="col-md-12 col-xs-12">
+    <div class="col-md-10 col-xs-12">
       <div class="table-responsive">
         <TXO :txo="txo" />
       </div>
+    </div>
+    <div class="col-md-2 col-xs-12">
+      <CPChart :value="optionChip[optionChip.length-1].diccer_cp || 0" />
     </div>
 
     <div class="col-md-2">
@@ -74,6 +77,7 @@ export default {
     OptionChip: () => import("@/OptionChip"),
     TXO: () => import("@/TXO"),
     Quotation: () => import("@/QuotationTable"),
+    CPChart: () => import("@/CPChart"),
   },
   data: () => ({
     timer: null,
