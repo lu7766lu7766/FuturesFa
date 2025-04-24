@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="col-md-2 col-xs-12">
-      <CPChart :value="optionChip[optionChip.length-1].diccer_cp || 0" />
+      <CPChart :value="optionChip[optionChip.length-1].differ_cp || 0" />
     </div>
 
     <div class="col-md-2">
@@ -36,8 +36,8 @@
               @update:updateTime="time => updateTime = time"></option-histogram>
         </div>
         <div class="col-md-5 col-xs-12">
-          <futures-chip
-              :data="futuresChip"
+            <option-chip
+              :data="optionChip"
               :subTitle="info.date"
               :height="height" />
         </div>
@@ -54,8 +54,8 @@
               :height="height"></option-histogram>
         </div>
         <div class="col-md-5 col-xs-12">
-          <option-chip
-              :data="optionChip"
+          <futures-chip
+              :data="futuresChip"
               :subTitle="info.date"
               :height="height" />
         </div>

@@ -141,7 +141,7 @@ export default {
   min-height: calc(100vh - 118px);
   margin: 15px 15px 0px 15px;
   overflow: hidden;
-  background: #cdfcff;
+  background: #e5f3f3;
   border-radius: 4px;
   padding: 10px;
 }

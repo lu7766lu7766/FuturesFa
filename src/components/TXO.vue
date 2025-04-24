@@ -11,10 +11,10 @@
       <th>正逆價差</th>
       <th>大戶(夜)</th>
       <th>散戶(夜)</th>
-      <th>筆差</th>
+      <th>台指多空力道</th>
       <th>總Ｃ</th>
       <th>總Ｐ</th>
-      <th>ＣＰ差額</th>
+      <th>選擇權多空力道</th>
     </tr>
     </thead>
     <tbody>
@@ -64,12 +64,12 @@
 </template>
 
 <script>
-  import CSSMixins from 'mixins/css'
+import CSSMixins from "mixins/css"
 
-  export default {
-    props: ['txo'],
-    mixins: [CSSMixins]
-  }
+export default {
+  props: ["txo"],
+  mixins: [CSSMixins],
+}
 </script>
 
 <style lang="stylus" scoped>
