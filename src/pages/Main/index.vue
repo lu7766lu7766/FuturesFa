@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar toggleable="lg" type="dark" variant="info">
       <b-navbar-brand href="#">{{ User.nickName }}</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
@@ -45,9 +45,9 @@
 </template>
 
 <script>
-import { UserType } from "module/user";
-import { LoginType } from "module/login";
-import { apiHost } from "lib/myLib";
+import { UserType } from "module/user"
+import { LoginType } from "module/login"
+import { apiHost } from "lib/myLib"
 
 export default {
   data: () => ({
@@ -56,69 +56,69 @@ export default {
   }),
   methods: {
     doLogout() {
-      this.$store.commit(LoginType.clearAccessToken);
+      this.$store.commit(LoginType.clearAccessToken)
       this.$router.push({
         name: "login",
-      });
+      })
     },
     wsConnect() {
       this.ws = adonis
         .Ws(`ws://${apiHost}`)
         .withJwtToken(this.$store.state.Login.token)
-        .connect();
+        .connect()
       this.ws.on("open", () => {
-        this.wsListening();
-      });
+        this.wsListening()
+      })
       this.ws.on("error", () => {
         // console.log('dataCollect error')
-      });
+      })
       this.ws.on("close", () => {
         // console.log('dataCollect close')
-      });
+      })
     },
     wsListening() {
-      this.dataCollect = this.ws.subscribe("DataCollect");
+      this.dataCollect = this.ws.subscribe("DataCollect")
       this.dataCollect.on("ready", () => {
-        this.dataCollect.emit("join", User.info);
-      });
+        this.dataCollect.emit("join", User.info)
+      })
 
       this.dataCollect.on("getOnlineMembers", (members) => {
-        this.$store.commit(UserType.setOnline, members);
-      });
+        this.$store.commit(UserType.setOnline, members)
+      })
 
       this.dataCollect.on("itemInfoReady", (res) => {
-        this.$bus.emit("itemInfoReady", res);
-      });
+        this.$bus.emit("itemInfoReady", res)
+      })
 
       // bus event
       this.$bus.on("watchingItem", (name) => {
-        this.dataCollect.emit("watchingItem", name);
-      });
+        this.dataCollect.emit("watchingItem", name)
+      })
     },
     getOnlineMembers() {
-      this.dataCollect.emit("getOnlineMembers");
+      this.dataCollect.emit("getOnlineMembers")
     },
   },
   async created() {
-    this.wsConnect();
-    const res = await this.$api.user.getInfo();
-    this.$store.commit(UserType.setInfo, res.data);
+    this.wsConnect()
+    const res = await this.$api.user.getInfo()
+    this.$store.commit(UserType.setInfo, res.data)
     User.isAdmin &&
       setInterval(() => {
-        this.getOnlineMembers();
-      }, 10 * 1000);
+        this.getOnlineMembers()
+      }, 10 * 1000)
   },
   destroyed() {
-    this.$bus.off("watchingItem");
+    this.$bus.off("watchingItem")
   },
-};
+}
 </script>
 
 
 <style scoped>
 .layout {
   border: 1px solid #d7dde4;
-  background: #dee0e2;
+  background: #ddd;
   min-height: 100vh;
 }
 
@@ -141,7 +141,7 @@ export default {
   min-height: calc(100vh - 118px);
   margin: 15px 15px 0px 15px;
   overflow: hidden;
-  background: #fff;
+  background: #cdfcff;
   border-radius: 4px;
   padding: 10px;
 }
