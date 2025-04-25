@@ -3,7 +3,7 @@ import ReqMixins from "mixins/request"
 export default {
   mixins: [ReqMixins],
   data: () => ({
-    colors: ["#f00", "#00CF00", "#e28444"],
+    colors: ["#f00", "#00CF00", "#022c5e"],
   }),
   methods: {
     getConfig(options, title, subTitle) {

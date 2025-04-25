@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="col-md-2 col-xs-12">
-      <CPChart :value="optionChip[optionChip.length-1].differ_cp || 0" />
+      <CPChart :value="lastOptionChipDifferCp" />
     </div>
 
     <div class="col-md-2">
@@ -117,6 +117,10 @@ export default {
     },
     showWeek() {
       return this.info.forceShowMainWeek ? this.info.mainWeek : this.info.isMonthSettleTime ? "" : this.info.mainWeek
+    },
+    lastOptionChipDifferCp() {
+      const lastItem = this.optionChip[this.optionChip.length - 1]
+      return lastItem ? lastItem.differ_cp : 0
     },
   },
   async created() {

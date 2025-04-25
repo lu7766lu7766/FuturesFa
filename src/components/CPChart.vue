@@ -1,6 +1,11 @@
 <template>
   <div class="gauge-container">
     <canvas ref="gaugeCanvas"></canvas>
+    <div class="row gauge-label">
+      <div class="col-3">空</div>
+      <div class="col-6">溫度計</div>
+      <div class="col-3">多</div>
+    </div>
   </div>
 </template>
 
@@ -24,6 +29,35 @@ export default {
   data() {
     return {
       resizeObserver: null,
+      gaugeSections: [
+        {
+          color: "#00FF00",
+          start: -10000,
+          end: -20,
+          label: "偏空",
+          labelPos: "left",
+          startAngle: Math.PI,
+          endAngle: Math.PI + Math.PI * 0.4, // 計算到 -20 的角度
+        },
+        {
+          color: "#FFFF00",
+          start: -20,
+          end: 20,
+          label: "盤整中立",
+          labelPos: "center",
+          startAngle: Math.PI + Math.PI * 0.4,
+          endAngle: Math.PI + Math.PI * 0.6, // -20 到 20 的角度
+        },
+        {
+          color: "#FF0000",
+          start: 20,
+          end: 10000,
+          label: "偏多",
+          labelPos: "right",
+          startAngle: Math.PI + Math.PI * 0.6,
+          endAngle: 2 * Math.PI,
+        },
+      ],
     }
   },
   watch: {
@@ -50,7 +84,7 @@ export default {
       const canvas = this.$refs.gaugeCanvas
       const parent = canvas.parentElement
       const width = parent.clientWidth
-      const height = width / 2
+      const height = width / 1.5
 
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
@@ -75,78 +109,97 @@ export default {
       const centerY = height
       const radius = width / 2 - 10
 
-      // 清空畫布
+      // Clear canvas
       ctx.clearRect(0, 0, width, height)
 
-      // 定義三個顏色區塊的角度（均分為三等分）
-      const startAngle = Math.PI
-      const totalAngle = Math.PI
-      const sectionAngle = totalAngle / 3 // 每區塊 60°
+      // Draw colored sections using stored angles
+      this.gaugeSections.forEach((section) => {
+        ctx.beginPath()
+        ctx.moveTo(centerX, centerY)
+        ctx.arc(centerX, centerY, radius - 5, section.startAngle, section.endAngle, false)
+        ctx.fillStyle = section.color
+        ctx.fill()
+        ctx.closePath()
+      })
 
-      // 繪製綠色區塊（第一段）
+      // Draw black semicircle background
+      const blackRadius = (radius * 3) / 4
       ctx.beginPath()
-      ctx.moveTo(centerX, centerY)
-      ctx.arc(centerX, centerY, radius - 5, startAngle, startAngle + sectionAngle, false)
-      ctx.fillStyle = "#00FF00"
-      ctx.fill()
-      ctx.closePath()
-
-      // 繪製黃色區塊（第二段）
-      ctx.beginPath()
-      ctx.moveTo(centerX, centerY)
-      ctx.arc(centerX, centerY, radius - 5, startAngle + sectionAngle, startAngle + 2 * sectionAngle, false)
-      ctx.fillStyle = "#FFFF00"
-      ctx.fill()
-      ctx.closePath()
-
-      // 繪製紅色區塊（第三段）
-      ctx.beginPath()
-      ctx.moveTo(centerX, centerY)
-      ctx.arc(centerX, centerY, radius - 5, startAngle + 2 * sectionAngle, startAngle + 3 * sectionAngle, false)
-      ctx.fillStyle = "#FF0000"
-      ctx.fill()
-      ctx.closePath()
-
-      // 繪製背景黑色半圓
-      ctx.beginPath()
-      ctx.arc(centerX, centerY, radius / 2, Math.PI, 2 * Math.PI, false)
+      ctx.arc(centerX, centerY, blackRadius, Math.PI, 2 * Math.PI, false)
       ctx.lineTo(centerX, centerY)
       ctx.fillStyle = "#000"
       ctx.fill()
       ctx.closePath()
 
-      // 定義數值範圍
-      const ranges = [
-        { start: this.min, end: -1000 }, // 綠色：-5000 到 -500
-        { start: -1000, end: 1000 }, // 黃色：-500 到 500
-        { start: 500, end: this.max }, // 紅色：500 到 5000
-      ]
+      // Draw scale marks inside black semicircle (-100 to 100)
+      const scaleRadius = blackRadius
+      const scaleStartAngle = Math.PI
+      const scaleEndAngle = 2 * Math.PI
+      const numTicks = 10
+      const angleIncrement = (scaleEndAngle - scaleStartAngle) / numTicks
+      const scaleValues = Array.from({ length: numTicks + 1 }, (_, i) => -100 + (i * 200) / numTicks)
 
-      // 計算指針角度（根據數值範圍映射到均分的角度）
+      for (let i = 0; i <= numTicks; i++) {
+        const angle = scaleStartAngle + i * angleIncrement
+        const startX = centerX + (scaleRadius - 15) * Math.cos(angle)
+        const startY = centerY + (scaleRadius - 15) * Math.sin(angle)
+        const endX = centerX + scaleRadius * Math.cos(angle)
+        const endY = centerY + scaleRadius * Math.sin(angle)
+
+        ctx.beginPath()
+        ctx.moveTo(startX, startY)
+        ctx.lineTo(endX, endY)
+        ctx.strokeStyle = "#FFF"
+        ctx.lineWidth = 1
+        ctx.stroke()
+
+        const textX = centerX + (scaleRadius - 25) * Math.cos(angle)
+        const textY = centerY + (scaleRadius - 25) * Math.sin(angle)
+        ctx.font = "10px Arial"
+        ctx.fillStyle = "#FFF"
+        ctx.textAlign = "center"
+        ctx.fillText(scaleValues[i].toString(), textX, textY)
+      }
+
+      // Draw labels for each section
+      this.gaugeSections.forEach((section) => {
+        let textX, textY, textAlign
+        const labelRadius = radius - 10
+
+        if (section.labelPos === "left") {
+          textX = centerX + (labelRadius + 30) * Math.cos(section.startAngle + 0.4 * (section.endAngle - section.startAngle))
+          textY = centerY + (labelRadius + 30) * Math.sin(section.startAngle + 0.4 * (section.endAngle - section.startAngle))
+          textAlign = "left"
+        } else if (section.labelPos === "center") {
+          textX = centerX
+          textY = centerY - labelRadius - 10
+          textAlign = "center"
+        } else {
+          textX = centerX + (labelRadius + 30) * Math.cos(section.startAngle + 0.6 * (section.endAngle - section.startAngle))
+          textY = centerY + (labelRadius + 30) * Math.sin(section.startAngle + 0.6 * (section.endAngle - section.startAngle))
+          textAlign = "right"
+        }
+
+        ctx.font = "14px Arial"
+        ctx.fillStyle = "#000"
+        ctx.textAlign = textAlign
+        ctx.fillText(section.label, textX, textY)
+      })
+
+      // Calculate needle angle
       let angle
       const normalizedValue = Math.min(Math.max(value, this.min), this.max)
 
-      if (normalizedValue <= ranges[0].end) {
-        // 綠色區塊：線性映射 -10000 到 -1000 到第一段角度
-        const rangeLength = ranges[0].end - ranges[0].start
-        const valueInRange = normalizedValue - ranges[0].start
-        const ratio = valueInRange / rangeLength
-        angle = startAngle + ratio * sectionAngle
-      } else if (normalizedValue <= ranges[1].end) {
-        // 黃色區塊：線性映射 -1000 到 1000 到第二段角度
-        const rangeLength = ranges[1].end - ranges[1].start
-        const valueInRange = normalizedValue - ranges[1].start
-        const ratio = valueInRange / rangeLength
-        angle = startAngle + sectionAngle + ratio * sectionAngle
-      } else {
-        // 紅色區塊：線性映射 1000 到 10000 到第三段角度
-        const rangeLength = ranges[2].end - ranges[2].start
-        const valueInRange = normalizedValue - ranges[2].start
-        const ratio = valueInRange / rangeLength
-        angle = startAngle + 2 * sectionAngle + ratio * sectionAngle
-      }
+      this.gaugeSections.forEach((section) => {
+        if (normalizedValue >= section.start && normalizedValue <= section.end) {
+          const rangeLength = section.end - section.start
+          const valueInRange = normalizedValue - section.start
+          const ratio = valueInRange / rangeLength
+          angle = section.startAngle + ratio * (section.endAngle - section.startAngle)
+        }
+      })
 
-      // 繪製指針
+      // Draw needle
       ctx.beginPath()
       ctx.moveTo(centerX, centerY)
       const needleLength = radius - 10
@@ -158,7 +211,7 @@ export default {
       ctx.stroke()
       ctx.closePath()
 
-      // 繪製中心點
+      // Draw center point
       ctx.beginPath()
       ctx.arc(centerX, centerY, 5, 0, 2 * Math.PI, false)
       ctx.fillStyle = "#FFF"
@@ -173,6 +226,10 @@ export default {
 .gauge-container {
   width: 100%;
   text-align: center;
+}
+.gauge-label {
+  color: #ff6565;
+  font-size: 1rem;
 }
 
 canvas {
